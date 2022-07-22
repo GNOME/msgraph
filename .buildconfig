@@ -1,0 +1,11 @@
+[default]
+name=Default
+runtime=podman:b31b1e711ccf06611787962d73205ab0b83c10a81c0b94e607b61baa86895296
+toolchain=default
+config-opts=
+run-opts=
+prefix=/var/home/jbrummer/.var/app/org.gnome.Builder/cache/gnome-builder/install/msgraph/podman-b31b1e711ccf06611787962d73205ab0b83c10a81c0b94e607b61baa86895296
+app-id=
+postbuild=
+prebuild=
+default=true

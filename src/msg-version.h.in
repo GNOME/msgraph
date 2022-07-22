@@ -1,0 +1,92 @@
+/* Copyright 2022 Jan-Michael Brummer
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#if !defined(LIBMSGRAPH_INSIDE) && !defined(LIBMSGRAPH_COMPILATION)
+# error "Only <libmsgraph.h> can be included directly."
+#endif
+
+/**
+ * SECTION:libmsgraphversion
+ * @short_description: libmsgraph version checking
+ *
+ * libmsgraph provides macros to check the version of the library
+ * at compile-time
+ */
+
+/**
+ * LIBMSGRAPH_MAJOR_VERSION:
+ *
+ * libmsgraph major version component (e.g. 1 if %LIBMSGRAPH_VERSION is 1.2.3)
+ */
+#define LIBMSGRAPH_MAJOR_VERSION (@MAJOR_VERSION@)
+
+/**
+ * LIBMSGRAPH_MINOR_VERSION:
+ *
+ * libmsgraph minor version component (e.g. 2 if %LIBMSGRAPH_VERSION is 1.2.3)
+ */
+#define LIBMSGRAPH_MINOR_VERSION (@MINOR_VERSION@)
+
+/**
+ * LIBMSGRAPH_MICRO_VERSION:
+ *
+ * libmsgraph micro version component (e.g. 3 if %LIBMSGRAPH_VERSION is 1.2.3)
+ */
+#define LIBMSGRAPH_MICRO_VERSION (@MICRO_VERSION@)
+
+/**
+ * LIBMSGRAPH_VERSION
+ *
+ * libmsgraph version.
+ */
+#define LIBMSGRAPH_VERSION (@VERSION@)
+
+/**
+ * LIBMSGRAPH_VERSION_S:
+ *
+ * libmsgraph version, encoded as a string, useful for printing and
+ * concatenation.
+ */
+#define LIBMSGRAPH_VERSION_S "@VERSION@"
+
+#define LIBMSGRAPH_ENCODE_VERSION(major,minor,micro) \
+        ((major) << 24 | (minor) << 16 | (micro) << 8)
+
+/**
+ * LIBMSGRAPH_VERSION_HEX:
+ *
+ * libmsgraph version, encoded as an hexadecimal number, useful for
+ * integer comparisons.
+ */
+#define LIBMSGRAPH_VERSION_HEX \
+        (LIBMSGRAPH_ENCODE_VERSION (LIBMSGRAPH_MAJOR_VERSION, LIBMSGRAPH_MINOR_VERSION, LIBMSGRAPH_MICRO_VERSION))
+
+/**
+ * LIBMSGRAPH_CHECK_VERSION:
+ * @major: required major version
+ * @minor: required minor version
+ * @micro: required micro version
+ *
+ * Compile-time version checking. Evaluates to %TRUE if the version
+ * of libmsgraph is greater than the required one.
+ */
+#define LIBMSGRAPH_CHECK_VERSION(major,minor,micro)   \
+        (LIBMSGRAPH_MAJOR_VERSION > (major) || \
+         (LIBMSGRAPH_MAJOR_VERSION == (major) && LIBMSGRAPH_MINOR_VERSION > (minor)) || \
+         (LIBMSGRAPH_MAJOR_VERSION == (major) && LIBMSGRAPH_MINOR_VERSION == (minor) && \
+          LIBMSGRAPH_MICRO_VERSION >= (micro)))

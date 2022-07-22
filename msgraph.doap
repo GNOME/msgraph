@@ -1,0 +1,24 @@
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+  <name xml:lang="en">MS Graph</name>
+  <description xml:lang="en">GLib / GObject wrapper for the Microsoft Graph API</description>
+  <shortdesc xml:lang="en">GLib / GObject wrapper for the Microsoft Graph API</shortdesc>
+
+  <download-page rdf:resource="https://gitlab.com/tabos/msgraph" />
+  <bug-database rdf:resource="https://gitlab.com/tabos/msgraph/issues/" />
+
+  <category rdf:resource="http://api.gnome.org/doap-extensions#core" />
+  <programming-language>C</programming-language>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Jan-Michael Brummer</foaf:name>
+      <foaf:mbox rdf:resource="mailto:jan-michael.brummer1@volkswagen.de" />
+      <gnome:userid>jbrummer</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+</Project>

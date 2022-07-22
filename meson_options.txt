@@ -1,0 +1,17 @@
+option('introspection',
+  type: 'boolean',
+  value: true,
+  description: 'Build GObject Introspection (GIR) files',
+)
+
+option('gtk_doc',
+  type: 'boolean',
+  value: true,
+  description: 'Build the reference documentation (requires gi-docgen)',
+)
+
+option('tests',
+  type: 'boolean',
+  value: false,
+  description: 'Build with tests enabled',
+)
