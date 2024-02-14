@@ -80,6 +80,7 @@ msg_drive_service_get_drives (MsgDriveService  *self,
   guint array_length = 0, index = 0;
   GList *list = NULL;
   g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -96,8 +97,8 @@ next:
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
-  if (!root_object) {
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
@@ -153,6 +154,7 @@ msg_drive_service_get_root (MsgDriveService  *self,
   JsonObject *root_object = NULL;
   g_autoptr (GError) local_error = NULL;
   g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -167,14 +169,14 @@ msg_drive_service_get_root (MsgDriveService  *self,
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
-  if (!root_object) {
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
 
   item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (!item) {
+  if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
@@ -250,6 +252,7 @@ msg_drive_service_list_children (MsgDriveService  *self,
   JsonObject *item_object = NULL;
   g_autolist (MsgDriveItem) children = NULL;
   g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -274,7 +277,7 @@ next:
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
@@ -336,6 +339,7 @@ msg_drive_service_rename (MsgDriveService  *self,
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -368,7 +372,7 @@ msg_drive_service_rename (MsgDriveService  *self,
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
@@ -442,6 +446,7 @@ msg_drive_service_create_folder (MsgDriveService  *self,
   GError *local_error = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -480,7 +485,7 @@ msg_drive_service_create_folder (MsgDriveService  *self,
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error != NULL) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
@@ -567,6 +572,7 @@ msg_drive_service_update (MsgDriveService  *self,
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
   const char *upload_url;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -601,7 +607,7 @@ msg_drive_service_update (MsgDriveService  *self,
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
@@ -653,6 +659,7 @@ msg_drive_service_update_finish (MsgDriveService  *self,
   gsize len;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -681,7 +688,7 @@ msg_drive_service_update_finish (MsgDriveService  *self,
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
@@ -722,6 +729,7 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -749,7 +757,7 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
     return FALSE;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return FALSE;
@@ -789,6 +797,7 @@ msg_drive_service_get_shared_with_me (MsgDriveService  *self,
   JsonObject *item_object = NULL;
   g_autolist (MsgDriveItem) children = NULL;
   g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -807,7 +816,7 @@ next:
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;

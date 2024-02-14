@@ -51,8 +51,9 @@ msg_service_send_and_read (MsgService    *self,
                            GCancellable  *cancellable,
                            GError       **error);
 
-JsonObject *
+JsonParser *
 msg_service_parse_response (GBytes        *bytes,
+                            JsonObject   **object,
                             GError       **error);
 
 SoupMessage *
