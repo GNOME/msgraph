@@ -47,8 +47,8 @@ msg_drive_finalize (GObject *object)
 
   g_clear_pointer (&self->id, g_free);
   g_clear_pointer (&self->name, g_free);
-  g_clear_object (&self->created);
-  g_clear_object (&self->modified);
+  g_clear_pointer (&self->created, g_date_time_unref);
+  g_clear_pointer (&self->modified, g_date_time_unref);
 
   G_OBJECT_CLASS (msg_drive_parent_class)->finalize (object);
 }
@@ -124,12 +124,12 @@ msg_drive_new_from_json (JsonObject  *object,
   if (json_object_has_member (object, "createdDateTime"))
     self->created = g_date_time_new_from_iso8601 (json_object_get_string_member (object, "createdDateTime"), NULL);
   else
-    self->created = NULL;
+    self->created = g_date_time_new_now_local ();
 
   if (json_object_has_member (object, "lastModifiedDateTime"))
     self->modified = g_date_time_new_from_iso8601 (json_object_get_string_member (object, "lastModifiedDateTime"), NULL);
   else
-    self->modified = NULL;
+    self->modified = g_date_time_new_now_local ();
 
   if (json_object_has_member (object, "quota")) {
     JsonObject *quota = json_object_get_object_member (object, "quota");

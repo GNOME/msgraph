@@ -309,9 +309,21 @@ msg_service_new (MsgAuthorizer *authorizer)
   return g_object_new (MSG_TYPE_SERVICE, "authorizer", authorizer, NULL);
 }
 
-JsonObject *
-msg_service_parse_response (GBytes  *bytes,
-                            GError **error)
+/**
+ * msg_service_parse_response:
+ * @bytes: input bytes containing response buffer
+ * @object: a pointer to the returning root object
+ * @error: a #GError
+ *
+ * Parse response data and check for errors. In case
+ * no errors are found, return json root object.
+ *
+ * Returns: (transfer full): a #JsonParser
+ */
+JsonParser *
+msg_service_parse_response (GBytes      *bytes,
+                            JsonObject **object,
+                            GError     **error)
 {
   JsonParser *parser = NULL;
   g_autoptr (GError) local_error = NULL;
@@ -324,7 +336,7 @@ msg_service_parse_response (GBytes  *bytes,
 
   parser = json_parser_new ();
   if (!json_parser_load_from_data (parser, content, len, &local_error)) {
-    g_propagate_error (error, local_error);
+    g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
 
@@ -351,7 +363,10 @@ msg_service_parse_response (GBytes  *bytes,
     return NULL;
   }
 
-  return root_object;
+  if (object)
+    *object = root_object;
+
+  return parser;
 }
 
 /**

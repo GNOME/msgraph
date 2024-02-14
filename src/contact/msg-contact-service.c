@@ -71,6 +71,7 @@ msg_contact_service_get_contacts (MsgContactService  *self,
   JsonArray *array = NULL;
   guint array_length = 0, index = 0;
   g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
@@ -82,13 +83,13 @@ next:
   message = soup_message_new ("GET", url);
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
-    g_propagate_error (error, local_error);
+    g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
 
-  root_object = msg_service_parse_response (response, &local_error);
-  if (!root_object) {
-    g_propagate_error (error, local_error);
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
     return NULL;
   }
 
