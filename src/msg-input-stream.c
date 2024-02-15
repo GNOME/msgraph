@@ -302,7 +302,7 @@ msg_input_stream_read_async (GInputStream        *stream,
   task = g_task_new (stream, cancellable, callback, user_data);
   g_task_set_priority (task, io_priority);
 
-  if (!priv->stream){
+  if (!priv->stream) {
     ReadAfterSendData *rasd;
 
     rasd = g_new (ReadAfterSendData, 1);
@@ -441,10 +441,6 @@ msg_input_stream_seek (GSeekable                             *seekable,
       priv->range = g_strdup_printf ("bytes=%"G_GUINT64_FORMAT "-", (guint64)offset);
       priv->request_offset = offset;
       priv->offset = offset;
-      break;
-
-    case G_SEEK_END:
-      g_return_val_if_reached (FALSE);
       break;
 
     default:

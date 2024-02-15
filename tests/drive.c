@@ -203,20 +203,19 @@ main (int    argc,
   path = g_test_build_filename (G_TEST_DIST, "traces/drive", NULL);
   trace_directory = g_file_new_for_path (path);
   uhm_server_set_trace_directory (mock_server, trace_directory);
-  g_object_unref (trace_directory);
 
   authorizer = msg_test_create_global_authorizer ();
   service = MSG_SERVICE (msg_drive_service_new (authorizer));
 
   /* Always test authentication first, so that authorizer is set up */
-  /* g_test_add_func ("/drive/authentication", test_authentication); */
+  g_test_add_func ("/drive/authentication", test_authentication);
 
-  /* g_test_add ("/drive/delete/item", */
-  /*                  TempItemData, */
-  /*                  service, */
-  /*                  setup_temp_item_spreadsheet, */
-  /*                  test_delete_item, */
-  /*                  teardown_temp_item); */
+  g_test_add ("/drive/delete/item",
+                   TempItemData,
+                   service,
+                   setup_temp_item_spreadsheet,
+                   test_delete_item,
+                   teardown_temp_item);
 
   retval = g_test_run ();
 
