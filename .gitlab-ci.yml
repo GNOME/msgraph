@@ -21,6 +21,7 @@ fedora:
   script:
     - meson setup -Db_coverage=true _build
     - ninja -C _build
+    - ninja -C _build test
     - ninja coverage-xml -C _build
     - ninja coverage-html -C _build
   coverage: '/^lines:\s+([\d.]+\%)\s+/'
