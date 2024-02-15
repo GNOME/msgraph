@@ -12,6 +12,6 @@ option('gtk_doc',
 
 option('tests',
   type: 'boolean',
-  value: false,
+  value: true,
   description: 'Build with tests enabled',
 )

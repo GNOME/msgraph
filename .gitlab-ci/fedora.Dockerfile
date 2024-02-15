@@ -13,7 +13,11 @@ RUN dnf -y update \
     libsoup3-devel \
     gnome-online-accounts-devel \
     gobject-introspection-devel \
+    git \
  && dnf clean all
+
+ # Install recent uhttpmock
+ RUN git clone https://gitlab.freedesktop.org/pwithnall/uhttpmock/ && cd uhttpmock && meson setup build -Dprefix=/usr -Dintrospection=false -Dvapi=disabled -Dgtk_doc=false && ninja -C build && ninja -C build install && cd .. && rm -rf uhttpmock
 
 
 # Enable sudo for wheel users

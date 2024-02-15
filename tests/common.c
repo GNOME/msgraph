@@ -1,5 +1,3 @@
-#include <msg/msg.h>
-
 #include <locale.h>
 #include <stdio.h>
 #include <libxml/parser.h>
