@@ -344,10 +344,10 @@ msg_service_parse_response (GBytes  *bytes,
     JsonObject *error_object = json_object_get_object_member (root_object, "error");
     const char *message = json_object_get_string_member (error_object, "message");
 
-    g_set_error (error,
-                 MSG_ERROR,
-                 MSG_ERROR_FAILED,
-                 message);
+    g_set_error_literal (error,
+                         MSG_ERROR,
+                         MSG_ERROR_FAILED,
+                         message);
     return NULL;
   }
 
