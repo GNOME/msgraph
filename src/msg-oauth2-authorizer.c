@@ -136,7 +136,10 @@ finalize (GObject *object)
   g_free (priv->client_id);
   g_free (priv->redirect_uri);
 
+  g_mutex_lock (&priv->mutex);
   g_free (priv->access_token);
+  g_mutex_unlock (&priv->mutex);
+
   g_free (priv->refresh_token);
 
   g_mutex_clear (&priv->mutex);

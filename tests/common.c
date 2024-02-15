@@ -12,9 +12,6 @@
 /* %TRUE if interactive tests should be skipped because we're running automatically (for example) */
 static gboolean no_interactive = TRUE;
 
-/* Directory to output network trace files to, if trace output is enabled. (NULL otherwise.) */
-static GFile *trace_dir = NULL;
-
 /* TRUE if tests should be run online and a trace file written for each; FALSE if tests should run offline against existing trace files. */
 static gboolean write_traces = FALSE;
 
@@ -133,17 +130,6 @@ msg_test_init (int    argc,
     } else if (strcmp ("--interactive", argv[i]) == 0 || strcmp ("-i", argv[i]) == 0) {
       no_interactive = FALSE;
       argv[i] = (char*) "";
-    } else if (strcmp ("--trace-dir", argv[i]) == 0 || strcmp ("-t", argv[i]) == 0) {
-      if (i >= argc - 1) {
-        fprintf (stderr, "Error: Missing directory for --trace-dir option.\n");
-        exit (1);
-      }
-
-      trace_dir = g_file_new_for_path (argv[i + 1]);
-
-      argv[i] = (char*) "";
-      argv[i + 1] = (char*) "";
-      i++;
     } else if (strcmp ("--write-traces", argv[i]) == 0 || strcmp ("-w", argv[i]) == 0) {
       write_traces = TRUE;
       argv[i] = (char*) "";
@@ -185,8 +171,12 @@ msg_test_init (int    argc,
 
   g_log_set_handler (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, (GLogFunc) msg_test_debug_handler, NULL);
 
-  g_setenv ("G_MESSAGES_DEBUG", "msgraph", FALSE);
-  g_setenv ("MSG_LAX_SSL_CERTIFICATES", "1", FALSE);
+  if (!g_setenv ("G_MESSAGES_DEBUG", "msgraph", FALSE))
+    g_warning ("Could not set G_MESSAGES_DEBG");
+
+  if (!g_setenv ("MSG_LAX_SSL_CERTIFICATES", "1", FALSE))
+    g_warning ("Could not set MSG_LAX_SSL_CERTIFICATES, test may not work");
+
   mock_server = uhm_server_new ();
 
   uhm_server_set_enable_logging (mock_server, write_traces);
@@ -198,9 +188,6 @@ msg_test_init (int    argc,
   cert = g_tls_certificate_new_from_files (cert_path, key_path, &child_error);
   g_assert_no_error (child_error);
   uhm_server_set_tls_certificate (mock_server, cert);
-
-  /* FIXME */
-  g_debug ("Trace dir: %p\n", trace_dir);
 }
 
 MsgAuthorizer *
@@ -259,7 +246,8 @@ void
 msg_test_set_https_port (UhmServer *server)
 {
   g_autofree char *port_string = g_strdup_printf ("%u", uhm_server_get_port (server));
-  g_setenv ("MSG_HTTPS_PORT", port_string, TRUE);
+  if (!g_setenv ("MSG_HTTPS_PORT", port_string, TRUE))
+    g_warning ("Could not set MSG_HTTPS_PORT, testing will not work");
 }
 
 void
