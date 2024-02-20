@@ -4,8 +4,8 @@ stages:
  - deploy
 
 variables:
-  FEDORA_IMAGE: "registry.gitlab.gnome.org/jbrummer/msgraph/fedora:v1"
-  COVERITY_IMAGE: "registry.gitlab.gnome.org/jbrummer/msgraph/coverity:v1"
+  FEDORA_IMAGE: "registry.gitlab.gnome.org/GNOME/msgraph/fedora:v1"
+  COVERITY_IMAGE: "registry.gitlab.gnome.org/GNOME/msgraph/coverity:v1"
   MESON_TEST_TIMEOUT_MULTIPLIER: 4
   G_MESSAGES_DEBUG: all
 
