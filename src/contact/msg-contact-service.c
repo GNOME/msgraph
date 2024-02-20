@@ -77,10 +77,9 @@ msg_contact_service_get_contacts (MsgContactService  *self,
     return NULL;
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts", NULL);
-  g_debug ("%s: Sending message to %s\n", __FUNCTION__, url);
 
 next:
-  message = soup_message_new ("GET", url);
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -121,4 +120,110 @@ next:
   }
 
   return list;
+}
+
+/**
+ * msg_contact_service_create:
+ * @self: a #MsgContextService
+ * @contact: a #MsgContact
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Create new contact #contact and return new contact object.
+ *
+ * Returns: (transfer full): a new #MsgContact
+ */
+MsgContact *
+msg_contact_service_create (MsgContactService  *self,
+                            MsgContact         *contact,
+                            GCancellable       *cancellable,
+                            GError            **error)
+{
+  g_autoptr (SoupMessage) message = NULL;
+  g_autoptr (GError) local_error = NULL;
+  JsonObject *root_object = NULL;
+  g_autofree char *url = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  MsgContact *new_contact = NULL;
+  g_autoptr (JsonBuilder) builder = NULL;
+  g_autoptr (JsonNode) node = NULL;
+  g_autofree char *json = NULL;
+  GBytes *body = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts", NULL);
+  message = msg_service_build_message (MSG_SERVICE (self), "POST", url, NULL, FALSE);
+
+  builder = json_builder_new ();
+  json_builder_begin_object (builder);
+  json_builder_set_member_name (builder, "givenName");
+  json_builder_add_string_value (builder, msg_contact_get_given_name (contact));
+  json_builder_set_member_name (builder, "surname");
+  json_builder_add_string_value (builder, msg_contact_get_surname (contact));
+  json_builder_end_object (builder);
+  node = json_builder_get_root (builder);
+  json = json_to_string (node, TRUE);
+
+  body = g_bytes_new (json, strlen (json));
+  soup_message_set_request_body_from_bytes (message, "application/json", body);
+
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  new_contact = msg_contact_new_from_json (root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  return new_contact;
+}
+
+/**
+ * msg_contact_service_delete:
+ * @self: a #MsgContactService
+ * @contact: a #MsgContact
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Delets #contact.
+ *
+ * Returns: %TRUE for succes, else &FALSE
+ */
+gboolean
+msg_contact_service_delete (MsgContactService  *self,
+                            MsgContact         *contact,
+                            GCancellable       *cancellable,
+                            GError            **error)
+{
+  g_autoptr (SoupMessage) message = NULL;
+  g_autoptr (GError) local_error = NULL;
+  g_autofree char *url = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return FALSE;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts/", msg_contact_get_id (contact), NULL);
+  message = msg_service_build_message (MSG_SERVICE (self), "DELETE", url, NULL, FALSE);
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return FALSE;
+  }
+
+  return TRUE;
 }

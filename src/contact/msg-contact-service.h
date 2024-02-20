@@ -21,6 +21,8 @@
 #include <msg-authorizer.h>
 #include <msg-service.h>
 
+#include "src/contact/msg-contact.h"
+
 #define MSG_TYPE_CONTACT_SERVICE (msg_contact_service_get_type ())
 
 G_DECLARE_FINAL_TYPE (MsgContactService, msg_contact_service, MSG, CONTACT_SERVICE, MsgService);
@@ -31,3 +33,15 @@ GList *
 msg_contact_service_get_contacts (MsgContactService  *self,
                                   GCancellable       *cancellable,
                                   GError            **error);
+
+MsgContact *
+msg_contact_service_create (MsgContactService  *self,
+                            MsgContact         *contact,
+                            GCancellable       *cancellable,
+                            GError            **error);
+
+gboolean
+msg_contact_service_delete (MsgContactService  *self,
+                            MsgContact         *contact,
+                            GCancellable       *cancellable,
+                            GError            **error);

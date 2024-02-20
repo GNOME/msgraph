@@ -1,0 +1,24 @@
+> GET /v1.0/me/contacts HTTP/1.1
+> Soup-Debug-Timestamp: 1708461745
+> Soup-Debug: SoupSession 1 (0x21e26c0), SoupMessage 2 (0x308c7b0), GSocket 1 (0x3231110)
+> Authorization: Bearer EwCAA8l6BAAUs5+HQn0N+h2FxWzLS31ZgQVuHsYAATG48tFFjb3TBTGkWY6VHKIgDHdnTnyFksmFHs8pHB0KflLlhm2S4hV7B/8fCpmJjuoVuFHOrl3zlg/jgVMyAV9tYjFhBcJKVM//DPQPBsHBORUfvsi2YubpYcrWMSWz6voTkH/HHdfEoIajXIcFEfae1ShphcCcA2FjNwqTlhTEY6L/jvnP7VIUlhhbjrqJfbn1T6WZ44SUqQy0q2UcJR5D7XNyuMsS6ryxN+2nPyAdRyjsdi3vX56HH1i39yGdEVvXWEUhL7AufZZpTwkU++wAlOrE+jI9sGioPbmPxV2Hbx+oBzKPdGrtUMBv63KCOdmrX/UMF9h61VTn1c0iVkMDZgAACPNof6o+ddv5UAL9ajDBsCR/wH9zRFUFJ80KfirDE6ETelHnnEoldPyx94Iq/Lq09F75XndR/CNM+vBp1sqeDx9fKzMH75KKEgv7PBi0xxx4ba5Qd/bss7dkxtinSnwP/NXFSBRKznG+iD7sWL10WgrmpJuAjSI9ABYl8lnIgYWTog+4/Cml2k8ZMZGr40RFunZMpIfiH/fO470vTvwKCsKJ453+OifLVCEJ+bVnpEvppMvuj76EZZnBqU9COdjYaZzOWAImJJZRUwaW4qlEOf9P4szKPuSwQX/dXA9UEaY4jRdKC+Z0yqIZSA0rPv3BJb9HHHwYuhbnnMHuNoMIee5dgHc2KNddItL9kQctbLOtm569i9lg3MSm8TOmA8BKzPmvj5J0OLZoyvy2oItQrgJR4v8ghdmuXmhUXrvFEMVmYm9QfwU8yakxiSOhRpgl+tmbf3jXSQlKqfy2xjuhgA5Yrm56JoLIihvSQWZu+winGQ5qShxH3i4pkRipZ314RIN+9jaASbPhSe1dvd0u6/GjlQJ3ayge3AUcCNi/lEc9EcPA3AHYZemV4kXxAVtpnJoUJ9jDpk5Uj7Om7siNoewwupRpek2l7zPudzKSs0kqLAa0HiNRL1BB52OPcNhzrRdvHLCSmYlsrlDyEaVvcNTTb6xVh1B33TY52kZD9sh9aA8b1/gx9mNvC9E/jSQIKHRzpDz3q36oYdblAJdaV2Cm2pONofq+lGf02dhKN69tpjvDrCxP6J9316pqFG7f6z92amvMwDjfkW2eBRCHFhHMXnpm4EVo+3wbiAI=
+> Accept-Encoding: gzip, deflate, br
+> Connection: Keep-Alive
+> Host: graph.microsoft.com
+  
+< HTTP/1.1 200 OK
+< Soup-Debug-Timestamp: 1708461745
+< Soup-Debug: SoupMessage 2 (0x308c7b0)
+< Cache-Control: private
+< Transfer-Encoding: chunked
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Vary: Accept-Encoding
+< Date: Tue, 20 Feb 2024 20:42:25 GMT
+< Strict-Transport-Security: max-age=31536000
+< request-id: 2f452016-739c-442f-a515-ed9b3a6bc64c
+< client-request-id: 2f452016-739c-442f-a515-ed9b3a6bc64c
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002D8"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/contacts","value":[{"@odata.etag":"W/\"EQAAABYAAAAYxFclBTecRrvZNgqTlHEmAAKgx/on\"","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAEYAAANnhd4vdkgwRadPV5394J1tBwAYxFclBTecRrvZNgqTlHEmAAACAQ4AAAAYxFclBTecRrvZNgqTlHEmAAKgvquJAAAA","createdDateTime":"2024-02-20T20:42:24Z","lastModifiedDateTime":"2024-02-20T20:42:24Z","changeKey":"EQAAABYAAAAYxFclBTecRrvZNgqTlHEmAAKgx/on","categories":[],"parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQ4AAAA=","birthday":null,"fileAs":"","displayName":"John Doe","givenName":"John","initials":null,"middleName":null,"nickName":null,"surname":"Doe","title":null,"yomiGivenName":null,"yomiSurname":null,"yomiCompanyName":null,"generation":null,"imAddresses":[],"jobTitle":null,"companyName":null,"department":null,"officeLocation":null,"profession":null,"businessHomePage":null,"assistantName":null,"manager":null,"homePhones":[],"mobilePhone":null,"businessPhones":[],"spouseName":null,"personalNotes":"","children":[],"emailAddresses":[],"homeAddress":{},"businessAddress":{},"otherAddress":{}}]}
+  

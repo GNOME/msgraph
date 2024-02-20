@@ -28,7 +28,10 @@
 struct _MsgContact {
   GObject parent_instance;
 
+  char *id;
   char *name;
+  char *given_name;
+  char *surname;
 };
 
 G_DEFINE_TYPE (MsgContact, msg_contact, G_TYPE_OBJECT);
@@ -38,7 +41,10 @@ msg_contact_finalize (GObject *object)
 {
   MsgContact *self = MSG_CONTACT (object);
 
+  g_clear_pointer (&self->id, g_free);
   g_clear_pointer (&self->name, g_free);
+  g_clear_pointer (&self->given_name, g_free);
+  g_clear_pointer (&self->surname, g_free);
 
   G_OBJECT_CLASS (msg_contact_parent_class)->finalize (object);
 }
@@ -83,15 +89,18 @@ msg_contact_new_from_json (JsonObject                       *json_object,
                            __attribute__ ((unused)) GError **error)
 {
   MsgContact *self;
-  const char *contact_type = NULL;
 
   self = msg_contact_new ();
   g_assert (self != NULL);
 
   if (json_object_has_member (json_object, "displayName"))
     self->name = g_strdup (json_object_get_string_member (json_object, "displayName"));
-  else
-    self->name = g_strdup (contact_type);
+  if (json_object_has_member (json_object, "givenName"))
+    self->given_name = g_strdup (json_object_get_string_member (json_object, "givenName"));
+  if (json_object_has_member (json_object, "surname"))
+    self->surname = g_strdup (json_object_get_string_member (json_object, "surname"));
+  if (json_object_has_member (json_object, "id"))
+    self->id = g_strdup (json_object_get_string_member (json_object, "id"));
 
   return self;
 }
@@ -106,4 +115,76 @@ const char *
 msg_contact_get_name (MsgContact *self)
 {
   return self->name;
+}
+
+/**
+ * msg_contact_set_given_name:
+ * @self: a #MsgContact
+ * @given_name: new give name
+ *
+ * Sets contacts given name
+ */
+void
+msg_contact_set_given_name (MsgContact *self,
+                            const char *given_name)
+{
+  g_clear_pointer (&self->given_name, g_free);
+  self->given_name = g_strdup (given_name);
+}
+
+/**
+ * msg_contact_get_given_name:
+ * @self: a #MsgContact
+ *
+ * Gets given name.
+ *
+ * Returns: (transfer none): given name
+ */
+const char *
+msg_contact_get_given_name (MsgContact *self)
+{
+  return self->given_name;
+}
+
+/**
+ * msg_contact_set_surname:
+ * @self: a #MsgContact
+ * @surname: new sirname
+ *
+ * Sets contacts surname
+ */
+void
+msg_contact_set_surname (MsgContact *self,
+                         const char *surname)
+{
+  g_clear_pointer (&self->surname, g_free);
+  self->surname = g_strdup (surname);
+}
+
+/**
+ * msg_contact_get_surname:
+ * @self: a #MsgContact
+ *
+ * Gets surname.
+ *
+ * Returns: (transfer none): surname
+ */
+const char *
+msg_contact_get_surname (MsgContact *self)
+{
+  return self->surname;
+}
+
+/**
+ * msg_contact_get_id:
+ * @self: a #MsgContact
+ *
+ * Gets ID
+ *
+ * Returns: (transfer none): identifier
+ */
+const char *
+msg_contact_get_id (MsgContact *self)
+{
+  return self->id;
 }

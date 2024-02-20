@@ -40,4 +40,21 @@ msg_contact_new_from_json (JsonObject  *json_object,
 const char *
 msg_contact_get_name (MsgContact *self);
 
+void
+msg_contact_set_given_name (MsgContact *self,
+                            const char *given_name);
+
+const char *
+msg_contact_get_given_name (MsgContact *self);
+
+void
+msg_contact_set_surname (MsgContact *self,
+                         const char *surname);
+
+const char *
+msg_contact_get_surname (MsgContact *self);
+
+const char *
+msg_contact_get_id (MsgContact *self);
+
 G_END_DECLS
