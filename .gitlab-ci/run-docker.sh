@@ -100,7 +100,7 @@ else
         base_version="v$base_version"
 fi
 
-TAG="registry.gitlab.gnome.org/jbrummer/msgraph/${base}:${base_version}"
+TAG="registry.gitlab.gnome.org/gnome/msgraph/${base}:${base_version}"
 
 if [ $build == 1 ]; then
         echo -e "\\e[1;32mBUILDING\\e[0m: ${base} as ${TAG}"

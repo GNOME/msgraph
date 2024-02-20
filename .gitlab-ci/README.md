@@ -8,7 +8,7 @@ GitLab CI jobs run in a Docker image, defined here. To update that image
 1. Edit `.gitlab-ci/*.Dockerfile` with the changes you want
 1. Run `.gitlab-ci/run-docker.sh build --base=fedora --base-version=1` to
    build the new image (bump the version from the latest listed for that `base`
-   on https://gitlab.gnome.org/jbrummer/msgraph/container_registry). If rebuilding the
+   on https://gitlab.gnome.org/GNOME/msgraph/container_registry). If rebuilding the
    `coverity.Dockerfile` image, you’ll need to have access to [Coverity Scan][cs]
    and will need to specify your project name and access token as the environment
    variables `COVERITY_SCAN_PROJECT_NAME` and `COVERITY_SCAN_TOKEN`.
