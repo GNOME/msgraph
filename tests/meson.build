@@ -14,6 +14,7 @@ tests = {
   'authorization': {},
   'contact': {},
   'drive': {},
+  'message': {},
   #'msg-test': {},
 }
 

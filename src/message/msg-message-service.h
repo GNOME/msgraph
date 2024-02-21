@@ -20,6 +20,7 @@
 
 #include <msg-authorizer.h>
 #include <message/msg-mail-folder.h>
+#include <message/msg-message.h>
 #include <msg-service.h>
 
 #define MSG_TYPE_MESSAGE_SERVICE (msg_message_service_get_type ())
@@ -54,3 +55,16 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
                                      MsgMessageMailFolderType   type,
                                      GCancellable              *cancellable,
                                      GError                   **error);
+
+MsgMessage *
+msg_message_service_create_draft (MsgMessageService  *self,
+                                  MsgMessage         *message,
+                                  GCancellable       *cancellable,
+                                  GError            **error);
+
+gboolean
+msg_message_service_delete (MsgMessageService  *self,
+                            MsgMessage         *message,
+                            GCancellable       *cancellable,
+                            GError            **error);
+

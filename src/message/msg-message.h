@@ -40,7 +40,22 @@ msg_message_new_from_json (JsonObject  *json_object,
 const char *
 msg_message_get_subject (MsgMessage *self);
 
+gboolean
+msg_message_set_subject (MsgMessage    *self,
+                         const char    *subject,
+                         GCancellable  *cancellable,
+                         GError       **error);
+
 const char *
 msg_message_get_body_preview (MsgMessage *self);
+
+gboolean
+msg_message_set_body (MsgMessage    *self,
+                      const char    *body,
+                      GCancellable  *cancellable,
+                      GError       **error);
+
+const char *
+msg_message_get_id (MsgMessage *self);
 
 G_END_DECLS

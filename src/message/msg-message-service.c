@@ -80,7 +80,7 @@ msg_message_service_get_messages (MsgMessageService  *self,
   url = g_strconcat (MSG_API_ENDPOINT, "/me/messages", NULL);
 
 next:
-  message = soup_message_new ("GET", url);
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -154,7 +154,7 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
   url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders", NULL);
 
 next:
-  message = soup_message_new ("GET", url);
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -249,7 +249,7 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
       break;
   }
 
-  message = soup_message_new ("GET", url);
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
     g_propagate_error (error, g_steal_pointer (&local_error));
@@ -269,4 +269,114 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
   }
 
   return folder;
+}
+
+/**
+ * msg_message_service_delete:
+ * @self: a #MsgMessageService
+ * @message: a #MsgMessage
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Delets #message.
+ *
+ * Returns: %TRUE for succes, else &FALSE
+ */
+gboolean
+msg_message_service_delete (MsgMessageService  *self,
+                            MsgMessage         *message,
+                            GCancellable       *cancellable,
+                            GError            **error)
+{
+  g_autoptr (SoupMessage) soup_message = NULL;
+  g_autoptr (GError) local_error = NULL;
+  g_autofree char *url = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return FALSE;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/messages/", msg_message_get_id (message), NULL);
+  soup_message = msg_service_build_message (MSG_SERVICE (self), "DELETE", url, NULL, FALSE);
+  response = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * msg_message_service_create_draft:
+ * @self: a #MsgContextService
+ * @message: a #MsgMessage
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Create new draft message #message and return new message object.
+ *
+ * Returns: (transfer full): a new #MsgMessage
+ */
+MsgMessage *
+msg_message_service_create_draft (MsgMessageService  *self,
+                                  MsgMessage         *message,
+                                  GCancellable       *cancellable,
+                                  GError            **error)
+{
+  g_autoptr (SoupMessage) soup_message = NULL;
+  g_autoptr (GError) local_error = NULL;
+  JsonObject *root_object = NULL;
+  g_autofree char *url = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  MsgMessage *new_message = NULL;
+  g_autoptr (JsonBuilder) builder = NULL;
+  g_autoptr (JsonNode) node = NULL;
+  g_autofree char *json = NULL;
+  GBytes *body = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/messages", NULL);
+  soup_message = msg_service_build_message (MSG_SERVICE (self), "POST", url, NULL, FALSE);
+
+  builder = json_builder_new ();
+  json_builder_begin_object (builder);
+  json_builder_set_member_name (builder, "subject");
+  json_builder_add_string_value (builder, msg_message_get_subject (message));
+
+  json_builder_set_member_name (builder, "body");
+  json_builder_begin_object (builder);
+  json_builder_set_member_name (builder, "content");
+  json_builder_add_string_value (builder, msg_message_get_body_preview (message));
+  json_builder_end_object (builder);
+  json_builder_end_object (builder);
+  node = json_builder_get_root (builder);
+  json = json_to_string (node, TRUE);
+
+  body = g_bytes_new (json, strlen (json));
+  soup_message_set_request_body_from_bytes (soup_message, "application/json", body);
+
+  response = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  new_message = msg_message_new_from_json (root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  return new_message;
 }

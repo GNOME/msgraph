@@ -1,0 +1,24 @@
+> GET /v1.0/me/messages HTTP/1.1
+> Soup-Debug-Timestamp: 1708496476
+> Soup-Debug: SoupSession 1 (0x203b620), SoupMessage 2 (0x20fc840), GSocket 1 (0x2f62130)
+> Authorization: Bearer EwB4A8l6BAAUs5+HQn0N+h2FxWzLS31ZgQVuHsYAAcwLHE+1I1r+/f0iMGl0Ae6AZ8c9Ta2kEifQ8m1OP2B76nmN8XphGwD8O0Z8dxpmjQZukqZUtD1nmIYP5nXbqkZ+xB8aObF40iOABXC0T9N8JnlfF8kp9gt9qy/EX+X5bZqfEBnJ6z2mtgq7eBEujtLEKaEl0flrKAVRko7d5kZ6aeRlpUQ3BDAbZl248HlGjG28XDUdD/HMttf+gJ+PDkXtKjGwfsSJf9WeaEASj2smhtqwdZGvgug2xM0KhjxVEv8exFjnJ2JZMNaVzIAqDMryT/mDfZACbijVwPSlFD1XWlPvFLDY9wlV2AdeNknvTd3eX2gK3Tey/DtIbKhLwSYDZgAACPa1OrtA6PDFSALF2lgOMLbxNxLGANvnEJeRH8Z0PagwSvQc1GzvIEAtp9GPlnDj1GT0qFRSwsHCZCn9t4fFZJh4pDCZJslkw2iObPybnnQ2Wc9m/DxzQ3GbsaREvwRJoxJ5uCnijqk4GhIHoXT2usT2GKIvB3+3piod4BrUoOO8+GD70Hm2IqsGzDaUl9O+t188r/oChoSYlgaFFSMwgVaNTPdpLUxivfXV/UVuqfAzSTlojRUaCoko4LXBqgqE+Ixx4FIQOZPqi2Q5WUv3UHoyZ1vBFytPLwxDJHZ6UvPeplWoy/l/oCmHdeffgkoqG9PU/MEcEQo/q/HUyrXgZMfh2X7Qi25R1VGsPVBQpbqs4SplJkMs2ZKqrUDKhoPwfqT+YoW9NLeZaEnhIofoH3BCO0Hm/V0LCvnfDPa9qX1cjz7RimKAvTCWuTs0uR4lSyq7gbQBxiNa0a0cuC/kkFYnwt4tgD40vl8IXe0YfdjeirRdbMANUvYXeZdhBtVEkE3Jt9jJA+kGM7EMs6L/nWdsFQ+JFMc5JUSxLvfGQlHF+MphMSQ9MCT+WEnEg82EosogN2vXOloetoHcDIdPhX8ThYIfEX9OE2AoO8G0783bK61seRdq6IuhqUjcZE5ZWdynAsHUDCEbpwM2SElHF/hFVL0k4EkZAyCx8ilOlQzYsprIZy4ikpIjiOKclo+Vf2txFfd9Em3sgZq5PRRMJ/SUTJTVEQNcHQsMXtTAdCaXLM47WTVIhWA9smag6hWmThcXJXYyTCqQSUjKB/a4CSM2A4gC
+> Accept-Encoding: gzip, deflate, br
+> Connection: Keep-Alive
+> Host: graph.microsoft.com
+  
+< HTTP/1.1 200 OK
+< Soup-Debug-Timestamp: 1708496476
+< Soup-Debug: SoupMessage 2 (0x20fc840)
+< Cache-Control: private
+< Transfer-Encoding: chunked
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Vary: Accept-Encoding
+< Date: Wed, 21 Feb 2024 06:21:16 GMT
+< Strict-Transport-Security: max-age=31536000
+< request-id: 0dc9f60b-92b7-4cbf-8f6b-c406f4627aef
+< client-request-id: 0dc9f60b-92b7-4cbf-8f6b-c406f4627aef
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF00000406"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/messages","value":[{"@odata.etag":"W/\"CQAAABYAAAAYxFclBTecRrvZNgqTlHEmAAKgyAHj\"","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAEYAAANnhd4vdkgwRadPV5394J1tBwAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAAYxFclBTecRrvZNgqTlHEmAAKgvvm2AAAA","createdDateTime":"2024-02-21T06:21:15Z","lastModifiedDateTime":"2024-02-21T06:21:15Z","changeKey":"CQAAABYAAAAYxFclBTecRrvZNgqTlHEmAAKgyAHj","categories":[],"receivedDateTime":"2024-02-21T06:21:15Z","sentDateTime":"2024-02-21T06:21:15Z","hasAttachments":false,"internetMessageId":"<AS8PR02MB7700076DAD9D2B9EC4AE06DBED572@AS8PR02MB7700.eurprd02.prod.outlook.com>","subject":"Hello World","bodyPreview":"","importance":"normal","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAA=","conversationId":"AQQkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKABAAlIW9whIbPkeqSpUvZ0pq8g==","conversationIndex":"AQHaZI4slIW9whIbPkeqSpUvZ0pq8g==","isDeliveryReceiptRequested":false,"isReadReceiptRequested":false,"isRead":true,"isDraft":true,"webLink":"https://outlook.live.com/owa/?ItemID=AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAEYAAANnhd4vdkgwRadPV5394J1tBwAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAAYxFclBTecRrvZNgqTlHEmAAKgvvm2AAAA&exvsurl=1&viewmodel=ReadMessageItem","inferenceClassification":"focused","body":{"contentType":"text","content":""},"toRecipients":[],"ccRecipients":[],"bccRecipients":[],"replyTo":[],"flag":{"flagStatus":"notFlagged"}}]}
+  

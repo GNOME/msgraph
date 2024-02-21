@@ -28,8 +28,10 @@
 struct _MsgMessage {
   GObject parent_instance;
 
+  char *id;
   char *subject;
   char *body_preview;
+  char *body;
 };
 
 G_DEFINE_TYPE (MsgMessage, msg_message, G_TYPE_OBJECT);
@@ -41,6 +43,8 @@ msg_message_finalize (GObject *object)
 
   g_clear_pointer (&self->subject, g_free);
   g_clear_pointer (&self->body_preview, g_free);
+  g_clear_pointer (&self->body, g_free);
+  g_clear_pointer (&self->id, g_free);
 
   G_OBJECT_CLASS (msg_message_parent_class)->finalize (object);
 }
@@ -99,6 +103,9 @@ msg_message_new_from_json (JsonObject                       *json_object,
   else
     self->body_preview = g_strdup ("");
 
+  if (json_object_has_member (json_object, "id"))
+    self->id = g_strdup (json_object_get_string_member (json_object, "id"));
+
   return self;
 }
 
@@ -124,4 +131,32 @@ const char *
 msg_message_get_body_preview (MsgMessage *self)
 {
   return self->body_preview;
+}
+
+gboolean
+msg_message_set_body (MsgMessage    *self,
+                      const char    *body,
+                      GCancellable  *cancellable,
+                      GError       **error)
+{
+  g_clear_pointer (&self->body, g_free);
+  self->body = g_strdup (body);
+  return TRUE;
+}
+
+gboolean
+msg_message_set_subject (MsgMessage    *self,
+                         const char    *subject,
+                         GCancellable  *cancellable,
+                         GError       **error)
+{
+  g_clear_pointer (&self->subject, g_free);
+  self->subject = g_strdup (subject);
+  return TRUE;
+}
+
+const char *
+msg_message_get_id (MsgMessage *self)
+{
+  return self->id;
 }
