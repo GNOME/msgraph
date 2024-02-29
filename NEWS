@@ -1,0 +1,8 @@
+0.2.0 - February 29, 2024
+===========================
+ * Fix memory leak in msg_service_parse_response
+ * Fix building with -Werror=format-security
+
+0.1.0 - February 13, 2024
+===========================
+ * Initial version
