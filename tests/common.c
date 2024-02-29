@@ -5,9 +5,7 @@
 
 #include "common.h"
 #include "msg-dummy-authorizer.h"
-
-#define CLIENT_ID "e5a936a7-1145-4ffb-b7e4-5968a9231ade"
-#define REDIRECT_URI "https://login.microsoftonline.com/common/oauth2/nativeclient"
+#include "src/msg-service.h"
 
 /* %TRUE if interactive tests should be skipped because we're running automatically (for example) */
 static gboolean no_interactive = TRUE;
@@ -38,7 +36,6 @@ msg_test_query_user_for_verifier (const gchar *authentication_uri)
   }
 
   g_uri_split (verifier, G_URI_FLAGS_NONE, NULL, NULL, NULL, NULL, NULL, &query, NULL, NULL);
-  g_print ("Query: %s\n", query);
 
   g_test_message ("Proceeding with user-provided verifier “%s”.", query + 5);
 
@@ -110,6 +107,38 @@ msg_test_debug_handler (__attribute__ ((unused)) const char     *log_domain,
 }
 
 void
+test_authentication (void)
+{
+  g_autoptr (GError) error = NULL;
+  g_autofree char *authentication_uri = NULL;
+  g_autofree char *authorisation_code = NULL;
+
+  /* if (msg_service_refresh_authorization (MSG_SERVICE (service), NULL, &error)) */
+  /*   return; */
+
+  msg_test_mock_server_start_trace (mock_server, "setup-oauth2-authorizer-data-authenticated");
+
+  /* Get an authentication URI. */
+  authentication_uri = msg_oauth2_authorizer_build_authentication_uri (MSG_OAUTH2_AUTHORIZER (msg_test_get_authorizer ()));
+  g_assert (authentication_uri != NULL);
+
+  if (uhm_server_get_enable_online (mock_server)) {
+    authorisation_code = msg_test_query_user_for_verifier (authentication_uri);
+    if (!authorisation_code)
+      return;
+  } else {
+    /* Hard-coded default to match the trace file. */
+    authorisation_code = g_strdup ("4/GeYb_3HkYh4vyephp-lbvzQs1GAb.YtXAxmx-uJ0eoiIBeO6P2m9iH6kvkQI");
+  }
+
+  g_assert (msg_oauth2_authorizer_request_authorization (MSG_OAUTH2_AUTHORIZER (msg_test_get_authorizer ()), authorisation_code, NULL, NULL) == TRUE);
+
+  msg_oauth2_authorizer_test_save_credentials (msg_test_get_authorizer ());
+
+  uhm_server_end_trace (mock_server);
+}
+
+void
 msg_test_init (int    argc,
                char **argv)
 {
@@ -171,8 +200,11 @@ msg_test_init (int    argc,
 
   g_log_set_handler (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, (GLogFunc) msg_test_debug_handler, NULL);
 
+  if (!g_setenv ("MSG_DEBUG", "4" /* MSG_LOG_FULL_UNREDACTED */, FALSE))
+    g_warning ("Could not set MSG_DEBUG");
+
   if (!g_setenv ("G_MESSAGES_DEBUG", "msgraph", FALSE))
-    g_warning ("Could not set G_MESSAGES_DEBG");
+    g_warning ("Could not set G_MESSAGES_DEBUG");
 
   if (!g_setenv ("MSG_LAX_SSL_CERTIFICATES", "1", FALSE))
     g_warning ("Could not set MSG_LAX_SSL_CERTIFICATES, test may not work");
@@ -193,48 +225,20 @@ msg_test_init (int    argc,
 MsgAuthorizer *
 msg_test_create_global_authorizer (void)
 {
-  /* char *authentication_uri; */
-  /* char *authorisation_code; */
-  /* GError *error = NULL; */
-
   if (!uhm_server_get_enable_online (mock_server)) {
     return MSG_AUTHORIZER (msg_dummy_authorizer_new ());
   }
 
-  authorizer = MSG_AUTHORIZER (msg_oauth2_authorizer_new (CLIENT_ID, REDIRECT_URI));
+  if (authorizer)
+    return authorizer;
 
+  authorizer = MSG_AUTHORIZER (msg_oauth2_authorizer_new (CLIENT_ID, REDIRECT_URI));
   msg_oauth2_authorizer_test_load_credentials (authorizer);
 
-#if 0
-  msg_test_mock_server_start_trace (mock_server, "global-authentication");
-
-  authorizer = msg_oauth2_authorizer_new (CLIENT_ID, REDIRECT_URI);
-
-  authentication_uri = msg_oauth2_authorizer_build_authentication_uri (MSG_OAUTH2_AUTHORIZER (msg_test_get_authorizer ()));
-  g_assert (authentication_uri != NULL);
-
-  if (uhm_server_get_enable_online (mock_server)) {
-    authorisation_code = msg_test_query_user_for_verifier (authentication_uri);
-    if (!authorisation_code)
-      return;
-  } else {
-    /* Hard-coded default to match the trace file. */
-    authorisation_code = g_strdup ("4/GeYb_3HkYh4vyephp-lbvzQs1GAb.YtXAxmx-uJ0eoiIBeO6P2m9iH6kvkQI");
-  }
-
-  uhm_server_end_trace (mock_server);
-  return;
-
-  g_assert (msg_oauth2_authorizer_request_authorization (MSG_OAUTH2_AUTHORIZER (msg_test_get_authorizer ()), authorisation_code, NULL, NULL) == TRUE);
-
-  msg_oauth2_authorizer_test_save_credentials (msg_test_get_authorizer ());
-
-  return MSG_AUTHORIZER (authorizer);
-#endif
+  test_authentication ();
 
   return authorizer;
 }
-
 
 MsgAuthorizer *
 msg_test_get_authorizer (void)

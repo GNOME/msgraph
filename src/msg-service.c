@@ -280,7 +280,23 @@ msg_service_init (MsgService *self)
 
   if (msg_servie_get_log_level () > MSG_LOG_MESSAGES) {
     g_autoptr (SoupLogger) logger = NULL;
-    logger = soup_logger_new (SOUP_LOGGER_LOG_BODY);
+    SoupLoggerLogLevel level;
+
+    switch (msg_servie_get_log_level ()) {
+      case MSG_LOG_FULL_UNREDACTED:
+      case MSG_LOG_FULL:
+        level = SOUP_LOGGER_LOG_BODY;
+        break;
+      case MSG_LOG_HEADERS:
+        level = SOUP_LOGGER_LOG_HEADERS;
+        break;
+      case MSG_LOG_MESSAGES:
+      case MSG_LOG_NONE:
+      default:
+        g_assert_not_reached ();
+    }
+
+    logger = soup_logger_new (level);
     soup_logger_set_printer (logger, (SoupLoggerPrinter)soup_log_printer, NULL, NULL);
     soup_session_add_feature (priv->session, SOUP_SESSION_FEATURE (logger));
   }

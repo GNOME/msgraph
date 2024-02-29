@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,32 +26,18 @@
 
 G_BEGIN_DECLS
 
-#define MSG_TYPE_MESSAGE (msg_message_get_type ())
+#define MSG_TYPE_USER (msg_user_get_type ())
 
-G_DECLARE_FINAL_TYPE (MsgMessage, msg_message, MSG, MESSAGE, GObject);
+G_DECLARE_FINAL_TYPE (MsgUser, msg_user, MSG, USER, GObject);
 
-MsgMessage *
-msg_message_new (void);
+MsgUser *
+msg_user_new (void);
 
-MsgMessage *
-msg_message_new_from_json (JsonObject  *json_object,
+MsgUser *
+msg_user_new_from_json (JsonObject  *json_object,
                          GError     **error);
 
 const char *
-msg_message_get_subject (MsgMessage *self);
-
-gboolean
-msg_message_set_subject (MsgMessage *self,
-                         const char *subject);
-
-const char *
-msg_message_get_body_preview (MsgMessage *self);
-
-gboolean
-msg_message_set_body (MsgMessage *self,
-                      const char *body);
-
-const char *
-msg_message_get_id (MsgMessage *self);
+msg_user_get_mail (MsgUser *self);
 
 G_END_DECLS

@@ -80,11 +80,9 @@ msg_contact_service_get_contacts (MsgContactService  *self,
 
 next:
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
+  if (error && *error)
     return NULL;
-  }
 
   parser = msg_service_parse_response (response, &root_object, &local_error);
   if (local_error) {
@@ -200,7 +198,7 @@ msg_contact_service_create (MsgContactService  *self,
  *
  * Delets #contact.
  *
- * Returns: %TRUE for succes, else &FALSE
+ * Returns: %TRUE for succes, else %FALSE
  */
 gboolean
 msg_contact_service_delete (MsgContactService  *self,

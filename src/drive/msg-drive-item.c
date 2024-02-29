@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -92,7 +92,6 @@ msg_drive_item_new_from_json (JsonObject  *object,
   gboolean remote = FALSE;
 
   if (json_object_has_member (object, "remoteItem")) {
-    g_debug ("Remote Item detected\n");
     obj = json_object_get_object_member (object, "remoteItem");
     remote = TRUE;
   }
@@ -133,7 +132,6 @@ msg_drive_item_new_from_json (JsonObject  *object,
 
   priv->name = g_strdup (json_object_get_string_member (obj, "name"));
   priv->size = json_object_get_int_member (obj, "size");
-
   if (json_object_has_member (object, "eTag"))
     priv->etag = g_strdup (json_object_get_string_member (object, "eTag"));
 

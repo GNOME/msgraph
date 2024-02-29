@@ -15,7 +15,7 @@ tests = {
   'contact': {},
   'drive': {},
   'message': {},
-  #'msg-test': {},
+  'user': {},
 }
 
 test_env = environment()

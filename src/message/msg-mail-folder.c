@@ -114,12 +114,24 @@ msg_mail_folder_get_display_name (MsgMailFolder *self)
   return self->display_name;
 }
 
+/**
+ * msg_mail_folder_get_unread_item_count:
+ * @self: a mail folder
+ *
+ * Returns: unread item number of mail folder
+ */
 int
 msg_mail_folder_get_unread_item_count (MsgMailFolder *self)
 {
   return self->unread_item_count;
 }
 
+/**
+ * msg_mail_folder_get_total_item_count:
+ * @self: a mail folder
+ *
+ * Returns: total item number of mail folder
+ */
 int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self)
 {

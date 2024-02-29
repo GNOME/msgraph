@@ -4,6 +4,9 @@
 
 #include <uhttpmock/uhm.h>
 
+#define CLIENT_ID "c6ab1078-80d3-40ba-a49b-375dd013251f"
+#define REDIRECT_URI "https://login.microsoftonline.com/common/oauth2/nativeclient"
+
 void
 msg_test_init (int    argc,
                char **argv);

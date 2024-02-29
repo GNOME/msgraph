@@ -134,10 +134,8 @@ msg_message_get_body_preview (MsgMessage *self)
 }
 
 gboolean
-msg_message_set_body (MsgMessage    *self,
-                      const char    *body,
-                      GCancellable  *cancellable,
-                      GError       **error)
+msg_message_set_body (MsgMessage *self,
+                      const char *body)
 {
   g_clear_pointer (&self->body, g_free);
   self->body = g_strdup (body);
@@ -145,10 +143,8 @@ msg_message_set_body (MsgMessage    *self,
 }
 
 gboolean
-msg_message_set_subject (MsgMessage    *self,
-                         const char    *subject,
-                         GCancellable  *cancellable,
-                         GError       **error)
+msg_message_set_subject (MsgMessage *self,
+                         const char *subject)
 {
   g_clear_pointer (&self->subject, g_free);
   self->subject = g_strdup (subject);

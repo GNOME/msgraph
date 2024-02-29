@@ -1,0 +1,24 @@
+> GET /v1.0/me HTTP/1.1
+> Soup-Debug-Timestamp: 1709240856
+> Soup-Debug: SoupSession 1 (0x1ea40b0), SoupMessage 2 (0x2ba5540), GSocket 1 (0x2c53920)
+> Authorization: Bearer EwB4A8l6BAAUs5+HQn0N+h2FxWzLS31ZgQVuHsYAAZzWPtI2NwYm0KI8IZdCScRYMcraRHu+Jp7hROOPknZzhETxn7AvwBHNzCGRIdOt33ziHYYQVNj67g6Nbp1H7qXBfSF2FrTMr/5hNNeOW3CgVwSQPqHsB/9Y4p0Nhi1UersjLzyEoQZVFW09C1I+ReKRWEV84V05zvVxVq5nhttv/K2zTX3HCf/7/1Dl+P/3LyG8C4uAszm2rdTHGXjxVmsSgvLPpvgCGuRYl1FaDJOSXKGMNNRzPLMVsDoIjxpVyILO0imZ9xIn53/nw2y9253StMtMsISpCVs9nVzG37ftLiU3UIyHe4COe3rpVY6/lEa0JF8h6mPY77DGxX37FY0DZgAACGeyDmUlCjrrSAJq4L3CwWtJGpZHzcChK3eaEnOuZ2G5n6Q+HUtmRWyqiSolm2/8bQYJSAOe5eMz/m80sFhq7WLi7YAfvIHinani4xFmTiqP4nVSFVSXHVEELW/7TlH/TU/xr8+ZTxMKQOYli3KoxqSw4eYMx4lEB3lHXPJji9qaiRKHH4X4d+c//s7cUC98/yyPVD+SrxU6KAOqjuN2AU7hpjngOEXBA+AFwRFbNpDAYoI3hEURlBRatuhr38/T7EanoV3c7tE6hDpNrR9zZGH9yOJv9RN0lRZx8YuXriPYSMh3FbdQA4outCNMpniniJsgM6nUBzVRstguDVvz2QSiFxJr57uJ9gTilD67mCU6JRbeaWwubdyo4/+iglZiKmASAnGdYAEOGgIwNhsKiVn5WiyOyXhbyDJ8wTbxEp4SHrzXRSKGd8bmW/Y5EPQGh3va3hVY279A5KHCrwBu/WZfOE1XDzwWrwbVYzQO1vY3VT69WwGqtbMHCOw4e6XhmHX6r9XV5XYyOytqtwUg06FwaGMBveqnDhxrsmnQuoGiWghWqXg6zbLhKFRKHw0kLE08WASeSdapRcnZyE2lzY/Zm+9L9zVGAXyunsInVOWlK+VlDk5OIoCTqIpV6Pc+iHqZWJTFdlL9qbibuuTqTJN8cC348nFJZ0ZVJjeWXMtoEXL6doouB8DwNR2g3buIC9/HHQBCNP9mP/7WQnxDKOYMolKJ74ldFnuM0/QmLHvM0oT6ATM5ZIgDGoupInyXItNraE2d6A8bJ25XEUH9lYL2x4gC
+> Accept-Encoding: gzip, deflate, br
+> Connection: Keep-Alive
+> Host: graph.microsoft.com
+  
+< HTTP/1.1 200 OK
+< Soup-Debug-Timestamp: 1709240856
+< Soup-Debug: SoupMessage 2 (0x2ba5540)
+< Transfer-Encoding: chunked
+< Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+< Content-Encoding: gzip
+< Vary: Accept-Encoding
+< Date: Thu, 29 Feb 2024 21:07:35 GMT
+< Strict-Transport-Security: max-age=31536000
+< request-id: 32f0127f-8b54-4b75-bda5-641756193dd9
+< client-request-id: 32f0127f-8b54-4b75-bda5-641756193dd9
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF0000039E"}}
+< OData-Version: 4.0
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users/$entity","userPrincipalName":"jan.brummer@tabos.org","id":"4f62a7105c03556e","displayName":"Jan Brummer","surname":"Brummer","givenName":"Jan","preferredLanguage":"en-GB","mail":"jan.brummer@tabos.org","mobilePhone":null,"jobTitle":null,"officeLocation":null,"businessPhones":[]}
+  
