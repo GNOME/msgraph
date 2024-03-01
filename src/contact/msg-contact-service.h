@@ -21,7 +21,7 @@
 #include <msg-authorizer.h>
 #include <msg-service.h>
 
-#include "src/contact/msg-contact.h"
+#include <contact/msg-contact.h>
 
 #define MSG_TYPE_CONTACT_SERVICE (msg_contact_service_get_type ())
 
