@@ -31,7 +31,7 @@ rest_dep = dependency('rest-1.0')
 libsoup_dep = dependency('libsoup-3.0')
 goa_dep = dependency('goa-1.0')
 
-libuhttpmock_dep = dependency('libuhttpmock-1.0', version: '>= 0.9.0', required: get_option('tests'))
+libuhttpmock_dep = dependency('libuhttpmock-1.0', version: '> 0.9.0', required: get_option('tests'))
 
 gnome = import('gnome')
 

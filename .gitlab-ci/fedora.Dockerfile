@@ -17,7 +17,8 @@ RUN dnf -y update \
  && dnf clean all
 
  # Install recent uhttpmock
- RUN git clone https://gitlab.freedesktop.org/pwithnall/uhttpmock/ && cd uhttpmock && meson setup build -Dprefix=/usr -Dintrospection=false -Dvapi=disabled -Dgtk_doc=false && ninja -C build && ninja -C build install && cd .. && rm -rf uhttpmock
+ # RUN git clone https://gitlab.freedesktop.org/pwithnall/uhttpmock/ && cd uhttpmock && meson setup build -Dprefix=/usr -Dintrospection=false -Dvapi=disabled -Dgtk_doc=false && ninja -C build && ninja -C build install && cd .. && rm -rf uhttpmock
+ RUN git clone https://gitlab.freedesktop.org/janbrummer/uhttpmock/ -b new-release && cd uhttpmock && meson setup build -Dprefix=/usr -Dintrospection=false -Dvapi=disabled -Dgtk_doc=false && ninja -C build && ninja -C build install && cd .. && rm -rf uhttpmock
 
 
 # Enable sudo for wheel users
