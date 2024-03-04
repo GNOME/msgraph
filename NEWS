@@ -1,3 +1,8 @@
+0.2.1 - March 4, 2024
+===========================
+ * Fix header include leading to compilation problem
+ * Update uhttpmock requirement to pass tests
+
 0.2.0 - February 29, 2024
 ===========================
  * Fix memory leak in msg_service_parse_response
