@@ -848,3 +848,156 @@ next:
 
   return g_steal_pointer (&children);
 }
+
+/**
+ * msg_drive_service_copy_file:
+ * @self: #MsgDriveService
+ * @file: source #MsgDriveItem
+ * @destination: destination directory #MsgDriveItem
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Copy a file async on remote server to a new directory.
+ *
+ * Returns: %TRUE if accepted, %FALSE on error
+ */
+gboolean
+msg_drive_service_copy_file (MsgDriveService  *self,
+                             MsgDriveItem     *file,
+                             MsgDriveItem     *destination,
+                             GCancellable     *cancellable,
+                             GError          **error)
+{
+  g_autofree char *url = NULL;
+  g_autoptr (SoupMessage) message = NULL;
+  g_autofree char *json = NULL;
+  g_autoptr (JsonBuilder) builder = NULL;
+  g_autoptr (JsonNode) create_node = NULL;
+  GError *local_error = NULL;
+  g_autoptr (GBytes) response = NULL;
+  GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return FALSE;
+  }
+
+  url = g_strconcat (MSG_API_ENDPOINT,
+                     "/drives/",
+                     msg_drive_item_get_drive_id (file),
+                     "/items/",
+                     msg_drive_item_get_id (file),
+                     "/copy",
+                     NULL);
+
+  message = msg_service_build_message (MSG_SERVICE (self), "POST", url, NULL, FALSE);
+
+  builder = json_builder_new ();
+  json_builder_begin_object (builder);
+
+  json_builder_set_member_name (builder, "parentReference");
+  json_builder_begin_object (builder);
+  json_builder_set_member_name (builder, "driveId");
+  json_builder_add_string_value (builder, msg_drive_item_get_drive_id (destination));
+  json_builder_set_member_name (builder, "id");
+  json_builder_add_string_value (builder, msg_drive_item_get_id (destination));
+  json_builder_end_object (builder);
+
+  json_builder_end_object (builder);
+  create_node = json_builder_get_root (builder);
+  json = json_to_string (create_node, TRUE);
+
+  body = g_bytes_new (json, strlen (json));
+  soup_message_set_request_body_from_bytes (message, "application/json", body);
+
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * msg_drive_service_move_file:
+ * @self: #MsgDriveService
+ * @file: source #MsgDriveItem
+ * @destination: destination directory #MsgDriveItem
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Move a file async on remote server to a new directory.
+ *
+ * Returns: (transfer full): moved #MsgDriveItem
+ */
+MsgDriveItem *
+msg_drive_service_move_file (MsgDriveService  *self,
+                             MsgDriveItem     *file,
+                             MsgDriveItem     *destination,
+                             GCancellable     *cancellable,
+                             GError          **error)
+{
+  g_autofree char *url = NULL;
+  g_autoptr (SoupMessage) message = NULL;
+  g_autofree char *json = NULL;
+  g_autoptr (JsonBuilder) builder = NULL;
+  g_autoptr (JsonNode) create_node = NULL;
+  GError *local_error = NULL;
+  g_autoptr (GBytes) response = NULL;
+  GBytes *body = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  MsgDriveItem *item = NULL;
+  JsonObject *root_object = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  url = g_strconcat (MSG_API_ENDPOINT,
+                     "/drives/",
+                     msg_drive_item_get_drive_id (file),
+                     "/items/",
+                     msg_drive_item_get_id (file),
+                     NULL);
+
+  message = msg_service_build_message (MSG_SERVICE (self), "PATCH", url, NULL, FALSE);
+
+  builder = json_builder_new ();
+  json_builder_begin_object (builder);
+
+  json_builder_set_member_name (builder, "parentReference");
+  json_builder_begin_object (builder);
+  json_builder_set_member_name (builder, "id");
+  json_builder_add_string_value (builder, msg_drive_item_get_id (destination));
+  json_builder_end_object (builder);
+
+  json_builder_end_object (builder);
+  create_node = json_builder_get_root (builder);
+  json = json_to_string (create_node, TRUE);
+
+  body = g_bytes_new (json, strlen (json));
+  soup_message_set_request_body_from_bytes (message, "application/json", body);
+
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  parser = msg_service_parse_response (response, &root_object, &local_error);
+  if (local_error != NULL) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return NULL;
+  }
+
+  item = msg_drive_item_new_from_json (root_object, &local_error);
+  if (local_error) {
+    g_propagate_error (error, g_steal_pointer (&local_error));
+    return FALSE;
+  }
+
+  return item;
+}

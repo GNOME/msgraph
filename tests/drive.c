@@ -176,6 +176,40 @@ test_item_file_rename (TempItemData                        *data,
   uhm_server_end_trace (mock_server);
 }
 
+static void
+test_item_file_copy (TempItemData                        *data,
+                     __attribute__ ((unused)) const void *user_data)
+{
+  g_autoptr (GError) error = NULL;
+  gboolean ret;
+
+  msg_test_mock_server_start_trace (mock_server, "copy-item");
+
+  ret = msg_drive_service_copy_file (MSG_DRIVE_SERVICE (service), data->item, root, NULL, &error);
+  g_assert (ret == TRUE);
+
+  g_clear_object (&data->item);
+
+  uhm_server_end_trace (mock_server);
+}
+
+static void
+test_item_file_move (TempItemData                        *data,
+                     __attribute__ ((unused)) const void *user_data)
+{
+  g_autoptr (GError) error = NULL;
+  g_autoptr (MsgDriveItem) item = NULL;
+
+  msg_test_mock_server_start_trace (mock_server, "move-item");
+
+  item = msg_drive_service_move_file (MSG_DRIVE_SERVICE (service), data->item, root, NULL, &error);
+  g_assert (item);
+
+  g_clear_object (&data->item);
+
+  uhm_server_end_trace (mock_server);
+}
+
 /* static void */
 /* on_splice_donw (GObject      *source_object, */
 /*                 GAsyncResult *res, */
@@ -381,6 +415,20 @@ main (int    argc,
                    service,
                    setup_temp_item_spreadsheet,
                    test_item_file_rename,
+                   teardown_temp_item);
+
+  g_test_add ("/drive/item/file/copy",
+                   TempItemData,
+                   service,
+                   setup_temp_item_spreadsheet,
+                   test_item_file_copy,
+                   teardown_temp_item);
+
+  g_test_add ("/drive/item/file/move",
+                   TempItemData,
+                   service,
+                   setup_temp_item_spreadsheet,
+                   test_item_file_move,
                    teardown_temp_item);
 
   retval = g_test_run ();

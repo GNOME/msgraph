@@ -112,4 +112,18 @@ msg_drive_service_get_shared_with_me (MsgDriveService  *self,
                                       GCancellable     *cancellable,
                                       GError          **error);
 
+gboolean
+msg_drive_service_copy_file (MsgDriveService  *self,
+                             MsgDriveItem     *file,
+                             MsgDriveItem     *destination,
+                             GCancellable     *cancellable,
+                             GError          **error);
+
+MsgDriveItem *
+msg_drive_service_move_file (MsgDriveService  *self,
+                             MsgDriveItem     *file,
+                             MsgDriveItem     *destination,
+                             GCancellable     *cancellable,
+                             GError          **error);
+
 G_END_DECLS
