@@ -21,6 +21,7 @@
 #include "msg-drive-item-file.h"
 #include "msg-drive-item-folder.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 typedef struct {
   char *id;
@@ -97,7 +98,7 @@ msg_drive_item_new_from_json (JsonObject  *object,
   }
 
   if (json_object_has_member (obj, "file")) {
-    self = MSG_DRIVE_ITEM (msg_drive_item_file_new_from_json (obj, &_error));
+    self = MSG_DRIVE_ITEM (msg_drive_item_file_new_from_json (obj));
   } else if (json_object_has_member (obj, "folder")) {
     self = MSG_DRIVE_ITEM (msg_drive_item_folder_new_from_json (obj, &_error));
   } else {
@@ -109,31 +110,24 @@ msg_drive_item_new_from_json (JsonObject  *object,
     return NULL;
   }
 
-  if (!self || _error) {
-    g_propagate_error (error, _error);
+  if (!self)
     return NULL;
-  }
 
   priv = msg_drive_item_get_instance_private (self);
-  g_assert (priv != NULL);
-
   priv->is_shared = remote;
-
-  priv->id = g_strdup (json_object_get_string_member (object, "id"));
+  priv->id = g_strdup (msg_json_object_get_string (object, "id"));
 
   if (json_object_has_member (obj, "parentReference")) {
     JsonObject *parent_reference = json_object_get_object_member (obj, "parentReference");
 
-    priv->drive_id = g_strdup (json_object_get_string_member (parent_reference, "driveId"));
+    priv->drive_id = g_strdup (msg_json_object_get_string (parent_reference, "driveId"));
 
-    if (json_object_has_member (parent_reference, "id"))
-      priv->parent_id = g_strdup (json_object_get_string_member (parent_reference, "id"));
+    priv->parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
   }
 
-  priv->name = g_strdup (json_object_get_string_member (obj, "name"));
+  priv->name = g_strdup (msg_json_object_get_string (obj, "name"));
   priv->size = json_object_get_int_member (obj, "size");
-  if (json_object_has_member (object, "eTag"))
-    priv->etag = g_strdup (json_object_get_string_member (object, "eTag"));
+  priv->etag = g_strdup (msg_json_object_get_string (object, "eTag"));
 
   if (json_object_has_member (obj, "createdBy")) {
     JsonObject *created_by;
@@ -141,7 +135,7 @@ msg_drive_item_new_from_json (JsonObject  *object,
     created_by = json_object_get_object_member (obj, "createdBy");
     if (created_by && json_object_has_member (created_by, "user")) {
       JsonObject *user = json_object_get_object_member (created_by, "user");
-      priv->user = g_strdup (json_object_get_string_member (user, "displayName"));
+      priv->user = g_strdup (msg_json_object_get_string (user, "displayName"));
     }
   } else if (json_object_has_member (obj, "lastModifiedBy")) {
     JsonObject *created_by;
@@ -149,7 +143,7 @@ msg_drive_item_new_from_json (JsonObject  *object,
     created_by = json_object_get_object_member (obj, "lastModifiedBy");
     if (created_by && json_object_has_member (created_by, "user")) {
       JsonObject *user = json_object_get_object_member (created_by, "user");
-      priv->user = g_strdup (json_object_get_string_member (user, "displayName"));
+      priv->user = g_strdup (msg_json_object_get_string (user, "displayName"));
     }
   }
 

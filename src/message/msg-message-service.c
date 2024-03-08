@@ -1,4 +1,4 @@
-/* Copyright 2023 Jan-Michael Brummer
+/* Copyright 2023-2024 Jan-Michael Brummer
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -64,11 +64,9 @@ msg_message_service_get_messages (MsgMessageService  *self,
                                   GCancellable       *cancellable,
                                   GError            **error)
 {
-  g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
-  GList *list = NULL;
+  g_autolist (MsgMessage) list = NULL;
   JsonArray *array = NULL;
   guint array_length = 0, index = 0;
   g_autoptr (GBytes) response = NULL;
@@ -79,48 +77,39 @@ msg_message_service_get_messages (MsgMessageService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/messages", NULL);
 
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    MsgMessage *msg = NULL;
-    JsonObject *message_object = NULL;
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      g_autoptr (GError) local_error = NULL;
+      MsgMessage *msg = NULL;
+      JsonObject *message_object = NULL;
 
-    message_object = json_array_get_object_element (array, index);
+      message_object = json_array_get_object_element (array, index);
 
-    msg = msg_message_new_from_json (message_object, &local_error);
-    if (msg) {
-      list = g_list_append (list, msg);
-    } else {
-      g_warning ("Could not parse message object: %s", local_error->message);
-      g_clear_error (&local_error);
+      msg = msg_message_new_from_json (message_object, &local_error);
+      if (msg) {
+        list = g_list_append (list, msg);
+      } else {
+        g_warning ("Could not parse message object: %s", local_error->message);
+        g_clear_error (&local_error);
+      }
     }
-  }
 
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
-
-  return list;
+  return g_steal_pointer (&list);
 }
 
 /**
@@ -138,11 +127,9 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
                                       GCancellable       *cancellable,
                                       GError            **error)
 {
-  g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
-  GList *list = NULL;
+  g_autolist (MsgMailFolder) list = NULL;
   JsonArray *array = NULL;
   guint array_length = 0, index = 0;
   g_autoptr (GBytes) response = NULL;
@@ -153,48 +140,39 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders", NULL);
 
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    MsgMailFolder *folder = NULL;
-    JsonObject *object = NULL;
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      g_autoptr (GError) local_error = NULL;
+      MsgMailFolder *folder = NULL;
+      JsonObject *object = NULL;
 
-    object = json_array_get_object_element (array, index);
+      object = json_array_get_object_element (array, index);
 
-    folder = msg_mail_folder_new_from_json (object, &local_error);
-    if (folder) {
-      list = g_list_append (list, folder);
-    } else {
-      g_warning ("Could not parse mail folder object: %s", local_error->message);
-      g_clear_error (&local_error);
+      folder = msg_mail_folder_new_from_json (object, &local_error);
+      if (folder) {
+        list = g_list_append (list, folder);
+      } else {
+        g_warning ("Could not parse mail folder object: %s", local_error->message);
+        g_clear_error (&local_error);
+      }
     }
-  }
 
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
-
-  return list;
+  return g_steal_pointer (&list);
 }
 
 /**
@@ -215,10 +193,8 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
                                      GError                   **error)
 {
   g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *url = NULL;
   g_autoptr (GBytes) response = NULL;
-  MsgMailFolder *folder = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
@@ -250,25 +226,11 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
   }
 
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  folder = msg_mail_folder_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return folder;
+  return msg_mail_folder_new_from_json (root_object, error);
 }
 
 /**
@@ -289,7 +251,6 @@ msg_message_service_delete (MsgMessageService  *self,
                             GError            **error)
 {
   g_autoptr (SoupMessage) soup_message = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *url = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
@@ -299,11 +260,9 @@ msg_message_service_delete (MsgMessageService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/messages/", msg_message_get_id (message), NULL);
   soup_message = msg_service_build_message (MSG_SERVICE (self), "DELETE", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  response = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, error);
+  if (!response)
     return FALSE;
-  }
 
   return TRUE;
 }
@@ -326,12 +285,9 @@ msg_message_service_create_draft (MsgMessageService  *self,
                                   GError            **error)
 {
   g_autoptr (SoupMessage) soup_message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
-  g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
-  MsgMessage *new_message = NULL;
   g_autoptr (JsonBuilder) builder = NULL;
   g_autoptr (JsonNode) node = NULL;
   g_autofree char *json = NULL;
@@ -360,23 +316,9 @@ msg_message_service_create_draft (MsgMessageService  *self,
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (soup_message, "application/json", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), soup_message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  new_message = msg_message_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return new_message;
+  return msg_message_new_from_json (root_object, error);
 }

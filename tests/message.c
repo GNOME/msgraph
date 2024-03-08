@@ -112,6 +112,19 @@ test_get_folders (void)
   uhm_server_end_trace (mock_server);
 }
 
+void
+test_finalize (void)
+{
+  g_autoptr (MsgMailFolder) folder = NULL;
+  g_autoptr (MsgMessage) message = NULL;
+
+  folder = msg_mail_folder_new ();
+  g_clear_object (&folder);
+
+  message = msg_message_new ();
+  g_clear_object (&message);
+}
+
 struct MailFolders {
   MsgMessageMailFolderType type;
   const char *name;
@@ -211,6 +224,8 @@ main (int    argc,
 
   if (!uhm_server_get_enable_online (mock_server))
     soup_session_set_proxy_resolver (msg_service_get_session (service), G_PROXY_RESOLVER (uhm_server_get_resolver (mock_server)));
+
+  g_test_add_func ("/message/finailize", test_finalize);
 
   g_test_add ("/message/get/messages",
                    TempMessageData,

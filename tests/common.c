@@ -200,7 +200,7 @@ msg_test_init (int    argc,
 
   g_log_set_handler (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, (GLogFunc) msg_test_debug_handler, NULL);
 
-  if (!g_setenv ("MSG_DEBUG", "4" /* MSG_LOG_FULL_UNREDACTED */, FALSE))
+  if (!g_setenv ("MSG_DEBUG", "3", FALSE))
     g_warning ("Could not set MSG_DEBUG");
 
   if (!g_setenv ("G_MESSAGES_DEBUG", "msgraph", FALSE))

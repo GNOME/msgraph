@@ -1,0 +1,54 @@
+> GET /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1276/content HTTP/2
+> Soup-Debug-Timestamp: 1710190792
+> Soup-Debug: SoupSession 1 (0x760a30), SoupMessage 24 (0x7f8a680426d0), GSocket 7 (0x13ceda0)
+> Authorization: Bearer EwCAA8l6BAAUTTy6dbu0OLf3Lzl3R/vfUXxq8g8AAWmCdmp21UDbmfBQueXb+K8ITNBiBV9UegesgL1j2my4sbRLew5krGl2yfCvv06hKIganWMfDclXN8NDHTU17I5KtTghrGvL2CIoUq6lAiQ0zFdjKCEvuZblJqGf5wVLpkqLfM80H+kZOaQ0kD/eI9GaLEDB8d5vkFZMauo9gsXapehJQDLVfKUtd36LZ56XJ/0r+f+C9Z9CRwLcSAaG8MMaicU5w4RJ2FC191q/NLIa9NvybcPY2GcZ1WFoayrHcL+xgYXR+UKJeegKZ6YFz2E1B5yBfPPKNvjuKk4fxzSLtIgePEqar5lWmrVli0oeZBIaADkdMEuJ0NMKlTb3RuEDZgAACJrpcYTwTXwIUAJVroMQDIctRmX+K0Ws7grAL9Qk5bOEalPdttgGje5lh/C7KEvkcK79Ny656UJdjQq6UjkVDiV2bdpzSE020aqBsrkDYxrMPCRPzYgSjSpb4dXHJER/wrB+IbGw/RkFUJOACz8GWp1dbV56Xf+j8pfjlAFHPJOrFgdq06mbXnJq8/AEvmmc2ZICxMFCQ+ISaNneXaUUvQEza6eaaRMxoKPezyZtZN6jb4ZsSeHUnxWzeiOB2k1FqD03Fqtx5yevboG46haamvXBXq6hPThmby1cQQRYWwaXsn722OqyRYPSLx7BzUzNj7YBi2BoXND5f4lJEhuvcMCAYE8Psp8EAp/UfhWljIq+LjVogz9ofIvCfWKJ2ky/ceHGEio1RJD/oPAuZcyzc5luLcecx9tDUrpvC4i3PtHg8KJD2RG8UCX3US+8WIl5Lq2nLvV3nm0eNxUSqua7o5QakhlsQ2cgIPxD/qzkAUR0nKlavMDQjUTAeubWcnJlQj1MzOHJn0WTbFxXJupcrS2ZysBQjRVF6ieC3qP5GLfHveEevl0dVrc7QyrgEbr3sdFp1NcALOoRH9VSD5tXntRZe+y+d8fEGZgINmReZU6Q+EBZ1AnXr/pLhz16ti08znV9a4R6UK4DLeDpqYM8os3BtwuFHlY+n8t7j/663wCxDocqLoW9nhIfqvO/Sfy9pYjDnfmOOtwvCMyWAGJu575YwoEk+YiRgujlChmwuOTDXdOu5WJ2AoyLAXyD9LnRkIa94BNtl5Z93sr7v2OiFGxOQO00GldbcvhiiAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 302 Found
+< Soup-Debug-Timestamp: 1710190792
+< Soup-Debug: SoupMessage 24 (0x7f8a680426d0)
+< Cache-Control: no-store
+< Location: https://iqfaiw.am.files.1drv.com/y4mh9XGNApuSclj9_NWhYVsu1NT2MAviNC1b5VFeFPDLmJBA5qK9HX5xqVvOdFmRx30VYEBgYxoogyjd213ksbQI4Bkwzf5D8KStvdOvTuIwdXOFU9fcr1ZrkNNxUmti55l4oY-vTKnXnjACsYYWW0Yw7GjYRjN9HQwEAsptfFJfUM8VjG9oYWrvy7LqDCdAme7Q_2j2Lf83E3PUqy6NzGCuBvih3-gkywL2XsHXIphBhmctghU0EQCWzawz2I-cNCh/Temporary%20Item%20%28Spreadsheet%29.ods
+< Date: Mon, 11 Mar 2024 20:59:51 GMT
+< Content-Length: 0
+< strict-transport-security: max-age=31536000
+< request-id: 77f375b4-caf0-4bf4-83bf-cc97ccdfbb10
+< client-request-id: 77f375b4-caf0-4bf4-83bf-cc97ccdfbb10
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000163"}}
+  
+> GET /y4mh9XGNApuSclj9_NWhYVsu1NT2MAviNC1b5VFeFPDLmJBA5qK9HX5xqVvOdFmRx30VYEBgYxoogyjd213ksbQI4Bkwzf5D8KStvdOvTuIwdXOFU9fcr1ZrkNNxUmti55l4oY-vTKnXnjACsYYWW0Yw7GjYRjN9HQwEAsptfFJfUM8VjG9oYWrvy7LqDCdAme7Q_2j2Lf83E3PUqy6NzGCuBvih3-gkywL2XsHXIphBhmctghU0EQCWzawz2I-cNCh/Temporary%20Item%20%28Spreadsheet%29.ods HTTP/2
+> Soup-Debug-Timestamp: 1710190792
+> Soup-Debug: SoupSession 1 (0x760a30), SoupMessage 24 (0x7f8a680426d0), GSocket 8 (0x7f8a68015430), restarted
+> Authorization: Bearer EwCAA8l6BAAUTTy6dbu0OLf3Lzl3R/vfUXxq8g8AAWmCdmp21UDbmfBQueXb+K8ITNBiBV9UegesgL1j2my4sbRLew5krGl2yfCvv06hKIganWMfDclXN8NDHTU17I5KtTghrGvL2CIoUq6lAiQ0zFdjKCEvuZblJqGf5wVLpkqLfM80H+kZOaQ0kD/eI9GaLEDB8d5vkFZMauo9gsXapehJQDLVfKUtd36LZ56XJ/0r+f+C9Z9CRwLcSAaG8MMaicU5w4RJ2FC191q/NLIa9NvybcPY2GcZ1WFoayrHcL+xgYXR+UKJeegKZ6YFz2E1B5yBfPPKNvjuKk4fxzSLtIgePEqar5lWmrVli0oeZBIaADkdMEuJ0NMKlTb3RuEDZgAACJrpcYTwTXwIUAJVroMQDIctRmX+K0Ws7grAL9Qk5bOEalPdttgGje5lh/C7KEvkcK79Ny656UJdjQq6UjkVDiV2bdpzSE020aqBsrkDYxrMPCRPzYgSjSpb4dXHJER/wrB+IbGw/RkFUJOACz8GWp1dbV56Xf+j8pfjlAFHPJOrFgdq06mbXnJq8/AEvmmc2ZICxMFCQ+ISaNneXaUUvQEza6eaaRMxoKPezyZtZN6jb4ZsSeHUnxWzeiOB2k1FqD03Fqtx5yevboG46haamvXBXq6hPThmby1cQQRYWwaXsn722OqyRYPSLx7BzUzNj7YBi2BoXND5f4lJEhuvcMCAYE8Psp8EAp/UfhWljIq+LjVogz9ofIvCfWKJ2ky/ceHGEio1RJD/oPAuZcyzc5luLcecx9tDUrpvC4i3PtHg8KJD2RG8UCX3US+8WIl5Lq2nLvV3nm0eNxUSqua7o5QakhlsQ2cgIPxD/qzkAUR0nKlavMDQjUTAeubWcnJlQj1MzOHJn0WTbFxXJupcrS2ZysBQjRVF6ieC3qP5GLfHveEevl0dVrc7QyrgEbr3sdFp1NcALOoRH9VSD5tXntRZe+y+d8fEGZgINmReZU6Q+EBZ1AnXr/pLhz16ti08znV9a4R6UK4DLeDpqYM8os3BtwuFHlY+n8t7j/663wCxDocqLoW9nhIfqvO/Sfy9pYjDnfmOOtwvCMyWAGJu575YwoEk+YiRgujlChmwuOTDXdOu5WJ2AoyLAXyD9LnRkIa94BNtl5Z93sr7v2OiFGxOQO00GldbcvhiiAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1710190792
+< Soup-Debug: SoupMessage 24 (0x7f8a680426d0)
+< Cache-Control: public
+< Content-Length: 6012
+< Content-Type: application/vnd.oasis.opendocument.spreadsheet
+< Content-Encoding: gzip
+< Content-Location: https://public.am.files.1drv.com/y4musHXpwCPLlBAOCOEX1ry1r8ybDqRwZA5L5SUE-Xh9ikNBX92gFCXkkuHs96y0rZlYcM1s5vUSERv0J4pEqIretzbT_YTfpU4rZDBtPPO8o3SsrrGmK37RUuGT9zB3MLwY8AXon6Q8eM7PocJg00-cOQokzzreTkrrwvZm7GRsDFNZyRBLS4DYQQY3maAVmibaEiaLNssa-TR3UBLdwm3hxRbYCjykLwIfulsXEW3h3hCC4wF7zYPqHplOqHJ0-d8
+< Expires: Sun, 09 Jun 2024 20:59:52 GMT
+< Last-Modified: Mon, 11 Mar 2024 20:59:51 GMT
+< Accept-Ranges: bytes
+< ETag: aNEY2MkE3MTA1QzAzNTU2RSExMjcwLjI
+< WWW-Authenticate: Bearer realm="OneDriveAPI", error="invalid_token", error_description="Invalid auth token"
+< Content-Disposition: attachment; filename*=UTF-8''Temporary%20Item%20%28Spreadsheet%29.ods
+< X-Content-Type-Options: nosniff
+< Date: Mon, 11 Mar 2024 20:59:51 GMT
+< p3p: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+< x-msnserver: AMS0PF1EA1C4F64
+< strict-transport-security: max-age=31536000; includeSubDomains
+< ms-cv: aKTFKcn110Svpaf6KEd4Xg.0
+< x-sqldataorigin: S
+< ctag: aYzo0RjYyQTcxMDVDMDM1NTZFITEyNzAuMjU4
+< x-preauthinfo: rv;poba;
+< x-streamorigin: X
+< x-asmversion: UNKNOWN; 19.1350.213.2011
+< x-cache: CONFIG_NOCACHE
+< x-msedge-ref: Ref A: 06A1861A96B946F69D680C5E73E8C53D Ref B: DUS30EDGE0712 Ref C: 2024-03-11T20:59:52Z
+< 
+< PK
+  

@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
 
 #include "message/msg-message.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 /**
  * MsgMessage:
@@ -91,20 +92,9 @@ msg_message_new_from_json (JsonObject                       *json_object,
   MsgMessage *self;
 
   self = msg_message_new ();
-  g_assert (self != NULL);
-
-  if (json_object_has_member (json_object, "subject"))
-    self->subject = g_strdup (json_object_get_string_member (json_object, "subject"));
-  else
-    self->subject = g_strdup ("");
-
-  if (json_object_has_member (json_object, "bodyPreview"))
-    self->body_preview = g_strdup (json_object_get_string_member (json_object, "bodyPreview"));
-  else
-    self->body_preview = g_strdup ("");
-
-  if (json_object_has_member (json_object, "id"))
-    self->id = g_strdup (json_object_get_string_member (json_object, "id"));
+  self->subject = g_strdup (msg_json_object_get_string (json_object, "subject"));
+  self->body_preview = g_strdup (msg_json_object_get_string (json_object, "bodyPreview"));
+  self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
 
   return self;
 }

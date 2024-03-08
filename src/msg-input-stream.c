@@ -104,7 +104,6 @@ msg_input_stream_ensure_msg (GInputStream *stream)
   MsgInputStreamPrivate *priv = MSG_INPUT_STREAM (stream)->priv;
 
   if (!priv->msg){
-    /* priv->msg = soup_message_new_from_uri (SOUP_METHOD_GET, priv->uri); */
     priv->msg = msg_service_build_message (MSG_SERVICE (priv->service), "GET", priv->uri, NULL, FALSE);
     msg_authorizer_process_request (msg_service_get_authorizer (priv->service), priv->msg);
 
@@ -117,95 +116,6 @@ msg_input_stream_ensure_msg (GInputStream *stream)
                                   "Range", priv->range);
 
   return priv->msg;
-}
-
-static void
-send_callback (GObject      *object,
-               GAsyncResult *result,
-               gpointer      user_data)
-{
-  GTask *task = user_data;
-  GInputStream *http_stream = g_task_get_source_object (task);
-  MsgInputStreamPrivate *priv = MSG_INPUT_STREAM (http_stream)->priv;
-  GError *error = NULL;
-
-  g_input_stream_clear_pending (http_stream);
-
-  priv->stream = soup_session_send_finish (SOUP_SESSION (object), result, &error);
-  if (priv->stream)
-    g_task_return_boolean (task, TRUE);
-  else
-    g_task_return_error (task, error);
-  g_object_unref (task);
-}
-
-/**
- * msg_input_stream_send_async:
- * @stream: a #MsgInputStream
- * @io_priority: the io priority of the request.
- * @cancellable: optional #GCancellable object, %NULL to ignore.
- * @callback: callback to call when the request is satisfied
- * @user_data: the data to pass to callback function
- *
- * Asynchronously sends the HTTP request associated with @stream, and
- * reads the response headers. Call this after msg_input_stream_new()
- * and before the first g_input_stream_read_async() if you want to
- * check the HTTP status code before you start reading.
- **/
-void
-msg_input_stream_send_async (GInputStream        *stream,
-                             int                  io_priority,
-                             GCancellable        *cancellable,
-                             GAsyncReadyCallback  callback,
-                             gpointer             user_data)
-{
-  MsgInputStreamPrivate *priv;
-  GError *error = NULL;
-  GTask *task;
-
-  g_return_if_fail (MSG_IS_INPUT_STREAM (stream));
-  priv = MSG_INPUT_STREAM (stream)->priv;
-
-  task = g_task_new (stream, cancellable, callback, user_data);
-  g_task_set_priority (task, io_priority);
-
-  if (priv->stream){
-    g_task_return_boolean (task, TRUE);
-    g_object_unref (task);
-    return;
-  }
-
-  if (!g_input_stream_set_pending (stream, &error)){
-    g_task_return_error (task, error);
-    g_object_unref (task);
-    return;
-  }
-
-  msg_input_stream_ensure_msg (stream);
-  soup_session_send_async (msg_service_get_session (priv->service), priv->msg, G_PRIORITY_DEFAULT,
-                           cancellable, send_callback, task);
-}
-
-/**
- * msg_input_stream_send_finish:
- * @stream: a #MsgInputStream
- * @result: a #GAsyncResult.
- * @error: a #GError location to store the error occuring, or %NULL to
- * ignore.
- *
- * Finishes a msg_input_stream_send_async() operation.
- *
- * Return value: %TRUE if the message was sent successfully, %FALSE if
- * not.
- **/
-gboolean
-msg_input_stream_send_finish (GInputStream  *stream,
-                              GAsyncResult  *result,
-                              GError       **error)
-{
-  g_return_val_if_fail (g_task_is_valid (result, stream), FALSE);
-
-  return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static void
@@ -285,6 +195,23 @@ read_send_callback (GObject      *object,
                              g_task_get_priority (task),
                              g_task_get_cancellable (task),
                              read_callback, task);
+}
+
+static gssize
+msg_input_stream_read_fn (GInputStream  *stream,
+                          void          *buffer,
+                          gsize          count,
+                          GCancellable  *cancellable,
+                          GError       **error)
+{
+  MsgInputStreamPrivate *priv = MSG_INPUT_STREAM (stream)->priv;
+
+  if (!priv->stream) {
+    msg_input_stream_ensure_msg (stream);
+    priv->stream = soup_session_send (msg_service_get_session (priv->service), priv->msg, cancellable, error);
+  }
+
+  return g_input_stream_read (priv->stream, buffer, count, cancellable, error);
 }
 
 static void
@@ -493,6 +420,7 @@ msg_input_stream_class_init (MsgInputStreamClass *klass)
 
   gobject_class->finalize = msg_input_stream_finalize;
 
+  stream_class->read_fn = msg_input_stream_read_fn;
   stream_class->read_async = msg_input_stream_read_async;
   stream_class->read_finish = msg_input_stream_read_finish;
   stream_class->close_async = msg_input_stream_close_async;

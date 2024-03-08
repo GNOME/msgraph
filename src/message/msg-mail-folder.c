@@ -16,6 +16,7 @@
 
 #include "message/msg-mail-folder.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 /**
  * MsgMailFolder:
@@ -89,12 +90,8 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
   MsgMailFolder *self;
 
   self = msg_mail_folder_new ();
-  g_assert (self != NULL);
 
-  if (json_object_has_member (json_object, "displayName"))
-    self->display_name = g_strdup (json_object_get_string_member (json_object, "displayName"));
-  else
-    self->display_name = g_strdup ("");
+  self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
 
   self->unread_item_count = json_object_get_int_member (json_object, "unreadItemCount");
   self->total_item_count = json_object_get_int_member (json_object, "totalItemCount");

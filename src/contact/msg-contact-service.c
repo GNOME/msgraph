@@ -63,14 +63,11 @@ msg_contact_service_get_contacts (MsgContactService  *self,
                                   GCancellable       *cancellable,
                                   GError            **error)
 {
-  g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
-  GList *list = NULL;
+  g_autolist (MsgContact) list = NULL;
   JsonArray *array = NULL;
   guint array_length = 0, index = 0;
-  g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -78,46 +75,37 @@ msg_contact_service_get_contacts (MsgContactService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts", NULL);
 
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
-  if (error && *error)
-    return NULL;
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    MsgContact *contact = NULL;
-    JsonObject *contact_object = NULL;
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      MsgContact *contact = NULL;
+      JsonObject *contact_object = NULL;
+      g_autoptr (GError) local_error = NULL;
 
-    contact_object = json_array_get_object_element (array, index);
+      contact_object = json_array_get_object_element (array, index);
 
-    contact = msg_contact_new_from_json (contact_object, &local_error);
-    if (contact) {
-      list = g_list_append (list, contact);
-    } else {
-      g_warning ("Could not parse contact object: %s", local_error->message);
-      g_clear_error (&local_error);
+      contact = msg_contact_new_from_json (contact_object, &local_error);
+      if (contact) {
+        list = g_list_append (list, contact);
+      } else {
+        g_warning ("Could not parse contact object: %s", local_error->message);
+        g_clear_error (&local_error);
+      }
     }
-  }
 
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
-
-  return list;
+  return g_steal_pointer (&list);
 }
 
 /**
@@ -138,12 +126,10 @@ msg_contact_service_create (MsgContactService  *self,
                             GError            **error)
 {
   g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
-  MsgContact *new_contact = NULL;
   g_autoptr (JsonBuilder) builder = NULL;
   g_autoptr (JsonNode) node = NULL;
   g_autofree char *json = NULL;
@@ -168,25 +154,11 @@ msg_contact_service_create (MsgContactService  *self,
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  new_contact = msg_contact_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return new_contact;
+  return msg_contact_new_from_json (root_object, error);
 }
 
 /**
@@ -207,7 +179,6 @@ msg_contact_service_delete (MsgContactService  *self,
                             GError            **error)
 {
   g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *url = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
@@ -217,11 +188,7 @@ msg_contact_service_delete (MsgContactService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts/", msg_contact_get_id (contact), NULL);
   message = msg_service_build_message (MSG_SERVICE (self), "DELETE", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return FALSE;
-  }
+  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
 
-  return TRUE;
+  return response != NULL;
 }

@@ -1,0 +1,26 @@
+> GET /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1274/content HTTP/2
+> Soup-Debug-Timestamp: 1710190805
+> Soup-Debug: SoupSession 1 (0x760a30), SoupMessage 41 (0x7f8a60022d80), GSocket 13 (0x74dc20)
+> Authorization: Bearer EwB4A8l6BAAUTTy6dbu0OLf3Lzl3R/vfUXxq8g8AAQBdUGzO3yrTBYRairTvL/k9LSCK9BNDDBqSiMd2fWeGu+u/bBjUba4IWZ1kcV3uFtrcGZAvhd54X1WFayaDI9Dp2nKgmfH7fxWPDR7yBN2Pw0+Q1cCzoMkXeAQBc/DmGAbRqYleqiQ96JuEECx9KRQLqViOwR7NZzRHGw01Xx5OKZtvt1+56R6D+09KeMPy3VEVb0D8pIJHhry6zCva5AIayXD70r8E6GPV0WLfwhy9UFwPNl3jzX9ApOVyuaBxvfgvBVgAa0BsWITNq8phrOLT0tazNOF0pkQ2aOpYhLm2pB9Dx28oaDvRLAqCvdc7eQl2nlIsioZCfFc/m9use6IDZgAACEu7DAkSOCRTSAIj708tMiH/6gu+A3ORL7tqGeBrs0LnbHzFeo3sdP+lu2OJgQDcgYivtXVrA5RYtv3LwH0NS3Vehih3gRAyIoZzqq+TByHvKubD33LWm+svJl39oFi8xFz/qfqk6v1kZ7bQ9hOjLH3u1FsGFnmR04ctekavh4fr69r/gKaMYQkHdIwAD0fQ6mfpk/dLnCaPpeb/z/f/AsBhsnDC2oZ/m1XP3o/JUmXgVpMQbkgP5rZDGjPTC0cgIeG3sB5aHXLrDsEekZ2pKVswL93MSawh9vur5N7DhCST/F6mrZWP9QJiEisrWtXRSTfKIjohMKD4vQGQhISgTUJu/kUvil8G9ZW0c49ENiecMMeEed6bQw8Ct8032sgsICLnsDdod0XkopE/wtCy4cz/7lTz9R4wXuRY8NNRk3Vl5mOqr4LSO6qY50rrHBFTk4xY80XSiwI6jsSVEz5nN2O31/8l9EBWRFPol2KuCJVqNJQ6OnOG76MmXaQgwtUp4hSiwxxP3sk1fTxvyEyUViMmXOIpZeacV6+n7xWKb+y7ZFjvgAtEDw8HkdpfuboyNjJq1TnyoTPQ8+kvEFyco/6vfofamJxELu/5pAGQW9zd6NhRQ++7ORy/Cc+Gch5xbxpH1oevlL5xbvd/4dgxdNFzfrhXm7wujtfEaDv7t1ma1wZGYNHzXvtkiFvplfVV2+SswA4OnECCZr/cghxHb/3FY6h08kNRFvoYKYQjLmdPS2ocyZ8bnUKHdvKFtsU3sAZTThJz2IdFwH9X6noKNWKD/IgC
+> Range: bytes=0-
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 302 Found
+< Soup-Debug-Timestamp: 1710190805
+< Soup-Debug: SoupMessage 41 (0x7f8a60022d80)
+< Cache-Control: no-store
+< Location: https://lkhbqw.am.files.1drv.com/y4mj647_qw4lK6_gjjDN_WfiDeDVSpgHK3E0ELMETXCmwty9ReNEne6b-uWiOrT5Wr2Ie7o_un5mYD6OQu5kJ32WiDZIy3Jyzjb8KCC_uHdYwDxjgFrxrEsFXyQJl1H6JQBBixeMapWOfixwJqOLS6PvkFaFXdOBS1WJdhRpLbWnsjoiaYtujjAQY7EVr3ydDqy5DWtqNsmutSBXjqgU6Z622iIpAu1IInZUl3DmxDb3fmEwJruHTAUFadQh-SJJ7cb/Temporary%20Item%20%28Spreadsheet%29.ods
+< Date: Mon, 11 Mar 2024 21:00:05 GMT
+< Content-Length: 0
+< strict-transport-security: max-age=31536000
+< request-id: 75f44551-b7cb-4236-b4d4-90eb50a9fb04
+< client-request-id: 75f44551-b7cb-4236-b4d4-90eb50a9fb04
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000351"}}
+  
+> GET /y4mj647_qw4lK6_gjjDN_WfiDeDVSpgHK3E0ELMETXCmwty9ReNEne6b-uWiOrT5Wr2Ie7o_un5mYD6OQu5kJ32WiDZIy3Jyzjb8KCC_uHdYwDxjgFrxrEsFXyQJl1H6JQBBixeMapWOfixwJqOLS6PvkFaFXdOBS1WJdhRpLbWnsjoiaYtujjAQY7EVr3ydDqy5DWtqNsmutSBXjqgU6Z622iIpAu1IInZUl3DmxDb3fmEwJruHTAUFadQh-SJJ7cb/Temporary%20Item%20%28Spreadsheet%29.ods HTTP/2
+> Soup-Debug-Timestamp: 1710190805
+> Soup-Debug: SoupSession 1 (0x760a30), SoupMessage 41 (0x7f8a60022d80), GSocket 14 (0x7f8a60021580), restarted
+> Authorization: Bearer EwB4A8l6BAAUTTy6dbu0OLf3Lzl3R/vfUXxq8g8AAQBdUGzO3yrTBYRairTvL/k9LSCK9BNDDBqSiMd2fWeGu+u/bBjUba4IWZ1kcV3uFtrcGZAvhd54X1WFayaDI9Dp2nKgmfH7fxWPDR7yBN2Pw0+Q1cCzoMkXeAQBc/DmGAbRqYleqiQ96JuEECx9KRQLqViOwR7NZzRHGw01Xx5OKZtvt1+56R6D+09KeMPy3VEVb0D8pIJHhry6zCva5AIayXD70r8E6GPV0WLfwhy9UFwPNl3jzX9ApOVyuaBxvfgvBVgAa0BsWITNq8phrOLT0tazNOF0pkQ2aOpYhLm2pB9Dx28oaDvRLAqCvdc7eQl2nlIsioZCfFc/m9use6IDZgAACEu7DAkSOCRTSAIj708tMiH/6gu+A3ORL7tqGeBrs0LnbHzFeo3sdP+lu2OJgQDcgYivtXVrA5RYtv3LwH0NS3Vehih3gRAyIoZzqq+TByHvKubD33LWm+svJl39oFi8xFz/qfqk6v1kZ7bQ9hOjLH3u1FsGFnmR04ctekavh4fr69r/gKaMYQkHdIwAD0fQ6mfpk/dLnCaPpeb/z/f/AsBhsnDC2oZ/m1XP3o/JUmXgVpMQbkgP5rZDGjPTC0cgIeG3sB5aHXLrDsEekZ2pKVswL93MSawh9vur5N7DhCST/F6mrZWP9QJiEisrWtXRSTfKIjohMKD4vQGQhISgTUJu/kUvil8G9ZW0c49ENiecMMeEed6bQw8Ct8032sgsICLnsDdod0XkopE/wtCy4cz/7lTz9R4wXuRY8NNRk3Vl5mOqr4LSO6qY50rrHBFTk4xY80XSiwI6jsSVEz5nN2O31/8l9EBWRFPol2KuCJVqNJQ6OnOG76MmXaQgwtUp4hSiwxxP3sk1fTxvyEyUViMmXOIpZeacV6+n7xWKb+y7ZFjvgAtEDw8HkdpfuboyNjJq1TnyoTPQ8+kvEFyco/6vfofamJxELu/5pAGQW9zd6NhRQ++7ORy/Cc+Gch5xbxpH1oevlL5xbvd/4dgxdNFzfrhXm7wujtfEaDv7t1ma1wZGYNHzXvtkiFvplfVV2+SswA4OnECCZr/cghxHb/3FY6h08kNRFvoYKYQjLmdPS2ocyZ8bnUKHdvKFtsU3sAZTThJz2IdFwH9X6noKNWKD/IgC
+> Range: bytes=0-
+> Accept-Encoding: gzip, deflate, br
+  

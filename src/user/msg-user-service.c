@@ -66,11 +66,9 @@ msg_user_service_get_user (MsgUserService  *self,
                            GError         **error)
 {
   g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   g_autofree char *url = NULL;
   g_autoptr (GBytes) response = NULL;
-  g_autoptr (MsgUser) user = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -79,26 +77,12 @@ msg_user_service_get_user (MsgUserService  *self,
   if (!name)
     url = g_strconcat (MSG_API_ENDPOINT, "/me", NULL);
   else
-    url = g_strconcat (MSG_API_ENDPOINT, "/users/", name, NULL);
+    url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts/users/", name, NULL);
 
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, local_error);
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, local_error);
-    return NULL;
-  }
-
-  user = msg_user_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, local_error);
-    return NULL;
-  }
-
-  return g_steal_pointer (&user);
+  return msg_user_new_from_json (root_object, error);
 }

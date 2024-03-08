@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
 
 #include "drive/msg-drive.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 /**
  * MsgDrive:
@@ -114,22 +115,13 @@ msg_drive_new_from_json (JsonObject  *object,
     return NULL;
   }
 
-  self->id = g_strdup (json_object_get_string_member (object, "id"));
-
-  if (json_object_has_member (object, "name"))
-    self->name = g_strdup (json_object_get_string_member (object, "name"));
-  else
-    self->name = g_strdup (drive_type);
+  self->id = g_strdup (msg_json_object_get_string (object, "id"));
+  self->name = g_strdup (msg_json_object_get_string (object, "name"));
 
   if (json_object_has_member (object, "createdDateTime"))
     self->created = g_date_time_new_from_iso8601 (json_object_get_string_member (object, "createdDateTime"), NULL);
-  else
-    self->created = g_date_time_new_now_local ();
-
   if (json_object_has_member (object, "lastModifiedDateTime"))
     self->modified = g_date_time_new_from_iso8601 (json_object_get_string_member (object, "lastModifiedDateTime"), NULL);
-  else
-    self->modified = g_date_time_new_now_local ();
 
   if (json_object_has_member (object, "quota")) {
     JsonObject *quota = json_object_get_object_member (object, "quota");
