@@ -1,23 +1,11 @@
-> CONNECT graph.microsoft.com:443 HTTP/1.1
-> Soup-Debug-Timestamp: 1709665362
-> Soup-Debug: SoupSession 1 (0x1c4c000), SoupMessage 8 (0x293aea0), GSocket 3 (0x29723c0)
-> Accept-Encoding: gzip, deflate, br
-> Connection: Keep-Alive
-> Host: graph.microsoft.com
-  
-< HTTP/1.1 200 Connected
-< Soup-Debug-Timestamp: 1709665362
-< Soup-Debug: SoupMessage 8 (0x293aea0)
-  
-> POST /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1223/copy HTTP/1.1
-> Soup-Debug-Timestamp: 1709665362
-> Soup-Debug: SoupSession 1 (0x1c4c000), SoupMessage 9 (0x28f5ea0), GSocket 3 (0x29723c0)
+> POST /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1341/copy HTTP/2
+> Soup-Debug-Timestamp: 1715762885
+> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 41 (0x1f5dc50), GSocket 14 (0x1f46190)
+> Soup-Host: graph.microsoft.com
 > Content-Type: application/json
 > Content-Length: 101
-> Authorization: Bearer EwCAA8l6BAAUs5+HQn0N+h2FxWzLS31ZgQVuHsYAAcEzZHoZsNeR/nUWNRqx/GBqAyEyQmccl6/vjpge8c+fym0VeO6sznHRxpGuGhcW/Bak4JUTMU/NfSwn9OJ5WihgkzSrdEKIi709kz9QtOQ9CRFqHNvSmsKGhlDtDXhSYoIBOY0IuWkvdCE976uwE/8kL0ulqSm3tvyfKOFyJ6y5si/fsRvPJNL8Bb8nA36ksoUC7f3r3P4J3LN2A/J2LO+Y3uf1KaFGZNtM4Vq1v18N+ysmve6MwfrLmR7PPXOOASGaq0JvdeBtMyrxMm2/yhPJvO35o5tOrornyjsjl6yFdLftiKVh7VEaU64Pw0Md9EUBkESl5r4tbeKhYGXfdmUDZgAACAl/H3zTYGyBUALwwE2JM7YzBz362INEFPKqlxqJ8ii0lLi1MXn2FMfDGMrelW2Z+1lI0G0qvz8g0Qfls57V3H2eoz29UEP3wcVh2xkNmV2AWS44wKAlFyfBC2SlpYyc6ugNMxk8Gp/un1mopp0cZbU/9+jjD1FUwqoEu8GTfz/ju+e7+NB3BuKW1ZBMOO+Qv8JJSLiHLcaorYmY3Y0oemzhNQ7hX+fIX4+KAY2aUENxrVIqj4JTQ0Evh8agKN/SdMyEUja2zP5cGKUovF2+bQDeaYZoS5WuK7LNQ1z8VG2Erhu/uffLQ3NRKIjdgykvG/aVoh1NQ5C30Ztgux0KzNBkTQqLou8PyiKIHfSnHFzTpj3V0ViqxnPAJxV0/uomcy6wVCNB5wB08mv+/ojL38Hz7/4j3dHxoQr0Cv9aTGQH+KsmyZe76dmoziOrZ58Pkp3xZxnBs+/iEpzldoGe2fpUXclSZhG6Gx0qPltFnvzinGOzLWUS28TEkFZeJfqlb745AJr68bxMmwbDLRZCQ6dgmuqo9g0fNFeDn+gsLAl6A3TX3O+WRQuGQ5p++oZ+CW+fHRkkAUuVMd5E15zHnjYWuOk3CAxh3m9kGhI4144plcBqAnM7zx3PFd+JqSa9rXsv8ohYyMlfLtg97O0CB0zUYOEy1WvJGFMCPyG7KFwNX33jzBhoOqg9u9cg/J8YcFYDD9YuG3ue3Pe4Y7RreZlZrNyFOrXZ/OIRf5yJWJlNQPT4cyVIcJvHsdQwfztk4Jeo5nFn1LQ2gneBCMjBWTnSVEBrH01kmGzBiAI=
+> Authorization: Bearer EwB4A8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAdMbHd7JYDJc9kdmSbyIEK7g5hiqMtuMziEYXljk2hY3QhUATOowpdXVP8rs2LDHHjq6sGFRg1J3kRH1/cu47tgkTIGPeqK76mFy4GOfSHLAI/PbMO48EM9c4nVlUi6Rog0SvomI5c2fnlWv9IBHChOC9rtrCtIvDbKet7tFoPHdehaa+qUl7dpkf0cx6s7LNbws15NTl1ioNDUW01uQpsUSp2tkkGI2G+pUSpyJF42lWQW5vI0pTVx4klEMO0c7dyo7BVbHCC+72qHScYSYixRcg/OFUz7s5bshVRuqRAkMqLheQXBAuK8BKx2A8IKc2A+8jeHf3CfCr7IbY+6x40EDZgAACD1psvKFtijgSAKOuTF7DJnqcxrqIakLrEdtTYoeD6CMddujvA3wpIFhn8y4YrrZgpvKjQcH/AVp4ZE6SfblapnwcrjV5yqLPgjaFIBOr44geSSWrCKqRoAvGIRpitMn3OQ/Sb7gAN2rE8HO6pXugd11hnX6z6EDtc06xoCuf8z/MyjcyMdZCEN1GEukQ/5Vds+27jZUit266//buTO3ux/5vjGJeCGTtFTkFACX/y1VQtlQ8TZtcbAxNAhWltuLppmweLNw9TS+yQ4mOtHrL9kuxtTAQLhuXwPltw1jF5Vx3GM1JSdVDVQWQzDq5h78Pe2H0Nwrs8pjeVgZL226TXEsCk8vztx8Q32WcM3cmt0Oph24C37M1bbztVdzQQwT98Cus93YhGOPsKmc3opG2dJF1QNiwDqJjSKj+Kfn81gOchubHMevBoaUGvVq6/1PieQWn80MlX3pFXYObjw0r/B8kGbNhHuBm9OgHrLYKg5DzQuVDY6U9xmsCWz7C9phPK1VcwhqNDoVUsfG7iPOFJ5JietSvcy0wiNlfDdIIRGLvpFuOFShgDdhdijhdhc3ItYo2PnAPr3ih1f3eGnNRZwvOa8rLq6Vy5HSvhAQ0ohiLGjW2WAjBG+miqej6DZxdb/xLco+kIF9OiyEKlQSeyhOShgv1F8+53t1yAQf9D9Pfs557v7egzhXjLMQ3uqtHYjqgOdTZs7LIHQjppurvB8x7VybxP2WxJsjvUDPtJUKR66+PC5xqtd5ja9OCnPmhvdiv2pRgyAbOrXEAo3rKdJVHYgC
 > Accept-Encoding: gzip, deflate, br
-> Connection: Keep-Alive
-> Host: graph.microsoft.com
 > 
 > {
 >   "parentReference" : {
@@ -26,15 +14,15 @@
 >   }
 > }
   
-< HTTP/1.1 202 Accepted
-< Soup-Debug-Timestamp: 1709665362
-< Soup-Debug: SoupMessage 9 (0x28f5ea0)
+< HTTP/2 202 Accepted
+< Soup-Debug-Timestamp: 1715762885
+< Soup-Debug: SoupMessage 41 (0x1f5dc50)
 < Cache-Control: no-store
-< Location: https://api.onedrive.com/v1.0/monitor/4s3i2XPe96sH1eQh1UaLF7-0qIxJVkLW3DLIdzXg7NDGM8DgXsPctPFLnx_QjwxoLkR607j4cFmh7wa7CLHU2w-tcAK30mL5Dwzr6naribTuDzvrQRNUkv8i1L9-Ehnkwx39fxjKAO5Y8Y6zbvvOCEfXJRLlncemBhlPN78H3wK1BiPRLBGguKrkQrw-Z2CFdZrRWaWMcUs1BG0_vceCThFYFKMbxZLbMskl8qhOvQWBGKXffqC53u_L-Y8nzWHvxg
-< Date: Tue, 05 Mar 2024 19:02:41 GMT
+< Location: https://api.onedrive.com/v1.0/monitor/4ss44XHHKnufqG_p0eUQkvjsehtXKgYNMCFtAk1eENWl0pB46o9JdlkqBdPIi5psKEjXvNHpaAV3EZ8lSWF8T6CrPHqXDSotr_LhE2g5D9hTaoocjAI3n32lLjTb6kcIsElYgw8XKGgHubkOcxp-kNlzKzC1SMj5HcAXNpyc2rBKkIFpIV8YmrJYuwrfHYcg5B8vvg_9b88YkpEfgHzGOGpNHrLHIi6L4EdRWAu4z5NSt3ZT9jm1wcctPAi6xeXOwC
+< Date: Wed, 15 May 2024 08:48:05 GMT
 < Content-Length: 0
-< Strict-Transport-Security: max-age=31536000
-< request-id: f1194544-0a91-4196-8720-3992b84ef3dc
-< client-request-id: f1194544-0a91-4196-8720-3992b84ef3dc
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000160"}}
+< strict-transport-security: max-age=31536000
+< request-id: f7927226-f660-43b0-aa07-fa8a0796ec11
+< client-request-id: f7927226-f660-43b0-aa07-fa8a0796ec11
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00001144"}}
   

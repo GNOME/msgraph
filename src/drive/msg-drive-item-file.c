@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
 
 #include "drive/msg-drive-item-file.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 struct _MsgDriveItemFile {
   MsgDriveItem parent_instance;
@@ -65,28 +66,18 @@ msg_drive_item_file_new (void)
 /**
  * msg_drive_item_file_new_from_json:
  * @object: The json object to parse
- * @error: a #GError
  *
  * Creates a new `MsgDriveItemFile` from json response object.
  *
  * Returns: the newly created `MsgDriveItemFile`
  */
 MsgDriveItemFile *
-msg_drive_item_file_new_from_json (JsonObject  *object,
-                                   GError     **error)
+msg_drive_item_file_new_from_json (JsonObject *object)
 {
   MsgDriveItemFile *self = msg_drive_item_file_new ();
   JsonObject *file = json_object_get_object_member (object, "file");
 
-  if (!json_object_has_member (file, "mimeType")) {
-    g_set_error_literal (error,
-                         MSG_ERROR,
-                         MSG_ERROR_FAILED,
-                         "'file' has no 'mimeType' member");
-    return NULL;
-  }
-
-  self->mime_type = g_strdup (json_object_get_string_member (file, "mimeType"));
+  self->mime_type = g_strdup (msg_json_object_get_string (file, "mimeType"));
 
   if (json_object_has_member (object, "thumbnails")) {
     JsonArray *array;
@@ -104,7 +95,7 @@ msg_drive_item_file_new_from_json (JsonObject  *object,
       item_object = json_array_get_object_element (array, index);
       small = json_object_get_object_member (item_object, "small");
 
-      self->thumbnail_uri = g_strdup (json_object_get_string_member (small, "url"));
+      self->thumbnail_uri = g_strdup (msg_json_object_get_string (small, "url"));
     }
   }
 

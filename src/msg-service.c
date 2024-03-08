@@ -1,4 +1,4 @@
-/* Copyright 2022-2023 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 #include "msg-service.h"
 
 #include "msg-error.h"
+#include "msg-json-utils.h"
 #include "msg-private.h"
 
 typedef struct _MsgServicePrivate MsgServicePrivate;
@@ -45,18 +46,12 @@ msg_service_refresh_authorization (MsgService    *self,
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
 
-  if (!priv->authorizer || !MSG_IS_AUTHORIZER (priv->authorizer)) {
-    g_set_error (error,
-                 MSG_ERROR,
-                 MSG_ERROR_FAILED,
-                 "Authorizer is NULL or is not an MSG_AUTHORIZER instance");
+  if (!priv->authorizer) {
+    g_set_error (error, MSG_ERROR, MSG_ERROR_FAILED, "Authorizer is NULL");
     return FALSE;
   }
 
-  if (!msg_authorizer_refresh_authorization (priv->authorizer, cancellable, error))
-    return FALSE;
-
-  return TRUE;
+  return msg_authorizer_refresh_authorization (priv->authorizer, cancellable, error);
 }
 
 guint
@@ -67,11 +62,9 @@ msg_service_get_https_port (void)
   /* Allow changing the HTTPS port just for testing. */
   port_string = g_getenv ("MSG_HTTPS_PORT");
   if (port_string != NULL) {
-    const char *end;
+    guint64 port = g_ascii_strtoull (port_string, NULL, 10);
 
-    guint64 port = g_ascii_strtoull (port_string, (gchar **)&end, 10);
-
-    if (port != 0 && *end == '\0') {
+    if (port != 0) {
       g_debug ("Overriding message port to %" G_GUINT64_FORMAT ".", port);
       return port;
     }
@@ -131,7 +124,8 @@ msg_service_build_message (MsgService *self,
 
   _uri_parsed = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS, NULL);
   _uri = soup_uri_copy (_uri_parsed, SOUP_URI_PORT, msg_service_get_https_port (), SOUP_URI_NONE);
-  g_assert_cmpstr (g_uri_get_scheme (_uri), ==, "https");
+  if (g_strcmp0 (g_uri_get_scheme (_uri), "https") != 0)
+    return NULL;
 
   message = msg_service_new_message_from_uri (self, method, _uri);
   if (etag)
@@ -164,7 +158,6 @@ msg_service_send (MsgService    *self,
   return soup_session_send (priv->session, message, cancellable, error);
 }
 
-
 /**
  * msg_service_send_and_read:
  * @self: a msg service
@@ -174,7 +167,7 @@ msg_service_send (MsgService    *self,
  *
  * Adds authorizer information to `message` and send it.
  *
- * Returns: http status code of the response
+ * Returns: (transfer full): a #GBytes or %NULL on error.
  */
 GBytes *
 msg_service_send_and_read (MsgService    *self,
@@ -188,6 +181,37 @@ msg_service_send_and_read (MsgService    *self,
 
   return soup_session_send_and_read (priv->session, message, cancellable, error);
 }
+
+/**
+ * msg_service_send_and_parse_response:
+ * @self: a msg service
+ * @message: a #SoupMessage
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * A combination of `msg_service_send_and_read` and `msg_service_parse_response`
+ *
+ * Returns: (transfer full): a #JsonParser or %NULL on error
+ */
+JsonParser *
+msg_service_send_and_parse_response (MsgService    *self,
+                                     SoupMessage   *message,
+                                     JsonObject   **object,
+                                     GCancellable  *cancellable,
+                                     GError       **error)
+{
+  MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
+  g_autoptr (GBytes) response = NULL;
+
+  msg_authorizer_process_request (priv->authorizer, message);
+
+  response = soup_session_send_and_read (priv->session, message, cancellable, error);
+  if (!response)
+    return NULL;
+
+  return msg_service_parse_response (response, object, error);
+}
+
 
 static void
 msg_service_set_authorizer (MsgService    *self,
@@ -247,8 +271,8 @@ soup_log_printer (__attribute__ ((unused)) SoupLogger        *logger,
   g_debug ("%c %s", direction, data);
 }
 
-MsgLogLevel
-msg_servie_get_log_level (void)
+SoupLoggerLogLevel
+msg_service_get_log_level (void)
 {
   static int level = -1;
 
@@ -258,8 +282,6 @@ msg_servie_get_log_level (void)
     if (env != NULL) {
       level = atoi (env);
     }
-
-    level = MIN (MAX (level, 0), MSG_LOG_FULL_UNREDACTED);
   }
 
   return level;
@@ -278,25 +300,10 @@ msg_service_init (MsgService *self)
     g_object_set_data (G_OBJECT (priv->session), "msg-lax-ssl", (gpointer)TRUE);
   }
 
-  if (msg_servie_get_log_level () > MSG_LOG_MESSAGES) {
+  if (msg_service_get_log_level () > SOUP_LOGGER_LOG_NONE) {
     g_autoptr (SoupLogger) logger = NULL;
-    SoupLoggerLogLevel level;
 
-    switch (msg_servie_get_log_level ()) {
-      case MSG_LOG_FULL_UNREDACTED:
-      case MSG_LOG_FULL:
-        level = SOUP_LOGGER_LOG_BODY;
-        break;
-      case MSG_LOG_HEADERS:
-        level = SOUP_LOGGER_LOG_HEADERS;
-        break;
-      case MSG_LOG_MESSAGES:
-      case MSG_LOG_NONE:
-      default:
-        g_assert_not_reached ();
-    }
-
-    logger = soup_logger_new (level);
+    logger = soup_logger_new (msg_service_get_log_level ());
     soup_logger_set_printer (logger, (SoupLoggerPrinter)soup_log_printer, NULL, NULL);
     soup_session_add_feature (priv->session, SOUP_SESSION_FEATURE (logger));
   }
@@ -319,12 +326,6 @@ msg_service_class_init (MsgServiceClass *class)
   g_object_class_install_properties (object_class, PROP_COUNT, properties);
 }
 
-MsgService *
-msg_service_new (MsgAuthorizer *authorizer)
-{
-  return g_object_new (MSG_TYPE_SERVICE, "authorizer", authorizer, NULL);
-}
-
 /**
  * msg_service_parse_response:
  * @bytes: input bytes containing response buffer
@@ -342,7 +343,6 @@ msg_service_parse_response (GBytes      *bytes,
                             GError     **error)
 {
   JsonParser *parser = NULL;
-  g_autoptr (GError) local_error = NULL;
   JsonObject *root_object = NULL;
   JsonNode *root = NULL;
   const char *content;
@@ -351,10 +351,8 @@ msg_service_parse_response (GBytes      *bytes,
   content = g_bytes_get_data (bytes, &len);
 
   parser = json_parser_new ();
-  if (!json_parser_load_from_data (parser, content, len, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!json_parser_load_from_data (parser, content, len, error))
     return NULL;
-  }
 
   root = json_parser_get_root (parser);
   if (!JSON_NODE_HOLDS_OBJECT (root)) {
@@ -413,4 +411,18 @@ msg_service_get_authorizer (MsgService *self)
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
   return priv->authorizer;
+}
+
+/**
+ * msg_service_get_next_link:
+ * @object: a #JsonObject
+ *
+ * Get next link
+ *
+ * Returns: (transfer full): next link or %NULL if not available
+ */
+char *
+msg_service_get_next_link (JsonObject *object)
+{
+  return g_strdup (msg_json_object_get_string (object, "@odata.nextLink"));
 }

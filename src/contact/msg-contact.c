@@ -16,6 +16,7 @@
 
 #include "contact/msg-contact.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 /**
  * MsgContact:
@@ -91,16 +92,10 @@ msg_contact_new_from_json (JsonObject                       *json_object,
   MsgContact *self;
 
   self = msg_contact_new ();
-  g_assert (self != NULL);
-
-  if (json_object_has_member (json_object, "displayName"))
-    self->name = g_strdup (json_object_get_string_member (json_object, "displayName"));
-  if (json_object_has_member (json_object, "givenName"))
-    self->given_name = g_strdup (json_object_get_string_member (json_object, "givenName"));
-  if (json_object_has_member (json_object, "surname"))
-    self->surname = g_strdup (json_object_get_string_member (json_object, "surname"));
-  if (json_object_has_member (json_object, "id"))
-    self->id = g_strdup (json_object_get_string_member (json_object, "id"));
+  self->name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
+  self->given_name = g_strdup (msg_json_object_get_string (json_object, "givenName"));
+  self->surname = g_strdup (msg_json_object_get_string (json_object, "surname"));
+  self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
 
   return self;
 }

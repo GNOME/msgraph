@@ -1,25 +1,23 @@
-> GET /v1.0/me/drives HTTP/1.1
-> Soup-Debug-Timestamp: 1709240084
-> Soup-Debug: SoupSession 1 (0x15c40c0), SoupMessage 2 (0x235dea0), GSocket 1 (0x15fdba0)
-> Authorization: Bearer EwB4A8l6BAAUs5+HQn0N+h2FxWzLS31ZgQVuHsYAAVr1RA8RUiw1sG/KcRAnKlC8WN7QwQ4cKulQHecZAATDcdir/fg2BbAsdmw26b1Qp9VPTwassNzIQH5jBOoqb4pIl+r0TRP5wMHSANn73Jc2umOzR77bmBE+QqNxnpNb+VNT3h0/RPKOSfp35K4H6zjYaQGlRa/tncppqAp6kCOX0J00uSVk+KF/zTVfldCQfh2E9AXhU8QHb5EySzkz0zn1QF5Xni7rdRuxmCuWU9bz/l+YENZBgX2+GmpYf7Eh6lWqnq62yk6HOQQYYqdtJvyf5XiBruSJJ99e2IvTEEqRR/c2eC3M6j/WQHVIFkt1KGNv+6fJJtVaQJl33oML5RUDZgAACHKPOt0Bsoa7SALTkxt5cqKVMpDN2fyk8iBlt4D04eCBgnMueYZ4FKW7lJdViHZ5Mu8jaNWhfPbodII0zrIVWdV+Yd1ZPyfVHO+Vt1Ss7WW7KpRBM5RYN3ugpwBRBjhx76K7vFGCW1iHF2cU+EAQuyjwYClhyO/eyCgEqb2uc/BgLI857n00tFVbwTqRXaH3omsnlx4Ssw+dz6NGjIKRd8GCzelsVnMXGdrQ0uXcr3ia7ozxV34XDGhgoPC7h8TuS2Ov3CSt015Qo5IzjzEJCB4ZSOqigNUvbi+Kwgvy5gRJDwMbuzeiiiAREueEOpNCo8P131kGztb1nayvQqZ+8WupMCWvLnc1hjMan7og52Of8pRvpmbFTq65UgcXczvMHmJSNAs87fbCybYswYrUOG3J9DgvsJKzKiO1WyB4mLP5+EF05m6oEiym7dNeHXDl6zLhXne9setFq8T52yRUFFwfdzEiVNaXbA9MT4YhXvg9/m8mMmen8qaKDQzT8VL17XpuRgQZel0xjdPYUWP3igqHQtTFjm5/5LcyYVZvia2DA1tAhghyTVdWnBuvxRyurYNZZCLsa2kDfkZu+Kq0NDWnKQtBYomsuU73SzPvg8abdGxYbGl3Nwfjpt8yto1mwIsxswjSIJVbO9MTn6gRqBuMv0Dt++sAeccue9CaI/T346DTuA5M/wVik82v/UoUWUN/WUxQtYrmFvy4gLJil3QCX2ZpR1HvnJNHtG/qDVsexGbFtcwPlJma1gySzgbxxcV95yaI0bj1TDesyl19/QQ1bYgC
+> GET /v1.0/me/drives HTTP/2
+> Soup-Debug-Timestamp: 1715762855
+> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 1 (0x1e575d0), GSocket 1 (0x1e75eb0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwB4A8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAdIxzxcQuYttSr6lATXdw/BHsM5ptTSicVcI8tNNyCW2ooQII/vWP+RrFAa7yM0eWCMuvNj1+MPWBJ9q/g55X9ZWjRMAuMRJdUnXkpTTU2imFyUYbjNrGxZWJnfT3wqiuOy9gtSryF5UXqcNgtxJe1bBVDKcyTKyWZIFauJzoCkOyvv/MrEPmZWc217KDjZ5Egd9zKL+t2TIwFxVGMnQHBcz0kWgdSBe+kBn+2eInLaF/vkn6Z2WITfL9Gs+WHLOkuNfKidzqVqORW5AMg7cNXx9hFoye7kRHCMziCQ6vYhd2x0dRq8biMihcsnrwuDJfit4Pi7ORFfPrW1pOvEaTkcDZgAACEikrRIIKPu4SAIcVrwe4bk+CXAfmWmNQnzuDqTQ/TrudNtJNN6mdryfE9dsYe81BAffJyd3hZOR9CmNs25Oyoj+H6ZSLd9z42ldKYxB7GDdkFgW0kIBBjo+SmE+yILaklVHPGGbu3cd3QFMSlaCoru8PxPk+qn25QzRA0gmx/oHOi6Tht+GJsk7HDXb5UnEtCFp13imcWCXMNioX8YwCTIcKb2OE2U6IAOGDP7+oBVlEqOhPCGOYlkeg0FWTOErM2dosqvO+LinDOty35KNrzqzhpxByYwasEcO40WBjLPyrhvCmmWUclRzH3Rf8rfv9Xuw6D4SoHg384qlxhsgyLXLu53iRN5WdQ2EHKBDGs/gcGlABW9q8BbNAoNkcv/30zFSaHAt8ufFA2bPW8uimkk99CuVDPbyhLSj+CEL73CLYcGmfY1eZBjGfG33D6HwNE/9ysKA6vHkD0RPWtz0jgLSyYbu+L5TOirM2BAxCjrD9zZoLUKMkmISfPqdN/xSChIK4tukhIyXoQ6pNkGZU7von/4YI/r2HBEG/JMfVZ+4eJRftfggyM8de3gyV8PA4WRtzVoRYV1WZColQ3lUCfA8TL2gspBL1EMrXEpRcq0vQA7DghSSRpuDdkcALLsbqPih/oxHooeXh73vycRw8FDeUJMl3XfUejER/OhBLD9o09aKcIPGt2mM8IJsQ14Jw7vSBR+n5AOkkOXaZlMcVWyaUg9yZefyEObJ8rkRAy4Uo0QTP4kCH8cuohLtMMOPYKkXzuxQ9DcE4AlDOPNgNDOBRYgC
 > Accept-Encoding: gzip, deflate, br
-> Connection: Keep-Alive
-> Host: graph.microsoft.com
   
-< HTTP/1.1 200 OK
-< Soup-Debug-Timestamp: 1709240084
-< Soup-Debug: SoupMessage 2 (0x235dea0)
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1715762855
+< Soup-Debug: SoupMessage 1 (0x1e575d0)
 < Cache-Control: no-store
-< Transfer-Encoding: chunked
 < Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
 < Content-Encoding: gzip
 < Vary: Accept-Encoding
-< Date: Thu, 29 Feb 2024 20:54:44 GMT
-< Strict-Transport-Security: max-age=31536000
-< request-id: e1035b0c-04d9-4adf-9120-75792e420caf
-< client-request-id: e1035b0c-04d9-4adf-9120-75792e420caf
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003B3"}}
-< OData-Version: 4.0
+< Date: Wed, 15 May 2024 08:47:34 GMT
+< strict-transport-security: max-age=31536000
+< request-id: d8886d33-7d67-4f37-b45c-b4715c3fb58d
+< client-request-id: d8886d33-7d67-4f37-b45c-b4715c3fb58d
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00001145"}}
+< odata-version: 4.0
 < 
-< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives","value":[{"driveType":"personal","id":"4f62a7105c03556e","owner":{"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"quota":{"deleted":158844,"remaining":5367012672,"state":"normal","total":5368709120,"used":1696448,"storagePlanInformation":{"upgradeAvailable":true}}}]}
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives","value":[{"driveType":"personal","id":"4f62a7105c03556e","owner":{"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"quota":{"deleted":136152,"remaining":5367012672,"state":"normal","total":5368709120,"used":1696448,"storagePlanInformation":{"upgradeAvailable":true}}}]}
   

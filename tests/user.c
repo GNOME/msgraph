@@ -14,6 +14,15 @@ typedef struct {
 } TempUserData;
 
 static void
+test_finalize (void)
+{
+  g_autoptr (MsgUser) user = NULL;
+
+  user = msg_user_new ();
+  g_clear_object (&user);
+}
+
+static void
 test_get_user (void)
 {
   g_autoptr (MsgUser) user = NULL;
@@ -25,6 +34,10 @@ test_get_user (void)
   g_assert (user);
 
   g_assert_nonnull (msg_user_get_mail (user));
+  g_clear_object (&user);
+
+  user = msg_user_service_get_user (MSG_USER_SERVICE (service), "unknown", NULL, &error);
+  g_assert (!user);
 
   uhm_server_end_trace (mock_server);
 }
@@ -72,6 +85,7 @@ main (int    argc,
   if (!uhm_server_get_enable_online (mock_server))
     soup_session_set_proxy_resolver (msg_service_get_session (service), G_PROXY_RESOLVER (uhm_server_get_resolver (mock_server)));
 
+  g_test_add_func ("/user/finalize", test_finalize);
   g_test_add_func ("/user/get/user", test_get_user);
 
   retval = g_test_run ();

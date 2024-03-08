@@ -16,6 +16,7 @@
 
 #include "user/msg-user.h"
 #include "msg-error.h"
+#include "msg-json-utils.h"
 
 /**
  * MsgUser:
@@ -83,12 +84,7 @@ msg_user_new_from_json (JsonObject                       *json_object,
   MsgUser *self;
 
   self = msg_user_new ();
-  g_assert (self != NULL);
-
-  if (json_object_has_member (json_object, "mail"))
-    self->mail = g_strdup (json_object_get_string_member (json_object, "mail"));
-  else
-    self->mail = g_strdup ("");
+  self->mail = g_strdup (msg_json_object_get_string (json_object, "mail"));
 
   return self;
 }
@@ -97,7 +93,7 @@ msg_user_new_from_json (JsonObject                       *json_object,
  * msg_user_get_mail:
  * @self: a user
  *
- * Returns: (transfer none): mail of user
+ * Returns: (transfer none): mail of user or %NULL if not existing
  */
 const char *
 msg_user_get_mail (MsgUser *self)

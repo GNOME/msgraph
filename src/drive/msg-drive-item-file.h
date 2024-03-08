@@ -41,8 +41,7 @@ MsgDriveItemFile *
 msg_drive_item_file_new (void);
 
 MsgDriveItemFile *
-msg_drive_item_file_new_from_json (JsonObject  *object,
-                                   GError     **error);
+msg_drive_item_file_new_from_json (JsonObject  *object);
 
 const char *
 msg_drive_item_file_get_mime_type (MsgDriveItemFile *self);

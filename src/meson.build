@@ -20,6 +20,7 @@ msgraph_sources = files(
   'msg-error.c',
   'msg-goa-authorizer.c',
   'msg-input-stream.c',
+  'msg-json-utils.c',
   'msg-oauth2-authorizer.c',
   'msg-service.c',
 )
@@ -42,6 +43,7 @@ msgraph_headers = files(
   'msg-error.h',
   'msg-goa-authorizer.h',
   'msg-input-stream.h',
+  'msg-json-utils.h',
   'msg-oauth2-authorizer.h',
   'msg-private.h',
   'msg-service.h',

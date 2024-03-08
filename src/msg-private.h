@@ -22,13 +22,5 @@ G_BEGIN_DECLS
 
 #define MSG_API_ENDPOINT "https://graph.microsoft.com/v1.0"
 
-typedef enum {
-  MSG_LOG_NONE = 0,
-  MSG_LOG_MESSAGES = 1,
-  MSG_LOG_HEADERS = 2,
-  MSG_LOG_FULL = 3,
-  MSG_LOG_FULL_UNREDACTED = 4,
-} MsgLogLevel;
-
 G_END_DECLS
 

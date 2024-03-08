@@ -32,8 +32,6 @@ struct _MsgServiceClass {
 
 G_DECLARE_DERIVABLE_TYPE (MsgService, msg_service, MSG, SERVICE, GObject);
 
-MsgService *msg_service_new (MsgAuthorizer *authorizer);
-
 gboolean
 msg_service_refresh_authorization(MsgService    *self,
                                   GCancellable  *cancellable,
@@ -77,5 +75,15 @@ msg_service_get_session (MsgService *self);
 
 MsgAuthorizer *
 msg_service_get_authorizer (MsgService *self);
+
+JsonParser *
+msg_service_send_and_parse_response (MsgService    *self,
+                                     SoupMessage   *message,
+                                     JsonObject   **object,
+                                     GCancellable  *cancellable,
+                                     GError       **error);
+
+char *
+msg_service_get_next_link (JsonObject *object);
 
 G_END_DECLS

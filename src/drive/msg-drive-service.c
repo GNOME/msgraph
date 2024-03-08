@@ -72,63 +72,50 @@ msg_drive_service_get_drives (MsgDriveService  *self,
                               GCancellable     *cancellable,
                               GError          **error)
 {
-  g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *url = NULL;
   JsonObject *root_object = NULL;
   JsonArray *array = NULL;
   guint array_length = 0, index = 0;
-  GList *list = NULL;
+  g_autolist (MsgDrive) list = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT, "/me/drives", NULL);
 
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    MsgDrive *drive = NULL;
-    JsonObject *drive_object = NULL;
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      MsgDrive *drive = NULL;
+      JsonObject *drive_object = NULL;
+      g_autoptr (GError) local_error = NULL;
 
-    drive_object = json_array_get_object_element (array, index);
-    drive = msg_drive_new_from_json (drive_object, &local_error);
-    if (drive) {
-      list = g_list_append (list, drive);
-    } else {
-      g_warning ("Could not parse drive object: %s", local_error->message);
-      g_clear_error (&local_error);
+      drive_object = json_array_get_object_element (array, index);
+      drive = msg_drive_new_from_json (drive_object, &local_error);
+      if (drive) {
+        list = g_list_append (list, drive);
+      } else {
+        g_warning ("Could not parse drive object: %s", local_error->message);
+      }
     }
-  }
 
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
-  return list;
+  return g_steal_pointer (&list);
 }
 
 /**
@@ -148,40 +135,22 @@ msg_drive_service_get_root (MsgDriveService  *self,
                             GCancellable     *cancellable,
                             GError          **error)
 {
-  g_autoptr (MsgDriveItem) item = NULL;
   g_autofree char *url = NULL;
   g_autoptr (SoupMessage) message = NULL;
   JsonObject *root_object = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT, "/drives/", msg_drive_get_id (drive), "/root", NULL);
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return g_steal_pointer (&item);
+  return msg_drive_item_new_from_json (root_object, error);
 }
 
 /**
@@ -201,7 +170,6 @@ msg_drive_service_download_item (MsgDriveService  *self,
                                  GCancellable     *cancellable,
                                  GError          **error)
 {
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *url = NULL;
 
   if (!MSG_IS_DRIVE_ITEM_FILE (item)) {
@@ -209,10 +177,8 @@ msg_drive_service_download_item (MsgDriveService  *self,
     return NULL;
   }
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -242,8 +208,6 @@ msg_drive_service_list_children (MsgDriveService  *self,
                                  GCancellable     *cancellable,
                                  GError          **error)
 {
-  g_autoptr (GError) local_error = NULL;
-  g_autoptr (SoupMessage) message = NULL;
   g_autoptr (MsgDriveItem) child_item = NULL;
   g_autofree char *url = NULL;
   JsonObject *root_object = NULL;
@@ -254,10 +218,8 @@ msg_drive_service_list_children (MsgDriveService  *self,
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -268,44 +230,34 @@ msg_drive_service_list_children (MsgDriveService  *self,
                      "?$expand=thumbnails",
                      NULL);
 
-  g_debug ("%s: url=%s\n", __FUNCTION__, url);
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL /*msg_drive_item_get_etag (item)*/, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    item_object = json_array_get_object_element (array, index);
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      g_autoptr (GError) local_error = NULL;
+      item_object = json_array_get_object_element (array, index);
 
-    child_item = msg_drive_item_new_from_json (item_object, &local_error);
-    if (local_error) {
-      g_warning ("Could not read child item: %s", local_error->message);
-      g_clear_error (&local_error);
-      continue;
+      child_item = msg_drive_item_new_from_json (item_object, &local_error);
+      if (local_error) {
+        g_warning ("Could not read child item: %s", local_error->message);
+        continue;
+      }
+
+      children = g_list_prepend (children, g_steal_pointer (&child_item));
     }
 
-    children = g_list_prepend (children, g_steal_pointer (&child_item));
-  }
-
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
   return g_steal_pointer (&children);
 }
@@ -331,20 +283,16 @@ msg_drive_service_rename (MsgDriveService  *self,
 {
   g_autoptr (SoupMessage) message = NULL;
   g_autoptr (JsonBuilder) builder = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autoptr (JsonNode) rename_node = NULL;
   g_autofree char *url = NULL;
   g_autofree char *json = NULL;
-  MsgDriveItem *renamed_item = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -366,25 +314,11 @@ msg_drive_service_rename (MsgDriveService  *self,
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  renamed_item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return renamed_item;
+  return msg_drive_item_new_from_json (root_object, error);
 }
 
 /**
@@ -404,17 +338,9 @@ msg_drive_service_download_url (MsgDriveService  *self,
                                 GCancellable     *cancellable,
                                 GError          **error)
 {
-  g_autoptr (GInputStream) stream = NULL;
-  g_autoptr (GError) local_error = NULL;
   SoupMessage *message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
 
-  stream = msg_service_send (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return g_steal_pointer (&stream);
+  return msg_service_send (MSG_SERVICE (self), message, cancellable, error);
 }
 
 /**
@@ -436,22 +362,18 @@ msg_drive_service_create_folder (MsgDriveService  *self,
                                  GCancellable     *cancellable,
                                  GError          **error)
 {
-  MsgDriveItem *new_item = NULL;
   g_autofree char *url = NULL;
   g_autoptr (SoupMessage) message = NULL;
   g_autofree char *json = NULL;
   g_autoptr (JsonBuilder) builder = NULL;
   g_autoptr (JsonNode) create_node = NULL;
   JsonObject *root_object = NULL;
-  GError *local_error = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -479,25 +401,11 @@ msg_drive_service_create_folder (MsgDriveService  *self,
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error != NULL) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  new_item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (local_error != NULL) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return new_item;
+  return msg_drive_item_new_from_json (root_object, error);
 }
 
 /**
@@ -519,12 +427,10 @@ msg_drive_service_delete (MsgDriveService  *self,
 {
   g_autoptr (SoupMessage) message = NULL;
   g_autofree char *url = NULL;
-  g_autoptr (GError) local_error = NULL;
+  g_autoptr (GBytes) bytes = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return FALSE;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -535,13 +441,8 @@ msg_drive_service_delete (MsgDriveService  *self,
 
   message = msg_service_build_message (MSG_SERVICE (self), "DELETE", url, NULL, FALSE);
 
-  msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return FALSE;
-  }
-
-  return TRUE;
+  bytes = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
+  return bytes != NULL;
 }
 
 /**
@@ -563,7 +464,6 @@ msg_drive_service_update (MsgDriveService  *self,
 {
   GOutputStream *stream = NULL;
   g_autofree char *url = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autoptr (JsonBuilder) builder = NULL;
   g_autoptr (JsonNode) create_node = NULL;
   g_autoptr (SoupMessage) message = NULL;
@@ -574,10 +474,8 @@ msg_drive_service_update (MsgDriveService  *self,
   const char *upload_url;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -586,8 +484,6 @@ msg_drive_service_update (MsgDriveService  *self,
                      msg_drive_item_get_id (item),
                      "/createUploadSession",
                      NULL);
-
-  g_debug ("%s: url=%s\n", __FUNCTION__, url);
 
   message = msg_service_build_message (MSG_SERVICE (self), "POST", url, NULL, FALSE);
   builder = json_builder_new ();
@@ -601,17 +497,9 @@ msg_drive_service_update (MsgDriveService  *self,
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
-
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
 
   if (!json_object_has_member (root_object, "uploadUrl")) {
     g_set_error (error,
@@ -650,9 +538,7 @@ msg_drive_service_update_finish (MsgDriveService  *self,
                                  GError          **error)
 {
   GBytes *bytes;
-  MsgDriveItem *new_item;
   g_autofree char *url = NULL;
-  g_autoptr (GError) local_error = NULL;
   SoupMessage *message = NULL;
   JsonObject *root_object = NULL;
   gconstpointer data;
@@ -661,10 +547,8 @@ msg_drive_service_update_finish (MsgDriveService  *self,
   GBytes *body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -682,25 +566,11 @@ msg_drive_service_update_finish (MsgDriveService  *self,
   body = g_bytes_new (data, len);
   soup_message_set_request_body_from_bytes (message, "application/octet-stream", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return NULL;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  new_item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (local_error != NULL) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
-
-  return new_item;
+  return msg_drive_item_new_from_json (root_object, error);
 }
 
 /**
@@ -724,17 +594,14 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
 {
   g_autofree char *url = NULL;
   g_autoptr (SoupMessage) message = NULL;
-  g_autoptr (GError) local_error = NULL;
   g_autofree char *escaped_name = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
   GBytes *body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return FALSE;
-  }
 
   escaped_name = g_uri_escape_string (msg_drive_item_get_name (item), NULL, TRUE);
   url = g_strconcat (MSG_API_ENDPOINT,
@@ -751,25 +618,11 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
   body = g_bytes_new ("", 0);
   soup_message_set_request_body_from_bytes (message, "text/plain", body);
 
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
     return FALSE;
-  }
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return FALSE;
-  }
-
-  item = msg_drive_item_new_from_json (root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return FALSE;
-  }
-
-  return item;
+  return msg_drive_item_new_from_json (root_object, error);
 }
 
 /**
@@ -787,8 +640,6 @@ msg_drive_service_get_shared_with_me (MsgDriveService  *self,
                                       GCancellable     *cancellable,
                                       GError          **error)
 {
-  g_autoptr (GError) local_error = NULL;
-  g_autoptr (SoupMessage) message = NULL;
   g_autoptr (MsgDriveItem) child_item = NULL;
   g_autofree char *url = NULL;
   JsonObject *root_object = NULL;
@@ -799,52 +650,40 @@ msg_drive_service_get_shared_with_me (MsgDriveService  *self,
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
-  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
-  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/me/drive/sharedWithMe",
                      NULL);
-  g_debug ("%s: url=%s\n", __FUNCTION__, url);
-next:
-  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-  response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+  do {
+    g_autoptr (SoupMessage) message = NULL;
 
-  parser = msg_service_parse_response (response, &root_object, &local_error);
-  if (local_error) {
-    g_propagate_error (error, g_steal_pointer (&local_error));
-    return NULL;
-  }
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
 
-  array = json_object_get_array_member (root_object, "value");
-  g_assert (array != NULL);
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
 
-  array_length = json_array_get_length (array);
-  for (index = 0; index < array_length; index++) {
-    item_object = json_array_get_object_element (array, index);
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      g_autoptr (GError) local_error = NULL;
+      item_object = json_array_get_object_element (array, index);
 
-    child_item = msg_drive_item_new_from_json (item_object, &local_error);
-    if (local_error) {
-      g_warning ("Could not load shared with me item: %s", local_error->message);
-      g_clear_error (&local_error);
-      continue;
+      child_item = msg_drive_item_new_from_json (item_object, &local_error);
+      if (local_error) {
+        g_warning ("Could not load shared with me item: %s", local_error->message);
+        continue;
+      }
+
+      children = g_list_prepend (children, g_steal_pointer (&child_item));
     }
 
-    children = g_list_prepend (children, g_steal_pointer (&child_item));
-  }
-
-  if (json_object_has_member (root_object, "@odata.nextLink")) {
     g_clear_pointer (&url, g_free);
-    url = g_strdup (json_object_get_string_member (root_object, "@odata.nextLink"));
-    g_clear_object (&message);
-    goto next;
-  }
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
 
   return g_steal_pointer (&children);
 }
