@@ -27,7 +27,6 @@ src_inc = include_directories('src')
 glib_dep = dependency('glib-2.0', version: '>= 2.28')
 gio_dep = dependency('gio-2.0')
 json_dep = dependency('json-glib-1.0')
-rest_dep = dependency('rest-1.0')
 libsoup_dep = dependency('libsoup-3.0')
 goa_dep = dependency('goa-1.0')
 

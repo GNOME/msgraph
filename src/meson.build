@@ -70,7 +70,6 @@ msgraph_deps = [
   glib_dep,
   gio_dep,
   json_dep,
-  rest_dep,
   libsoup_dep,
   goa_dep,
 ]
@@ -116,7 +115,6 @@ if get_option('introspection')
       'Goa-1.0',
       'Json-1.0',
       'Soup-3.0',
-      'Rest-1.0',
     ],
     install: true,
     extra_args:  msgraph_gir_extra_args,

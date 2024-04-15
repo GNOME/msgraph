@@ -13,7 +13,6 @@ dependencies = [
   'Goa-1.0',
   'Json-1.0',
   'Soup-3.0',
-  'Rest-1.0',
 ]
 devhelp = true
 search_index = true
@@ -47,11 +46,6 @@ docs_url = "https://gnome.pages.gitlab.gnome.org/json-glib/"
 name = "Soup"
 description = "HTTP client/server library for GNOME"
 docs_url = "https://libsoup.org/libsoup-3.0/index.html"
-
-[dependencies."Rest-1.0"]
-name = "Rest"
-description = "REST client library"
-docs_url = "https://gnome.pages.gitlab.gnome.org/librest/"
 
 [theme]
 name = "basic"

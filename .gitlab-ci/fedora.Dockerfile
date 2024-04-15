@@ -9,7 +9,6 @@ RUN dnf -y update \
     gi-docgen \
     meson \
     json-glib-devel \
-    rest-devel \
     libsoup3-devel \
     gnome-online-accounts-devel \
     gobject-introspection-devel \

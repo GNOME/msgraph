@@ -18,7 +18,6 @@
 
 #include <glib.h>
 #include <libsoup/soup.h>
-#include <rest/rest-proxy-call.h>
 
 #include "msg-authorizer.h"
 #include "msg-goa-authorizer.h"
