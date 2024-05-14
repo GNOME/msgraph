@@ -6,6 +6,7 @@ tests_sources = files(
 common_deps = [
   libmsgraph_dep,
   libuhttpmock_dep,
+  libxml_dep,
 ]
 
 # The empty objects may be used in future for keeping custom
