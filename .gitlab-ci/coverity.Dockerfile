@@ -1,4 +1,4 @@
-FROM registry.gitlab.gnome.org/gnome/msgraph/fedora:v1
+FROM registry.gitlab.gnome.org/gnome/msgraph/fedora:v2
 
 ARG COVERITY_SCAN_PROJECT_NAME
 ARG COVERITY_SCAN_TOKEN
