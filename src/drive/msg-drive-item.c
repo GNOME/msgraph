@@ -115,13 +115,19 @@ msg_drive_item_new_from_json (JsonObject  *object,
 
   priv = msg_drive_item_get_instance_private (self);
   priv->is_shared = remote;
-  priv->id = g_strdup (msg_json_object_get_string (object, "id"));
+
+  priv->id = g_strdup (msg_json_object_get_string (obj, "id"));
 
   if (json_object_has_member (obj, "parentReference")) {
     JsonObject *parent_reference = json_object_get_object_member (obj, "parentReference");
 
     priv->drive_id = g_strdup (msg_json_object_get_string (parent_reference, "driveId"));
 
+    priv->parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
+  }
+
+  if (!priv->parent_id) {
+    JsonObject *parent_reference = json_object_get_object_member (object, "parentReference");
     priv->parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
   }
 

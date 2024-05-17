@@ -98,6 +98,16 @@ msg_input_stream_new (MsgService *service,
   return G_INPUT_STREAM (stream);
 }
 
+static void
+on_restarted (SoupMessage *msg,
+              gpointer     user_data)
+{
+  SoupMessageHeaders *headers = soup_message_get_request_headers (msg);
+
+  g_debug ("Removing Authorization header\n");
+  soup_message_headers_remove (headers, "Authorization");
+}
+
 static SoupMessage *
 msg_input_stream_ensure_msg (GInputStream *stream)
 {
@@ -105,6 +115,7 @@ msg_input_stream_ensure_msg (GInputStream *stream)
 
   if (!priv->msg){
     priv->msg = msg_service_build_message (MSG_SERVICE (priv->service), "GET", priv->uri, NULL, FALSE);
+    g_signal_connect (G_OBJECT (priv->msg), "restarted", G_CALLBACK (on_restarted), stream);
     msg_authorizer_process_request (msg_service_get_authorizer (priv->service), priv->msg);
 
     priv->offset = 0;
