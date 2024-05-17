@@ -132,6 +132,10 @@ msg_drive_item_new_from_json (JsonObject  *object,
   }
 
   priv->name = g_strdup (msg_json_object_get_string (obj, "name"));
+  if (!priv->name) {
+    priv->name = g_strdup (msg_json_object_get_string (object, "name"));
+  }
+
   priv->size = json_object_get_int_member (obj, "size");
   priv->etag = g_strdup (msg_json_object_get_string (object, "eTag"));
 
