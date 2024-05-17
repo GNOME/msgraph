@@ -35,7 +35,7 @@ docs_url = "https://developer.gnome.org/glib/stable"
 [dependencies."Goa-1.0"]
 name = "Goa"
 description = "GNOME Online Accounts"
-docs_url = "https://developer-old.gnome.org/goa/stable/"
+docs_url = "https://gnome.pages.gitlab.gnome.org/gnome-online-accounts/"
 
 [dependencies."Json-1.0"]
 name = "Json"
