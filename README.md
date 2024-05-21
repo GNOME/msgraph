@@ -1,6 +1,6 @@
 # libmsgraph
 
-libmsgraph is a GLib-based library for accessing online serive APIs using MS Graph protocol.
+libmsgraph is a GLib-based library for accessing online service APIs using MS Graph protocol.
 
 See the test programs in `src/tests` for simple examples of how to use the code.
 
