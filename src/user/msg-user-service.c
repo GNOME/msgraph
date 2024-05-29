@@ -86,3 +86,21 @@ msg_user_service_get_user (MsgUserService  *self,
 
   return msg_user_new_from_json (root_object, error);
 }
+
+GBytes *
+msg_user_service_get_photo (MsgUserService  *self,
+                            char            *mail,
+                            GCancellable    *cancellable,
+                            GError         **error)
+{
+  g_autoptr (SoupMessage) message = NULL;
+  g_autofree char *url = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/users/", mail, "/photo/$value", NULL);
+
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+  return msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
+}

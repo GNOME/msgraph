@@ -42,6 +42,10 @@ typedef enum {
 
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
+                                  MsgMailFolder      *folder,
+                                  const char         *delta_link,
+                                  int                 max_page_size,
+                                  char              **out_delta_link,
                                   GCancellable       *cancellable,
                                   GError            **error);
 

@@ -30,6 +30,7 @@ struct _MsgMailFolder {
   char *id;
   char *parent_folder_id;
   char *display_name;
+  int type;
   int child_folder_count;
   int unread_item_count;
   int total_item_count;
@@ -91,6 +92,7 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
 
   self = msg_mail_folder_new ();
 
+  self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
   self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
 
   self->unread_item_count = json_object_get_int_member (json_object, "unreadItemCount");
@@ -133,4 +135,10 @@ int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self)
 {
   return self->total_item_count;
+}
+
+const char *
+msg_mail_folder_get_id (MsgMailFolder *self)
+{
+  return self->id;
 }

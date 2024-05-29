@@ -86,4 +86,7 @@ msg_service_send_and_parse_response (MsgService    *self,
 char *
 msg_service_get_next_link (JsonObject *object);
 
+char *
+msg_service_get_delta_link (JsonObject *object);
+
 G_END_DECLS

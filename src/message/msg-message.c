@@ -33,6 +33,11 @@ struct _MsgMessage {
   char *subject;
   char *body_preview;
   char *body;
+
+  char *sender;
+
+  gboolean unread;
+  GDateTime *received_date;
 };
 
 G_DEFINE_TYPE (MsgMessage, msg_message, G_TYPE_OBJECT);
@@ -92,8 +97,24 @@ msg_message_new_from_json (JsonObject                       *json_object,
   MsgMessage *self;
 
   self = msg_message_new ();
+  if (json_object_has_member (json_object, "from")) {
+    JsonObject *obj = json_object_get_object_member (json_object, "from");
+    JsonObject *email_address = json_object_get_object_member (obj, "emailAddress");
+    const char *name = msg_json_object_get_string (email_address, "name");
+    /* const char *address = msg_json_object_get_string (email_address, "address"); */
+
+    self->sender = g_strdup (name);
+  }
+  self->received_date = g_date_time_new_from_iso8601 (msg_json_object_get_string (json_object, "receivedDateTime"), NULL);
   self->subject = g_strdup (msg_json_object_get_string (json_object, "subject"));
+  if (json_object_has_member (json_object, "body")) {
+    JsonObject *obj = json_object_get_object_member (json_object, "body");
+    const char *content = msg_json_object_get_string (obj, "content");
+
+    self->body = g_strdup (content);
+  }
   self->body_preview = g_strdup (msg_json_object_get_string (json_object, "bodyPreview"));
+  self->unread = msg_json_object_get_boolean (json_object, "isRead");
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
 
   return self;
@@ -146,3 +167,32 @@ msg_message_get_id (MsgMessage *self)
 {
   return self->id;
 }
+
+const char *
+msg_message_get_sender (MsgMessage *self)
+{
+  return self->sender;
+}
+
+gboolean
+msg_message_get_unread (MsgMessage *self)
+{
+  return self->unread;
+}
+
+GDateTime *
+msg_message_get_received_date (MsgMessage *self)
+{
+  return self->received_date;
+}
+
+const char *
+msg_message_get_body (MsgMessage *self,
+                      gboolean   *is_html)
+{
+  if (is_html)
+    *is_html = TRUE;
+
+  return self->body;
+}
+

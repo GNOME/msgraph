@@ -65,3 +65,7 @@ if get_option('gtk_doc')
 
   subdir('doc')
 endif
+
+if get_option('example')
+  subdir('example')
+endif

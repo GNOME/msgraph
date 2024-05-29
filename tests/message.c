@@ -66,7 +66,7 @@ test_get_messages (__attribute__ ((unused)) TempMessageData *data,
   msg_test_mock_server_start_trace (mock_server, "get-messages");
 
   /* List should only contain temporary message */
-  list = msg_message_service_get_messages (MSG_MESSAGE_SERVICE (service), NULL, &error);
+  list = msg_message_service_get_messages (MSG_MESSAGE_SERVICE (service), NULL, NULL, 0, NULL, NULL, &error);
   g_assert_no_error (error);
 
   g_assert (g_list_length (list) == 1);

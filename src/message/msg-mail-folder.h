@@ -38,6 +38,9 @@ msg_mail_folder_new_from_json (JsonObject  *json_object,
                                GError     **error);
 
 const char *
+msg_mail_folder_get_id (MsgMailFolder *id);
+
+const char *
 msg_mail_folder_get_display_name (MsgMailFolder *self);
 
 int

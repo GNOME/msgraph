@@ -54,4 +54,16 @@ msg_message_set_body (MsgMessage *self,
 const char *
 msg_message_get_id (MsgMessage *self);
 
+gboolean
+msg_message_get_unread (MsgMessage *self);
+
+const char *
+msg_message_get_sender (MsgMessage *self);
+
+GDateTime *
+msg_message_get_received_date (MsgMessage *self);
+
+const char *
+msg_message_get_body (MsgMessage *self, gboolean *is_html);
+
 G_END_DECLS

@@ -61,6 +61,10 @@ msg_message_service_new (MsgAuthorizer *authorizer)
  */
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
+                                  MsgMailFolder      *folder,
+                                  const char         *delta_link,
+                                  int                 max_page_size,
+                                  char              **out_delta_link,
                                   GCancellable       *cancellable,
                                   GError            **error)
 {
@@ -75,12 +79,21 @@ msg_message_service_get_messages (MsgMessageService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
-  url = g_strconcat (MSG_API_ENDPOINT, "/me/messages", NULL);
+  if (delta_link)
+    url = g_strdup (delta_link);
+  else
+    url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/", msg_mail_folder_get_id (folder), "/messages", NULL);
 
   do {
     g_autoptr (SoupMessage) message = NULL;
 
     message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+
+    if (max_page_size > 0) {
+      g_autofree char *prefer_value = g_strdup_printf ("odata.maxpagesize=%u", max_page_size);
+      soup_message_headers_append (soup_message_get_request_headers (message), "Prefer", prefer_value);
+    }
+
     parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
     if (!parser)
       return NULL;
@@ -107,6 +120,11 @@ msg_message_service_get_messages (MsgMessageService  *self,
 
     g_clear_pointer (&url, g_free);
     url = msg_service_get_next_link (root_object);
+
+    if (out_delta_link)
+      *out_delta_link = msg_service_get_delta_link (root_object);
+
+    break;
   } while (url != NULL);
 
   return g_steal_pointer (&list);
@@ -170,6 +188,7 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
 
     g_clear_pointer (&url, g_free);
     url = msg_service_get_next_link (root_object);
+    break;
   } while (url != NULL);
 
   return g_steal_pointer (&list);
