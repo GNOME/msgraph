@@ -30,7 +30,7 @@ ninja -C _build
 ## Documentation
 
 The documentation can be found online
-[here](https://jbrummer.pages.gitlab.gnome.org/msgraph).
+[here](https://gnome.pages.gitlab.gnome.org/msgraph).
 
 ## Links
 
