@@ -288,7 +288,7 @@ msg_drive_service_rename (MsgDriveService  *self,
   g_autofree char *json = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -338,7 +338,7 @@ msg_drive_service_download_url (MsgDriveService  *self,
                                 GCancellable     *cancellable,
                                 GError          **error)
 {
-  SoupMessage *message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+  g_autoptr (SoupMessage) message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
 
   return msg_service_send (MSG_SERVICE (self), message, cancellable, error);
 }
@@ -369,7 +369,7 @@ msg_drive_service_create_folder (MsgDriveService  *self,
   g_autoptr (JsonNode) create_node = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -470,7 +470,7 @@ msg_drive_service_update (MsgDriveService  *self,
   JsonObject *root_object = NULL;
   g_autofree char *json = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   const char *upload_url;
   g_autoptr (JsonParser) parser = NULL;
 
@@ -511,8 +511,8 @@ msg_drive_service_update (MsgDriveService  *self,
 
   upload_url = json_object_get_string_member (root_object, "uploadUrl");
 
-  stream = g_memory_output_stream_new (NULL, 0, g_try_realloc, g_free);
-  g_object_set_data (G_OBJECT (stream), "ms-graph-upload-url", g_strdup (upload_url));
+  stream = g_memory_output_stream_new_resizable ();
+  g_object_set_data_full (G_OBJECT (stream), "ms-graph-upload-url", g_strdup (upload_url), g_free);
   g_object_set_data (G_OBJECT (stream), "ms-graph-item", item);
 
   return stream;
@@ -537,14 +537,11 @@ msg_drive_service_update_finish (MsgDriveService  *self,
                                  GCancellable     *cancellable,
                                  GError          **error)
 {
-  GBytes *bytes;
+  g_autoptr (GBytes) bytes;
   g_autofree char *url = NULL;
-  SoupMessage *message = NULL;
+  g_autoptr (SoupMessage) message = NULL;
   JsonObject *root_object = NULL;
-  gconstpointer data;
-  gsize len;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -560,11 +557,10 @@ msg_drive_service_update_finish (MsgDriveService  *self,
 
   g_output_stream_close (stream, NULL, NULL);
   bytes = g_memory_output_stream_steal_as_bytes (G_MEMORY_OUTPUT_STREAM (stream));
-  data = g_bytes_get_data (bytes, &len);
 
   message = msg_service_build_message (MSG_SERVICE (self), "PUT", url, NULL, FALSE);
-  body = g_bytes_new (data, len);
-  soup_message_set_request_body_from_bytes (message, "application/octet-stream", body);
+  soup_message_set_request_body_from_bytes (message, "application/octet-stream", bytes);
+  g_clear_object (&stream);
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -597,7 +593,7 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
   g_autofree char *escaped_name = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
@@ -714,7 +710,7 @@ msg_drive_service_copy_file (MsgDriveService  *self,
   g_autoptr (JsonNode) create_node = NULL;
   GError *local_error = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, &local_error)) {
@@ -785,7 +781,7 @@ msg_drive_service_move_file (MsgDriveService  *self,
   g_autoptr (JsonNode) create_node = NULL;
   GError *local_error = NULL;
   g_autoptr (GBytes) response = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
   MsgDriveItem *item = NULL;
   JsonObject *root_object = NULL;

@@ -123,7 +123,18 @@ msg_service_build_message (MsgService *self,
   g_autoptr (GUri) _uri_parsed = NULL;
 
   _uri_parsed = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS, NULL);
-  _uri = soup_uri_copy (_uri_parsed, SOUP_URI_PORT, msg_service_get_https_port (), SOUP_URI_NONE);
+  _uri = g_uri_build_with_user (
+                  g_uri_get_flags (_uri_parsed),
+                  g_uri_get_scheme (_uri_parsed),
+                  g_uri_get_user (_uri_parsed),
+                  g_uri_get_password (_uri_parsed),
+                  g_uri_get_auth_params (_uri_parsed),
+                  g_uri_get_host (_uri_parsed),
+                  msg_service_get_https_port (),
+                  g_uri_get_path (_uri_parsed),
+                  g_uri_get_query (_uri_parsed),
+                  g_uri_get_fragment (_uri_parsed));
+
   if (g_strcmp0 (g_uri_get_scheme (_uri), "https") != 0)
     return NULL;
 
@@ -342,7 +353,7 @@ msg_service_parse_response (GBytes      *bytes,
                             JsonObject **object,
                             GError     **error)
 {
-  JsonParser *parser = NULL;
+  g_autoptr (JsonParser) parser = NULL;
   JsonObject *root_object = NULL;
   JsonNode *root = NULL;
   const char *content;
@@ -380,7 +391,7 @@ msg_service_parse_response (GBytes      *bytes,
   if (object)
     *object = root_object;
 
-  return parser;
+  return g_steal_pointer (&parser);
 }
 
 /**
