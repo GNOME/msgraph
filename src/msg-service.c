@@ -292,6 +292,8 @@ msg_service_get_log_level (void)
 
     if (env != NULL) {
       level = atoi (env);
+    } else {
+      level = 0;
     }
   }
 
