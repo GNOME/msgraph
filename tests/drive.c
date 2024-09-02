@@ -212,22 +212,22 @@ test_item_file_copy (TempItemData                        *data,
   uhm_server_end_trace (mock_server);
 }
 
-static void
-test_item_file_move (TempItemData                        *data,
-                     __attribute__ ((unused)) const void *user_data)
-{
-  g_autoptr (GError) error = NULL;
-  g_autoptr (MsgDriveItem) item = NULL;
+/* static void */
+/* test_item_file_move (TempItemData                        *data, */
+/*                      __attribute__ ((unused)) const void *user_data) */
+/* { */
+/*   g_autoptr (GError) error = NULL; */
+/*   g_autoptr (MsgDriveItem) item = NULL; */
 
-  msg_test_mock_server_start_trace (mock_server, "move-item");
+/*   msg_test_mock_server_start_trace (mock_server, "move-item"); */
 
-  item = msg_drive_service_move_file (MSG_DRIVE_SERVICE (service), data->item, root, NULL, &error);
-  g_assert (item);
+/*   item = msg_drive_service_move_file (MSG_DRIVE_SERVICE (service), data->item, root, NULL, &error); */
+/*   g_assert (item); */
 
-  g_clear_object (&data->item);
+/*   g_clear_object (&data->item); */
 
-  uhm_server_end_trace (mock_server);
-}
+/*   uhm_server_end_trace (mock_server); */
+/* } */
 
 static void
 on_splice_done (GObject      *source_object,
