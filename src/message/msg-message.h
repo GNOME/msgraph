@@ -52,6 +52,12 @@ msg_message_set_body (MsgMessage *self,
                       const char *body);
 
 const char *
+msg_message_get_body (MsgMessage *self);
+
+const char *
 msg_message_get_id (MsgMessage *self);
+
+const char *
+msg_message_get_sender (MsgMessage *self);
 
 G_END_DECLS

@@ -33,6 +33,7 @@ struct _MsgMessage {
   char *subject;
   char *body_preview;
   char *body;
+  char *sender;
 };
 
 G_DEFINE_TYPE (MsgMessage, msg_message, G_TYPE_OBJECT);
@@ -46,6 +47,7 @@ msg_message_finalize (GObject *object)
   g_clear_pointer (&self->body_preview, g_free);
   g_clear_pointer (&self->body, g_free);
   g_clear_pointer (&self->id, g_free);
+  g_clear_pointer (&self->sender, g_free);
 
   G_OBJECT_CLASS (msg_message_parent_class)->finalize (object);
 }
@@ -95,6 +97,7 @@ msg_message_new_from_json (JsonObject                       *json_object,
   self->subject = g_strdup (msg_json_object_get_string (json_object, "subject"));
   self->body_preview = g_strdup (msg_json_object_get_string (json_object, "bodyPreview"));
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
+  self->sender = g_strdup (msg_json_object_get_string (json_object, "sender"));
 
   return self;
 }
@@ -130,6 +133,18 @@ msg_message_set_body (MsgMessage *self,
   g_clear_pointer (&self->body, g_free);
   self->body = g_strdup (body);
   return TRUE;
+}
+
+const char *
+msg_message_get_body (MsgMessage *self)
+{
+  return self->body;
+}
+
+const char *
+msg_message_get_sender (MsgMessage *self)
+{
+  return self->sender;
 }
 
 gboolean
