@@ -11,6 +11,7 @@ msgraph_sources = files(
   'drive/msg-drive-item-file.c',
   'drive/msg-drive-item-folder.c',
   'drive/msg-drive-service.c',
+  'drive/msg-site.c',
   'message/msg-mail-folder.c',
   'message/msg-message.c',
   'message/msg-message-service.c',

@@ -126,4 +126,14 @@ msg_drive_service_move_file (MsgDriveService  *self,
                              GCancellable     *cancellable,
                              GError          **error);
 
+GList *
+msg_drive_service_get_sites_drives (MsgDriveService  *self,
+                                    GCancellable     *cancellable,
+                                    GError          **error);
+
+GList *
+msg_drive_service_get_followed_sites (MsgDriveService  *self,
+                                      GCancellable     *cancellable,
+                                      GError          **error);
+
 G_END_DECLS

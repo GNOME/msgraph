@@ -166,7 +166,7 @@ msg_drive_get_drive_type (MsgDrive *self)
  * msg_drive_get_name:
  * @self: a drive
  *
- * Gets tthe name of the drive.
+ * Gets the name of the drive.
  *
  * Returns: (transfer none): name of drive
  */
@@ -174,6 +174,22 @@ const char *
 msg_drive_get_name (MsgDrive *self)
 {
   return self->name;
+}
+
+/**
+ * msg_drive_set_name:
+ * @self: a drive
+ * @name: new drive name
+ *
+ * Sets the name of the drive.
+ */
+void
+msg_drive_set_name (MsgDrive   *self,
+                    const char *name)
+{
+  g_clear_pointer (&self->name, g_free);
+
+  self->name = g_strdup (name);
 }
 
 /**

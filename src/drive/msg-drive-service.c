@@ -26,6 +26,7 @@
 #include "drive/msg-drive-item.h"
 #include "drive/msg-drive-item-file.h"
 #include "drive/msg-drive-service.h"
+#include "drive/msg-site.h"
 
 struct _MsgDriveService {
   MsgService parent_instance;
@@ -58,6 +59,142 @@ msg_drive_service_new (MsgAuthorizer *authorizer)
 }
 
 /**
+ * msg_drive_service_get_followed_sites:
+ * @self: a #MsgDriveService
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Get all followed sites
+ *
+ * Returns: (element-type MsgSite) (transfer full): a list of all followed sites
+ */
+GList *
+msg_drive_service_get_followed_sites (MsgDriveService  *self,
+                                      GCancellable     *cancellable,
+                                      GError          **error)
+{
+  g_autofree char *url = NULL;
+  JsonObject *root_object = NULL;
+  JsonArray *array = NULL;
+  guint array_length = 0, index = 0;
+  GList *list = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/followedSites", NULL);
+
+  do {
+    g_autoptr (SoupMessage) message = NULL;
+
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
+
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
+
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      MsgSite *site = NULL;
+      JsonObject *site_object = NULL;
+      g_autoptr (GError) local_error = NULL;
+
+      site_object = json_array_get_object_element (array, index);
+      site = msg_site_new_from_json (site_object);
+      if (site) {
+        list = g_list_append (list, g_object_ref (site));
+      } else {
+        g_warning ("Could not parse site object: %s", local_error->message);
+      }
+    }
+
+    g_clear_pointer (&url, g_free);
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
+
+  return list;
+}
+
+/**
+ * msg_drive_service_get_sites_drives:
+ * @self: a #MsgDriveService
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Queries the Microsoft Graph API for all the sites drives of the currently logged in user
+ *
+ * Returns: (element-type MsgDrive) (transfer full): all site drives the user can access
+ */
+GList *
+msg_drive_service_get_sites_drives (MsgDriveService  *self,
+                                    GCancellable     *cancellable,
+                                    GError          **error)
+{
+  g_autofree char *url = NULL;
+  JsonObject *root_object = NULL;
+  JsonArray *array = NULL;
+  guint array_length = 0, index = 0;
+  g_autolist (MsgDrive) list = NULL;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  GList *sites = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  sites = msg_drive_service_get_followed_sites (self, cancellable, error);
+  if (error && *error) {
+    g_warning( "Could not get followed sites\n");
+    return NULL;
+  }
+
+  for (GList *l = sites; l && l->data; l = l->next) {
+    MsgSite *site = MSG_SITE (l->data);
+
+    g_print ("Site: %s Id %s\n", msg_site_get_name (site), msg_site_get_id (site));
+
+    url = g_strconcat (MSG_API_ENDPOINT, "/sites/", msg_site_get_id (site), "/drives", NULL);
+
+    do {
+      g_autoptr (SoupMessage) message = NULL;
+
+      message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+      parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+      if (!parser)
+        return NULL;
+
+      array = json_object_get_array_member (root_object, "value");
+      g_assert (array != NULL);
+
+      array_length = json_array_get_length (array);
+      for (index = 0; index < array_length; index++) {
+        MsgDrive *drive = NULL;
+        JsonObject *drive_object = NULL;
+        g_autoptr (GError) local_error = NULL;
+
+        drive_object = json_array_get_object_element (array, index);
+        drive = msg_drive_new_from_json (drive_object, &local_error);
+        if (drive) {
+          msg_drive_set_name (drive, msg_site_get_name (site));
+          list = g_list_append (list, drive);
+        } else {
+          g_warning ("Could not parse drive object: %s", local_error->message);
+        }
+      }
+
+      g_clear_pointer (&url, g_free);
+      url = msg_service_get_next_link (root_object);
+    } while (url != NULL);
+  }
+
+  return g_steal_pointer (&list);
+}
+
+/**
  * msg_drive_service_get_drives:
  * @self: a #MsgDriveService
  * @cancellable: a #GCancellable
@@ -79,6 +216,7 @@ msg_drive_service_get_drives (MsgDriveService  *self,
   g_autolist (MsgDrive) list = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
+  g_autolist (MsgSite) sites = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
@@ -114,6 +252,10 @@ msg_drive_service_get_drives (MsgDriveService  *self,
     g_clear_pointer (&url, g_free);
     url = msg_service_get_next_link (root_object);
   } while (url != NULL);
+
+
+  sites = msg_drive_service_get_sites_drives (self, cancellable, error);
+  list = g_list_concat (g_steal_pointer (&list), g_steal_pointer (&sites));
 
   return g_steal_pointer (&list);
 }

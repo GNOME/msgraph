@@ -9,6 +9,7 @@
 #include <drive/msg-drive-item-file.h>
 #include <drive/msg-drive-item-folder.h>
 #include <drive/msg-drive-service.h>
+#include <drive/msg-site.h>
 #include <message/msg-message.h>
 #include <message/msg-message-service.h>
 #include <user/msg-user.h>

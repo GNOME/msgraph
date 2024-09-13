@@ -63,6 +63,10 @@ msg_drive_get_drive_type (MsgDrive *self);
 const char *
 msg_drive_get_name (MsgDrive *self);
 
+void
+msg_drive_set_name (MsgDrive   *self,
+                    const char *name);
+
 gulong
 msg_drive_get_total (MsgDrive *self);
 
