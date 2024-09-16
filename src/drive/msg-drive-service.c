@@ -148,7 +148,8 @@ msg_drive_service_get_sites_drives (MsgDriveService  *self,
 
   sites = msg_drive_service_get_followed_sites (self, cancellable, error);
   if (error && *error) {
-    g_warning( "Could not get followed sites\n");
+    g_debug( "Could not get followed sites: %s\n", (*error)->message);
+    g_clear_error (error);
     return NULL;
   }
 
