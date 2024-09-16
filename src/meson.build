@@ -34,6 +34,7 @@ msgraph_headers = files(
   'drive/msg-drive-item-file.h',
   'drive/msg-drive-item-folder.h',
   'drive/msg-drive-service.h',
+  'drive/msg-site.h',
   'message/msg-mail-folder.h',
   'message/msg-message.h',
   'message/msg-message-service.h',

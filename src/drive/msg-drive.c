@@ -126,9 +126,20 @@ msg_drive_new_from_json (JsonObject  *object,
   if (json_object_has_member (object, "quota")) {
     JsonObject *quota = json_object_get_object_member (object, "quota");
 
-    self->total = json_object_get_int_member (quota, "total");
-    self->used = json_object_get_int_member (quota, "used");
-    self->remaining = json_object_get_int_member (quota, "remaining");
+    if (json_object_has_member (quota, "total"))
+      self->total = json_object_get_int_member (quota, "total");
+    else
+      self->total = 0;
+
+    if (json_object_has_member (quota, "used"))
+      self->used = json_object_get_int_member (quota, "used");
+    else
+      self->used = 0;
+
+    if (json_object_has_member (quota, "remaining"))
+      self->remaining = json_object_get_int_member (quota, "remaining");
+    else
+      self->remaining = 0;
   }
 
   return self;
