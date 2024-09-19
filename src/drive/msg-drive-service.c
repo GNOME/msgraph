@@ -29,6 +29,8 @@
 
 struct _MsgDriveService {
   MsgService parent_instance;
+
+  MsgDriveType type;
 };
 
 G_DEFINE_TYPE (MsgDriveService, msg_drive_service, MSG_TYPE_SERVICE);
@@ -105,6 +107,7 @@ msg_drive_service_get_drives (MsgDriveService  *self,
       drive_object = json_array_get_object_element (array, index);
       drive = msg_drive_new_from_json (drive_object, &local_error);
       if (drive) {
+        self->type = msg_drive_get_drive_type (drive);
         list = g_list_append (list, drive);
       } else {
         g_warning ("Could not parse drive object: %s", local_error->message);
@@ -171,6 +174,8 @@ msg_drive_service_download_item (MsgDriveService  *self,
                                  GError          **error)
 {
   g_autofree char *url = NULL;
+  const char *drive_id = NULL;
+  const char *id = NULL;
 
   if (!MSG_IS_DRIVE_ITEM_FILE (item)) {
     g_warning ("Download only allowed for files");
@@ -180,11 +185,19 @@ msg_drive_service_download_item (MsgDriveService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
+  if (!msg_drive_item_is_shared (item)) {
+    drive_id = msg_drive_item_get_drive_id (item);
+    id = msg_drive_item_get_id (item);
+  } else {
+    drive_id = msg_drive_item_get_remote_drive_id (item);
+    id = msg_drive_item_get_remote_id (item);
+  }
+
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
-                     msg_drive_item_get_drive_id (item),
+                     drive_id,
                      "/items/",
-                     msg_drive_item_get_id (item),
+                     id,
                      "/content",
                      NULL);
 
@@ -217,15 +230,26 @@ msg_drive_service_list_children (MsgDriveService  *self,
   g_autolist (MsgDriveItem) children = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
+  gboolean add_prefer_header = self->type == MSG_DRIVE_TYPE_BUSINESS;
+  const char *drive_id = NULL;
+  const char *id = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
+  if (!msg_drive_item_is_shared (item)) {
+    drive_id = msg_drive_item_get_drive_id (item);
+    id = msg_drive_item_get_id (item);
+  } else {
+    drive_id = msg_drive_item_get_remote_drive_id (item);
+    id = msg_drive_item_get_remote_id (item);
+  }
+
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
-                     msg_drive_item_get_drive_id (item),
+                     drive_id,
                      "/items/",
-                     msg_drive_item_get_id (item),
+                     id,
                      "/children",
                      "?$expand=thumbnails",
                      "&select=id,remoteItem,file,folder,parentReference,name,createdBy,lastModifiedBy,createdDateTime,lastModifiedDateTime,size",
@@ -235,6 +259,9 @@ msg_drive_service_list_children (MsgDriveService  *self,
     g_autoptr (SoupMessage) message = NULL;
 
     message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL /*msg_drive_item_get_etag (item)*/, FALSE);
+    if (add_prefer_header)
+      soup_message_headers_append (soup_message_get_request_headers (message), "Prefer", "Include-Feature=AddToOneDrive");
+
     parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
     if (!parser)
       return NULL;

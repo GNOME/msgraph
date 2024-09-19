@@ -75,7 +75,14 @@ MsgDriveItemFile *
 msg_drive_item_file_new_from_json (JsonObject *object)
 {
   MsgDriveItemFile *self = msg_drive_item_file_new ();
-  JsonObject *file = json_object_get_object_member (object, "file");
+  JsonObject *file = NULL;
+
+  if (json_object_has_member (object, "file"))
+    file = json_object_get_object_member (object, "file");
+  else {
+    JsonObject *remote_item = json_object_get_object_member (object, "remoteItem");
+    file = json_object_get_object_member (remote_item, "file");
+  }
 
   self->mime_type = g_strdup (msg_json_object_get_string (file, "mimeType"));
 

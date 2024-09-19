@@ -82,4 +82,10 @@ void
 msg_drive_item_set_parent_id (MsgDriveItem *self,
                               const char   *parent_id);
 
+const char *
+msg_drive_item_get_remote_drive_id (MsgDriveItem *self);
+
+const char *
+msg_drive_item_get_remote_id (MsgDriveItem *self);
+
 G_END_DECLS

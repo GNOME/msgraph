@@ -27,6 +27,9 @@ typedef struct {
   char *id;
   char *parent_id;
   char *drive_id;
+  char *remote_id;
+  char *remote_parent_id;
+  char *remote_drive_id;
   char *name;
   char *user;
   char *etag;
@@ -50,6 +53,9 @@ msg_drive_item_finalize (GObject *object)
   g_clear_pointer (&priv->id, g_free);
   g_clear_pointer (&priv->parent_id, g_free);
   g_clear_pointer (&priv->drive_id, g_free);
+  g_clear_pointer (&priv->remote_id, g_free);
+  g_clear_pointer (&priv->remote_parent_id, g_free);
+  g_clear_pointer (&priv->remote_drive_id, g_free);
   g_clear_pointer (&priv->name, g_free);
   g_clear_pointer (&priv->user, g_free);
   g_clear_pointer (&priv->etag, g_free);
@@ -88,19 +94,29 @@ msg_drive_item_new_from_json (JsonObject  *object,
 {
   g_autoptr (MsgDriveItem) self = NULL;
   g_autoptr (GError) _error = NULL;
-  JsonObject *obj = object;
   MsgDriveItemPrivate *priv;
   gboolean remote = FALSE;
+  gboolean is_file = FALSE;
+  gboolean is_folder = FALSE;
 
-  if (json_object_has_member (object, "remoteItem")) {
-    obj = json_object_get_object_member (object, "remoteItem");
-    remote = TRUE;
+  if (json_object_has_member (object, "file"))
+    is_file = TRUE;
+  else if (json_object_has_member (object, "folder"))
+    is_folder = TRUE;
+
+  if (!is_file && !is_folder && json_object_has_member (object, "remoteItem")) {
+    JsonObject *remote_item = json_object_get_object_member (object, "remoteItem");
+
+    if (json_object_has_member (remote_item, "file"))
+      is_file = TRUE;
+    else if (json_object_has_member (remote_item, "folder"))
+      is_folder = TRUE;
   }
 
-  if (json_object_has_member (obj, "file")) {
-    self = MSG_DRIVE_ITEM (msg_drive_item_file_new_from_json (obj));
-  } else if (json_object_has_member (obj, "folder")) {
-    self = MSG_DRIVE_ITEM (msg_drive_item_folder_new_from_json (obj, &_error));
+  if (is_file) {
+    self = MSG_DRIVE_ITEM (msg_drive_item_file_new_from_json (object));
+  } else if (is_folder) {
+    self = MSG_DRIVE_ITEM (msg_drive_item_folder_new_from_json (object, &_error));
   } else {
     g_warning ("Unknown item type\n");
     g_set_error (error,
@@ -114,47 +130,55 @@ msg_drive_item_new_from_json (JsonObject  *object,
     return NULL;
 
   priv = msg_drive_item_get_instance_private (self);
-  priv->is_shared = remote;
-  priv->id = g_strdup (msg_json_object_get_string (obj, "id"));
 
-  if (json_object_has_member (obj, "parentReference")) {
-    JsonObject *parent_reference = json_object_get_object_member (obj, "parentReference");
+  if (json_object_has_member (object, "remoteItem")) {
+    JsonObject *remote_item = json_object_get_object_member (object, "remoteItem");
+    JsonObject *parent_reference = json_object_get_object_member (remote_item, "parentReference");
 
-    priv->drive_id = g_strdup (msg_json_object_get_string (parent_reference, "driveId"));
-
-    priv->parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
+    priv->remote_id = g_strdup (msg_json_object_get_string (remote_item, "id"));
+    priv->remote_drive_id = g_strdup (msg_json_object_get_string (parent_reference, "driveId"));
+    priv->remote_parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
+    remote = TRUE;
   }
 
-  if (!priv->parent_id) {
+  priv->is_shared = remote;
+  priv->id = g_strdup (msg_json_object_get_string (object, "id"));
+
+  if (json_object_has_member (object, "parentReference")) {
     JsonObject *parent_reference = json_object_get_object_member (object, "parentReference");
-    priv->parent_id = g_strdup (msg_json_object_get_string (parent_reference, "id"));
+
+    priv->drive_id = g_strdup (msg_json_object_get_string (parent_reference, "driveId"));
   }
 
   priv->name = g_strdup (msg_json_object_get_string (object, "name"));
 
-  priv->size = json_object_get_int_member (obj, "size");
+  if (json_object_has_member (object, "size"))
+    priv->size = json_object_get_int_member (object, "size");
+  else
+    priv->size = 0;
+
   priv->etag = g_strdup (msg_json_object_get_string (object, "eTag"));
 
-  if (json_object_has_member (obj, "createdBy")) {
+  if (json_object_has_member (object, "createdBy")) {
     JsonObject *created_by;
 
-    created_by = json_object_get_object_member (obj, "createdBy");
+    created_by = json_object_get_object_member (object, "createdBy");
     if (created_by && json_object_has_member (created_by, "user")) {
       JsonObject *user = json_object_get_object_member (created_by, "user");
       priv->user = g_strdup (msg_json_object_get_string (user, "displayName"));
     }
-  } else if (json_object_has_member (obj, "lastModifiedBy")) {
+  } else if (json_object_has_member (object, "lastModifiedBy")) {
     JsonObject *created_by;
 
-    created_by = json_object_get_object_member (obj, "lastModifiedBy");
+    created_by = json_object_get_object_member (object, "lastModifiedBy");
     if (created_by && json_object_has_member (created_by, "user")) {
       JsonObject *user = json_object_get_object_member (created_by, "user");
       priv->user = g_strdup (msg_json_object_get_string (user, "displayName"));
     }
   }
 
-  if (json_object_has_member (obj, "createdDateTime")) {
-    const char *time = json_object_get_string_member (obj, "createdDateTime");
+  if (json_object_has_member (object, "createdDateTime")) {
+    const char *time = json_object_get_string_member (object, "createdDateTime");
     priv->created = g_date_time_new_from_iso8601 (time, NULL);
   }
 
@@ -375,4 +399,32 @@ msg_drive_item_set_parent_id (MsgDriveItem *self,
 
   g_clear_pointer (&priv->parent_id, g_free);
   priv->parent_id = g_strdup (parent_id);
+}
+
+/**
+ * msg_drive_item_get_remote_drive_id:
+ * @self: a drive item
+ *
+ * Get remote parent drive id of drive item.
+ */
+const char *
+msg_drive_item_get_remote_drive_id (MsgDriveItem *self)
+{
+  MsgDriveItemPrivate *priv = msg_drive_item_get_instance_private (self);
+
+  return priv->remote_drive_id;
+}
+
+/**
+ * msg_drive_item_get_remote_id:
+ * @self: a drive item
+ *
+ * Get remote id of drive item.
+ */
+const char *
+msg_drive_item_get_remote_id (MsgDriveItem *self)
+{
+  MsgDriveItemPrivate *priv = msg_drive_item_get_instance_private (self);
+
+  return priv->remote_id;
 }
