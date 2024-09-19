@@ -123,17 +123,16 @@ msg_service_build_message (MsgService *self,
   g_autoptr (GUri) _uri_parsed = NULL;
 
   _uri_parsed = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS, NULL);
-  _uri = g_uri_build_with_user (
-                  g_uri_get_flags (_uri_parsed),
-                  g_uri_get_scheme (_uri_parsed),
-                  g_uri_get_user (_uri_parsed),
-                  g_uri_get_password (_uri_parsed),
-                  g_uri_get_auth_params (_uri_parsed),
-                  g_uri_get_host (_uri_parsed),
-                  msg_service_get_https_port (),
-                  g_uri_get_path (_uri_parsed),
-                  g_uri_get_query (_uri_parsed),
-                  g_uri_get_fragment (_uri_parsed));
+  _uri = g_uri_build_with_user (g_uri_get_flags (_uri_parsed),
+                                g_uri_get_scheme (_uri_parsed),
+                                g_uri_get_user (_uri_parsed),
+                                g_uri_get_password (_uri_parsed),
+                                g_uri_get_auth_params (_uri_parsed),
+                                g_uri_get_host (_uri_parsed),
+                                msg_service_get_https_port (),
+                                g_uri_get_path (_uri_parsed),
+                                g_uri_get_query (_uri_parsed),
+                                g_uri_get_fragment (_uri_parsed));
 
   if (g_strcmp0 (g_uri_get_scheme (_uri), "https") != 0)
     return NULL;

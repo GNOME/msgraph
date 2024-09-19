@@ -99,8 +99,8 @@ msg_input_stream_new (MsgService *service,
 }
 
 static void
-on_restarted (SoupMessage                       *msg,
-              __attribute__ ((unused)) gpointer  user_data)
+on_restarted (SoupMessage                      *msg,
+              __attribute__ ((unused)) gpointer user_data)
 {
   SoupMessageHeaders *headers = soup_message_get_request_headers (msg);
   soup_message_headers_remove (headers, "Authorization");
