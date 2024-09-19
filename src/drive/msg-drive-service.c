@@ -144,7 +144,7 @@ msg_drive_service_get_root (MsgDriveService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
-  url = g_strconcat (MSG_API_ENDPOINT, "/drives/", msg_drive_get_id (drive), "/root", NULL);
+  url = g_strconcat (MSG_API_ENDPOINT, "/drives/", msg_drive_get_id (drive), "/root?select=id,remoteItem,file,folder,parentReference,name,createdBy,lastModifiedBy,createdDateTime,lastModifiedDateTime,size", NULL);
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -228,6 +228,7 @@ msg_drive_service_list_children (MsgDriveService  *self,
                      msg_drive_item_get_id (item),
                      "/children",
                      "?$expand=thumbnails",
+                     "&select=id,remoteItem,file,folder,parentReference,name,createdBy,lastModifiedBy,createdDateTime,lastModifiedDateTime,size",
                      NULL);
 
   do {
@@ -651,6 +652,7 @@ msg_drive_service_get_shared_with_me (MsgDriveService  *self,
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/me/drive/sharedWithMe",
+                     "?select=id,remoteItem,file,folder,parentReference,name,createdBy,lastModifiedBy,createdDateTime,lastModifiedDateTime,size",
                      NULL);
   do {
     g_autoptr (SoupMessage) message = NULL;

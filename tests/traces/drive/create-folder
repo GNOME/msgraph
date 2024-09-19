@@ -1,56 +1,56 @@
 > GET /v1.0/me/drives HTTP/2
-> Soup-Debug-Timestamp: 1715762901
-> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 60 (0x1e91fa0), GSocket 19 (0x1fa9e00)
+> Soup-Debug-Timestamp: 1726772319
+> Soup-Debug: SoupSession 1 (0x227c4150), SoupMessage 60 (0x217de310), GSocket 19 (0x227d17e0)
 > Soup-Host: graph.microsoft.com
-> Authorization: Bearer EwB4A8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAbwTFLmurWKU/6kKLzGncOcpl95XmynvUp2iyHv1rAJUmP38vABQX/BVgWvfvJ969ZtImdpPZHgmzsCCG4zLa8fqYnwcAfWa15FKrqQwsrGIIcOd3QYv4E3jM+bBkot1HjuPwK5SeIWGm+DSUwUueD40XzOjCKwu4IyoSsD5jyp/Gq24AFLUGjHCw2TbY0wK19DKA0zuzURzC/JnPlozQ8uHIrPvB4FnvwL0DCU5s6CVUA8aZlqAPJPxFH5R8/Ee2+Vv8ju/UBA8pt9X8KpJJ+FGm9UoTA+VEgz8dh5f2qpFYsJCgO5Xa1UCs67LRG62PbB9H98aAFOYVKZK/Y5VB5EDZgAACHitU+wN4Tr6SALFvE96VtUvogFGy4nnoFtJtUIu4RU+H9LDdEZ1H1MPVGSie4r/eBpol+O41dQvnstUY3atokgKfiBHAO3m5JHig+AdTrDjw6rvof6retAVqIbhqg0Eog1FAONyNPlyXr1InNZOkmVxg7nDQTIVF5mg5/iWISy5x1zBAlDCwMRXGYk09reGJaWKJa9gDpZLNNzFdenZC1nFLAtn5B9030ah0SL41gBYV7flgMJWM45UpxC+vmFIR8F6jStOhiK7d2V1mNgoSrYgllnzXJd5nwSb6CJ+QnXPMbhGWtwhZY+K8G/rOne5wy1zzMajnsdGBWy5EBNhY+q+QoTRDuLot45DgouaRjRp/2s6iaGkBQw7ffMeGQyy2AD8jjR9H7OojSDjwOuROTzuHTb5Hs580hDVvO/3MsMSGZhdR1sYvgldD0oW7cQKcyV2agA9Lwp8tp6O8wJKCr+XID8iKZOnx8hSl3tDxCEN9oZN7yUBrapd/pMVXqC2lneiIPuSVwRvmgUEbx9C83FdzDcujHPclqaMYh7Z8sBZ127WxE4HuA4oPD3Y49i7qrrEnwUVdHbTpd+MfWyNuaFCKHAnuSk45M1xZqI70bSe2lgNAfD+co0uldo1ddr0JpxHnSBvd4xg3DIIvULUcKPuUGF9EXAJc79hstpfifqfcYmvn1puj8gMB9PICf3U76ZQSqGzjOp7h40X5oubrvmzqBcd/bjeeAHD6vc/Yu3Qvm00YfWh1QdtAuRgg06Kplxg6Kf3DPG8eewRucTJQ5dbU4gC
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAVD8wP1FFZGSOW1WwEGtoebww3vMNBzCuQ3jAgcJpPShdvVGjCwR8Js+NtCIkV/+uZ1mnbIhjfElfwDzm+xTuCn5A7UX/EOE6P7/bHdqXKvvjc5iU8JF3Ap0RgjzNyRrzLVwet2qrwKvNG2yyjFXTVTTSuHX74SFqHlTxC3/YdwJloPmbJM2e5eL7uI6ZEK9nd9zFhiuJrGMtNDWROh3EJPnWbd/FXpRIClGbK5sFiqHYOK66hGIIb1oxbQ2GiNekrsCX0dV+DdIHvpfXBFjB7WLMaFJ2jln2WSZjZtMhjiUZlfIQwEj2dn9qNEqp46Fg7a5B0aFw5glURex3CPwewcQZgAAEHhFFO+VKRzzIPazBRt5V9BgAg1YOpbcc7TQEHrIbHus6l9Ec4bd7k4+fkFDYfz7G+80aeYo3S57w8TE9sEYE0ztq2U1VbAjmx8/0UDdKbv6v/sOv4pzcl8O5YG/lRn45dbX192DFHLvkveORAD6974GIyEoTcG3RaVV2kwuF3SRtAxHQKC4i9L0K9f42NxctgkWv+3WE/bN8Ih8+YDLPVYkJMf1fdsov6VP7gE9S56QNYkd7frEhGnHJWi3wONdbc7XjaGmTAbiD2H6qnUXwKcyRTBtXpQquucafD0sSrAwV+Qw3qfg0oCRyQjPrh+7KUnijQuhyTxX2Uz9dwNcdIlhJfikKjWfWQ3tQzHH1ek2au6PvgsNR2Xf4WQyYhaOYNm/ugdSzWCLm/tiv5rBn4VvWpMcmPZFywjNE/xaV/XndOmopo8Tlbwpd8DagWKmUyj3JfvaVNlSUl7EEAy4K33fsC0Gr2Ta+7XW/gZJYeoTGGvpvNhzOtIDB/7NKvk/jC3g2DIGCWHENHy4dKd6fqNSlxEeB22wFDhIUpWqlq+71wKe+96ZNQ0l5dBTItOlEx5CpykyCi2uHAgeqRFugp46cyHWOIMZFAmel7ojPHXtBLvRiSq+4zgaLLXWM520DGGq308iQrQzLQTciiKayZfED45VwFLotLmcXnK55V8ur7go7EyUMrl303/tp7YIEuOHHAmxZSTjjRKrfDosYNqf7JS41jWSf3lEVpnX20N4RMjTWEviKPfDTL63a8RD48bTgW5gK/cjE5AzgG2j4iv4g8kj5fDapUll58TcbIwdHfqdIMaE6btLfEZhn/UTLaBLoAI=
 > Accept-Encoding: gzip, deflate, br
   
 < HTTP/2 200 OK
-< Soup-Debug-Timestamp: 1715762901
-< Soup-Debug: SoupMessage 60 (0x1e91fa0)
+< Soup-Debug-Timestamp: 1726772319
+< Soup-Debug: SoupMessage 60 (0x217de310)
 < Cache-Control: no-store
 < Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
 < Content-Encoding: gzip
 < Vary: Accept-Encoding
-< Date: Wed, 15 May 2024 08:48:20 GMT
+< Date: Thu, 19 Sep 2024 18:58:39 GMT
 < strict-transport-security: max-age=31536000
-< request-id: be117e11-8fbf-48e7-a4f1-381833877a41
-< client-request-id: be117e11-8fbf-48e7-a4f1-381833877a41
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00000DF7"}}
+< request-id: 341c351f-5a0e-4b47-9ca6-1ac3a76e63ce
+< client-request-id: 341c351f-5a0e-4b47-9ca6-1ac3a76e63ce
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00000AF6"}}
 < odata-version: 4.0
 < 
-< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives","value":[{"driveType":"personal","id":"4f62a7105c03556e","owner":{"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"quota":{"deleted":189100,"remaining":5367012672,"state":"normal","total":5368709120,"used":1696448,"storagePlanInformation":{"upgradeAvailable":true}}}]}
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives","value":[{"driveType":"personal","id":"4f62a7105c03556e","owner":{"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"quota":{"deleted":52948,"remaining":5367012672,"state":"normal","total":5368709120,"used":1696448,"storagePlanInformation":{"upgradeAvailable":true}}}]}
   
-> GET /v1.0/drives/4f62a7105c03556e/root HTTP/2
-> Soup-Debug-Timestamp: 1715762902
-> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 61 (0x1e02490), GSocket 19 (0x1fa9e00)
+> GET /v1.0/drives/4f62a7105c03556e/root?select=id,remoteItem,file,folder,parentReference,name,createdBy,lastModifiedBy,createdDateTime,lastModifiedDateTime,size HTTP/2
+> Soup-Debug-Timestamp: 1726772319
+> Soup-Debug: SoupSession 1 (0x227c4150), SoupMessage 61 (0x226e0bc0), GSocket 19 (0x227d17e0)
 > Soup-Host: graph.microsoft.com
-> Authorization: Bearer EwCAA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAf1RJAonFVIy/G+xI/srOYoOBJoZr26nstuHrJ0+cPLZVEXxrg97XryHTLv+tcJf3bDaTNri9VwcPZF0+PyHg3sypPBWGf5ARhSTBlfhGLWtDs+uWPjl29qVPk6uu/GsrEw6b9NonOiHA3itZC6c/KRIT698AQRNN3YaIRqLqnNvsEZ4usTtn7CPO119++TSHrWgkNypP6JQ2MUytvQt+iw7MNX0t2w4qnlgoVbt7UUmzXPMD4jnmdC8RulMEWDX3T4ImP8ZwAumvwzUagkdEQ3YGHorfj3UVfrAcquFWLixuhnEDX/B7yUclFnontlVp5c4oLYPYxRzfxjRvFCufxMDZgAACGGFeg5n7pQbUAKn6FDV7bGPmBqj17gSo6+A5aXrPsFjqQQAytuC76/UVyV5KruAn/w80stF/ytQ8JUSpDeEAzc2tFyyQKEtmIkvkDEUkfwnBFAWYR5DUfyjyDuvYpB4uB1CxUWa0B/JG41lp0zpPbLodmGrzHVM9SA7uOI9al5VzsitgrYzAXOxngOiqql8RxhwQzNqNLLlvIflDErDUt/FlKOePYTl1q32q72jCGXYXCI+JYSWvJVmG0BVuMDMGX7egF0e2klbfi6Bba58RbKVGSBvwkaTTUn75kEu7MtU8aBX/oz5vd3jkbWnHEf042MwQimH+AbyxjViCCfWNUm0SaP2ZaOd9yh0PUc7leYvmRrPHoQRx+oXisoTTI2WzvkSQeBM0G3LG9T5rbUgRHNC0GrAEfuXspPmlJTS/zMVJnbLatSvposZWgWzayrfviXS/0D++t4fI2QoWu9nFkmwUmaR/o1yfcTUFzRzJmp2LeFvSeIcVa45hDUnc4oHhHTk+l5LaAispbXpfiNlQGF2RPSGg6hkHafcEbmq0zYLb831fMMgPN81qpWDZ/Cep8uaMbGJC9v2PanBhtma55Ld8495AhO3lufo+AB3s+9KrbA0iWDB6iv/9QZwfgIxd1SSniN279ya8f1UNKWoJRA/eMgjO5aD0fa2DjmXasvx9JWlqePrzohZJ/xfCYOL3NMPjjjp9pvpg5DxPkXfZBy/f9ME1fBY/zpmYsNRSw7Pw/ipmdDKDna7hDnKKspqdTksFtQRDO5SFpFXW29Fe1SUqLoXFiLNpJbNiAI=
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AARW1SoUGik1wvg3OhRgFFeYzfg3YF/1dqhXCXAZlR9Vd0Gv9PMm9Vf+LySjuDd+zYlIT8VNAJeWGt7k6UDXwQ+sTjbqjQratA47UTkDmsYmlLOfvOJB3hOwge1k9Hrn1nVsXK6MHUq7cyumtjWy2G+5mnwQa04i0qIEcVpsRw/RT4YSf7zXlRmEttTEgtdI368ggx9lrTwQa8KDPZQ56/54rDsqxCfQB0wSrPgnRvemKal2LFx4CQqtCmVAKvNvUthnXLTOLvWISBFaQqF14fuI2u+HkBZTidScAyLxZZcfyofKkCJcnzUmSZU7V6/lMD61cnxVRvwXUI3JOT5aFtDAQZgAAEHVYfKBY7KMjmjbyTqgOhY5wAuC4GFfjb4BltQlzDyuEj8pxN2VDT2tfAjvqO8C/l9va7LNt6nC0WFt5uwJRLZvK18HGgVMgd78YC9OPIbmL/gq7R/QUqjt3hW3t80i0XF1WYzbNpnazU97KXZTWbQzU8JpT/O2e5NPX1Am0h9dquY40b6m+Xzi5S0HRTYvptws1EfxutScRiPSkBHxjTBICeUuCBVHCzCVjEOOL6qnn6IjzehFzbmHN06657ZGVTevA2aB2DJbOE88qgCR9gqAGyAZIhYIoEenDfU3aQBRx3Yk9Wd7lFDWmIJsQIeF7WyefO+y+9ofKF2+DzLNvkAwAqVOvnHy36zOQznrw/Z8LUreMKAX5WHmDMOAcvW9BJnrz6HmWQixDEl5VRKUAw46soAqV2nPNQA+Vl3T1PXOy7KpglT1S4nBHbTegHj+bkXb17tEmLrPSuCjXH0a0bCrnu20omnmHMlf4cHm4E+hIMRf09xmTYgmy4Yed93cfd1Z5zLYHTlRKMzw6ecTKbxmbbzKaI/HNX6D5A1aF7kMnpZSLgII9WPqR5lokcVlZ/JrN/xlY3M3e9de62fUMX7b/5649+7Ho73E1dWRrzM10MnEdstZZoA+jb1fw40a2aiAoZ1uXxD8WAQ6qgL/yMxrrIt1ecdN1eJ0En2rEy5NYaMrMK8H2Ro4wULW1cKbpg/M7s9E0itsH6XkwdLNfJ2wma+hP9r0QX1HFohf8OKaybPAfCzmda6B8+OomAxJU2sdv22a6mcErYX8QjyIF7EhBs5NWRKWgiLzJo5SKDfvTJ9gCdoOf3Nt2McJWzwoTaUNIO8lOvEXic2VEtxFdVBtAgqAC
 > Accept-Encoding: gzip, deflate, br
   
 < HTTP/2 200 OK
-< Soup-Debug-Timestamp: 1715762902
-< Soup-Debug: SoupMessage 61 (0x1e02490)
+< Soup-Debug-Timestamp: 1726772320
+< Soup-Debug: SoupMessage 61 (0x226e0bc0)
 < Cache-Control: private
 < Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
 < Content-Encoding: gzip
 < Vary: Accept-Encoding
-< Date: Wed, 15 May 2024 08:48:21 GMT
+< Date: Thu, 19 Sep 2024 18:58:39 GMT
 < strict-transport-security: max-age=31536000
-< request-id: 5a4eaf57-c6e7-4e35-8bc2-e8f576cb496d
-< client-request-id: 5a4eaf57-c6e7-4e35-8bc2-e8f576cb496d
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00000DF7"}}
+< request-id: ce933298-97e7-419a-9e57-72b0f6c5ac39
+< client-request-id: ce933298-97e7-419a-9e57-72b0f6c5ac39
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00000AF6"}}
 < odata-version: 4.0
 < 
-< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives('4f62a7105c03556e')/root/$entity","createdDateTime":"2021-04-23T12:10:28.477Z","cTag":"adDo0RjYyQTcxMDVDMDM1NTZFITEwMS42Mzg1MTM1OTcwMDkxMDAwMDA","eTag":"aNEY2MkE3MTA1QzAzNTU2RSExMDEuODI","id":"4F62A7105C03556E!101","lastModifiedDateTime":"2024-05-15T08:48:20.91Z","name":"root","size":2941249,"webUrl":"https://onedrive.live.com/?cid=4f62a7105c03556e","createdBy":{"application":{"displayName":"Microsoft Teams-T4L","id":"4027a9f6"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"lastModifiedBy":{"application":{"displayName":"OneDrive website","id":"44048800"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"parentReference":{"driveId":"4f62a7105c03556e","driveType":"personal"},"fileSystemInfo":{"createdDateTime":"2021-04-23T12:10:28.476Z","lastModifiedDateTime":"2023-12-12T06:04:18.6Z"},"folder":{"childCount":7,"view":{"viewType":"thumbnails","sortBy":"name","sortOrder":"ascending"}},"root":{}}
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives('4f62a7105c03556e')/root/$entity","id":"4F62A7105C03556E!101","name":"root","createdDateTime":"2021-04-23T12:10:28.477Z","lastModifiedDateTime":"2024-09-19T18:58:39.037Z","size":2926121,"folder":{"childCount":6,"view":{"viewType":"thumbnails","sortBy":"name","sortOrder":"ascending"}},"parentReference":{"driveId":"4f62a7105c03556e","driveType":"personal"},"createdBy":{"application":{"displayName":"Microsoft Teams-T4L","id":"4027a9f6"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"lastModifiedBy":{"application":{"displayName":"OneDrive website","id":"44048800"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}}}
   
 > POST /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!101/children HTTP/2
-> Soup-Debug-Timestamp: 1715762902
-> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 62 (0x1e9be00), GSocket 20 (0x1ad9d70)
+> Soup-Debug-Timestamp: 1726772320
+> Soup-Debug: SoupSession 1 (0x227c4150), SoupMessage 62 (0x226e0bc0), GSocket 20 (0x227026f0)
 > Soup-Host: graph.microsoft.com
 > Content-Type: application/json
 > Content-Length: 92
-> Authorization: Bearer EwCAA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAf1RJAonFVIy/G+xI/srOYoOBJoZr26nstuHrJ0+cPLZVEXxrg97XryHTLv+tcJf3bDaTNri9VwcPZF0+PyHg3sypPBWGf5ARhSTBlfhGLWtDs+uWPjl29qVPk6uu/GsrEw6b9NonOiHA3itZC6c/KRIT698AQRNN3YaIRqLqnNvsEZ4usTtn7CPO119++TSHrWgkNypP6JQ2MUytvQt+iw7MNX0t2w4qnlgoVbt7UUmzXPMD4jnmdC8RulMEWDX3T4ImP8ZwAumvwzUagkdEQ3YGHorfj3UVfrAcquFWLixuhnEDX/B7yUclFnontlVp5c4oLYPYxRzfxjRvFCufxMDZgAACGOoHTYvIn5YUAKe+r2fXafKLovnMY9YY/yR8efoVB2bdYXBKXLuevgZoWBwv1533oKpbY152Ha47ap0Jiu7hU8vq6rw2ifJtEWbkVqwS5ciuOxRaYeBjwmSVLnWPZ2SfV3MlMeYC9DothBbjq9kYL/D38iAkQIvLCgiYUoMxQ7T62RKXYmJJpgVennX4RUoU/d8l6tz+c4d95fihU5ooBS5PmWFnWAruQpa6//t54OAmN5e8PtNbgM6xuqvIADvQ62NuqffQ527SFTZRW+W6YyqH5uJ8py+R8hSIuHipFDJ1VaPooj+GEP5l4x6WSoFr+506wSaTP2fNDWV39j/E/36ePQgBb2inHJ/G3RzLUoVqzTfC8OBvRC2EM7lPPSGJOSHPdzR6CBuXR2LQegL76AzZD8P4nPwrqrsPBaAt0aXmm53vW4GAk7bUGHrMaw8uzkB6VVeQB51x8+I+WUyvGvd0/Ik+p7sNaxb80fT7an0UWyj9who6e6XKqCcUHWniJ41Qm4N/eW42MTjhzUoszGyIF1FzFpl76xvJ525aodPj8Jwc0coW76cG1S/kYDNycn0cLE4Q45Qz9S2EHGiEinEr69snS/D9RyuUIZSpBVBZj/+OLwvDU7TD5WVucfnR5x+FjJ8bBKJVT2nquvS+KyCXtG6JRgrFPIRUwbwOXeSryATcUfudARCPhuzXhPSffnEQN+GBjeV9gKu7UfyCE6IeMryxoNrsa3DSUSOqS86mzT8g66yx8MXgfMlwaSWL1GzFjylcRv5faD1V6U9XejtZSl8VMeuaH+PiAI=
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAWspwqMtr21wE2ol7GLpWQOFCN2thcMbD5mcAjSSMe+mFQxg+He9F4qmEvHHbpSPsLPS04o+4nP5GK/UMvkc/FaG64wH9g9bA0w+qOUVg790P9dIKRiSCHX3uG6alWWZ0Pqgg9J/vvGw5w8gv8WrwTh8b2Uuru3VDV+5wkg9xqtPtLRUWHk/jCFwv52rBn10wVyogi0p5mxr7N4V9k2xsjaMsu+v+lcWtBg/H2trf8AkObqsk0BV/OOYJoTx9TDlvK5olKS4otqDk5KUDpUKUZlRS/xLLtKDOEFdFeFrW1POiOhe3it1dObfd//FxD3v0nOfXXNIRTG6XRDC6YZWfl0QZgAAEPDg3ybOil/tyzQDEmucpzRgAlviRD2sx70jzGaYRiqW9RhZw4aTGK9NTL+Z9GyWPpdb+gu2WRkp4/DnLaHTWj8vGfv9Jv/VGoA7SbDZoCtxG48QbOmmO6BEnUHQilr61LoEoI7oj49mUDj0wTsBcB9Rpb+dTSqJYN0490eDS7M2i/2K+W7mM0NUN55RdeBmlUEwaDBaklqmf4kVrVq+lSpn+I3USMoylxUnLIdsoh2g4F3srghLCrVAJcy/3pM47XxsLF22klRavq2JR+Hxp8/C2Qw3YQa2qDUBitMyq9DoaIZEL8ZwrR7JEiEHz7k/RXb4RLHCwC75tQzyuxR6Zx/NhSEwmh830QtvxAIoDYNR2PnilpFrzaTVMNhRcuTdrqHvPogi8ZpHQ5p5mmi+uk7QkONJDW69Pl+0H11gDhBKBdqv5/hzHGJLR7kRi0ACxdz2Y4cz1bbYuJ/P2kFQzB/73uDxEQdA2nqsG/Beatujqg5cDcIg/TXTKU0smIkcMjhxow8S2RYVA7N9o51eSCqLxbnWbkqUE60PCfM4cylzOPbHIGUh0KgYZ7EhPiD7STWyemi2Z8rZap8owwFsPCs0qJKKDekU1B4BVkT4TrfPor7ZZMNUqrIdBm08PIs26nKC8/2kQS/YBkGrL2pKvNzTkoS3T1PYdQIoaAuGMGABLuNm7R5A7yjMXO2dVJ/lYxSyy9Lg9fdRde4OdB9LuPXWQQdClDxTRbKvMZUejUfhufgEKBfH6OszTYnYCEM0xSjDfeZYp8Ukqh2zijgZNiz6qeCsoQmIC1pphG59u9Pz5FWvTRkDax/25ULBaTwuliedoAI=
 > Accept-Encoding: gzip, deflate, br
 > 
 > {
@@ -60,36 +60,36 @@
 > }
   
 < HTTP/2 201 Created
-< Soup-Debug-Timestamp: 1715762903
-< Soup-Debug: SoupMessage 62 (0x1e9be00)
+< Soup-Debug-Timestamp: 1726772320
+< Soup-Debug: SoupMessage 62 (0x226e0bc0)
 < Cache-Control: no-store
 < Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
 < Content-Encoding: gzip
-< Location: https://s2s-api.onedrive.com/v1.0/drives('4f62a7105c03556e')/items('4F62A7105C03556E!101')/children('4F62A7105C03556E!1347')
+< Location: https://s2s-api.onedrive.com/v1.0/drives('4f62a7105c03556e')/items('4F62A7105C03556E!101')/children('4F62A7105C03556E!1365')
 < Vary: Accept-Encoding
-< Date: Wed, 15 May 2024 08:48:23 GMT
+< Date: Thu, 19 Sep 2024 18:58:39 GMT
 < strict-transport-security: max-age=31536000
-< request-id: 1c8853be-6544-45c0-a175-fb1159117aad
-< client-request-id: 1c8853be-6544-45c0-a175-fb1159117aad
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00001145"}}
+< request-id: c0fb4f1f-f779-4fc6-90df-f3e02dbe80c7
+< client-request-id: c0fb4f1f-f779-4fc6-90df-f3e02dbe80c7
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF0000108C"}}
 < odata-version: 4.0
 < 
-< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives('4f62a7105c03556e')/items('4F62A7105C03556E%21101')/children/$entity","createdDateTime":"2024-05-15T08:48:23.057Z","cTag":"adDo0RjYyQTcxMDVDMDM1NTZFITEzNDcuNjM4NTEzNTk3MDMwNTcwMDAw","eTag":"aNEY2MkE3MTA1QzAzNTU2RSExMzQ3LjA","id":"4F62A7105C03556E!1347","lastModifiedDateTime":"2024-05-15T08:48:23.057Z","name":"Folder","size":0,"webUrl":"https://1drv.ms/f/s!AG5VA1wQp2JPikM","createdBy":{"application":{"displayName":"GNOME MS Graph","id":"44bb9102"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"lastModifiedBy":{"application":{"displayName":"GNOME MS Graph","id":"44bb9102"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"parentReference":{"driveId":"4f62a7105c03556e","driveType":"personal","id":"4F62A7105C03556E!101","path":"/drive/root:"},"fileSystemInfo":{"createdDateTime":"2024-05-15T08:48:23.056Z","lastModifiedDateTime":"2024-05-15T08:48:23.056Z"},"folder":{"childCount":0,"view":{"viewType":"thumbnails","sortBy":"name","sortOrder":"ascending"}}}
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives('4f62a7105c03556e')/items('4F62A7105C03556E%21101')/children/$entity","createdDateTime":"2024-09-19T18:58:40.67Z","cTag":"adDo0RjYyQTcxMDVDMDM1NTZFITEzNjUuNjM4NjIzNjkxMjA2NzAwMDAw","eTag":"aNEY2MkE3MTA1QzAzNTU2RSExMzY1LjA","id":"4F62A7105C03556E!1365","lastModifiedDateTime":"2024-09-19T18:58:40.67Z","name":"Folder","size":0,"webUrl":"https://1drv.ms/f/s!AG5VA1wQp2JPilU","createdBy":{"application":{"displayName":"GNOME MS Graph","id":"44bb9102"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"lastModifiedBy":{"application":{"displayName":"GNOME MS Graph","id":"44bb9102"},"user":{"displayName":"Jan Brummer","id":"4f62a7105c03556e"}},"parentReference":{"driveId":"4f62a7105c03556e","driveType":"personal","id":"4F62A7105C03556E!101","path":"/drive/root:"},"fileSystemInfo":{"createdDateTime":"2024-09-19T18:58:40.67Z","lastModifiedDateTime":"2024-09-19T18:58:40.67Z"},"folder":{"childCount":0,"view":{"viewType":"thumbnails","sortBy":"name","sortOrder":"ascending"}}}
   
-> DELETE /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1347 HTTP/2
-> Soup-Debug-Timestamp: 1715762903
-> Soup-Debug: SoupSession 1 (0x1029050), SoupMessage 63 (0x1e9be00), GSocket 20 (0x1ad9d70)
+> DELETE /v1.0/drives/4f62a7105c03556e/items/4F62A7105C03556E!1365 HTTP/2
+> Soup-Debug-Timestamp: 1726772321
+> Soup-Debug: SoupSession 1 (0x227c4150), SoupMessage 63 (0x218f1870), GSocket 20 (0x227026f0)
 > Soup-Host: graph.microsoft.com
-> Authorization: Bearer EwB4A8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAfAYV+trfSqMUmk1Ya3XEz3rzmZ98oyo5Djjflti9VJGSLHJ38snkzcoDGLlKDzIzmsuxpJHTUIZljMpNYtMbEs3q6L7RrBVWd6KLeO3BnWNAR/BVNH3vzbRI7TFyV1FPsLxMminWoFl90pJAJgYGqSwa183RYEQenDtaTQUL53o+sXZS6ghZgEsZ2MOjJNgPHKxtX9u1c5fiCUmKrggIS5469o68HesdShNGlNmVJRKedE6Z56o+wOobGISLhHaE72Gpbn9Hjf0pfyp7aTL6DhNEfOka7K68OU5Sn8zcYHgBXCz5qd9dFOIbYZoBMUhcuR5xHiKGx3ZjsTuQtxnBp8DZgAACLZWhVDTOcBwSALVNwd3fW4KvX0BUaUyKx/d+HLkJR2jd/zm7SzaJjl4yk/XSySQVAY/ZxCz4vKuf3456fq6q4VeTM3mApd4S44KSVb0qq8GAwak9bhG3cQeM+DqQLdGXPZqQ050f2j3IWraalWPjSbuUvbsaNTxG31JBqA7CUX5j/6bQpjKXx0s+T9Y4E3iRpyCR1aOVdt67uCp5/gOiv85twO0jkmSMUolGrUXsr6S/6ej5Q1a0HfM+kaOHQ6P1XqTLE4uWEH3I1+YybS08Mt6B8T73lKLcTNqWCYhyIr0sJNCORDUcIzrHxcdXxvxOTQvX3QP0YLLXPeUno5Mb4fKN/aA5OkBMb6ugMXzkcOp2wtPUoeBKnX/vXIFfs4rEGITJ4jjukC9pUNytiwjeHIiTyWWqY24P/YXT3uh34xPnZoPy9TddyHpx1a25Gwb8/xPlUWqDZp0+vXfjUwnp5o8Yl4uCz22g0m87+JeLA7lNc6ZVKpS4adIiSYbm5dX4458jbIqmV7/PJbWlam9YNylF+1silV/0GntsocxJH4J2605+9GAq9htcYfDsOVi59Ex6/AGBd/3QIegDD2d89CLFiXiu3zlYA3gaEhSRmbAN1HXKczSwSMohXE2j6HDWWoqWJtbqfgkfhdX35JJWHNYPIubu2CjeejEDS4JD+/VIOQIRDQ4qkOAWgqq8Ly712kMNkanqMPkInBdQUTWJ+QdYr7qSY8aTGpxH2kTfsU5/tBETmOmpaOb5WD0xB9ovlroYuCVe9yu8P3nTjy02qeHUYgC
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAa/2QUjToXAsNKiLYSjbP4t9dPUJ1HIovX9rJnllS9pCpBrqPpbIs8URhyC6fRSJ4ExVwtsp0U3EyTSsAn8hANPH795arI5o1/9aIsi2Zm+CBT1TeRXZxtIlsaiM8NBqM0jpSaTtBTeRbOCAinww8Lt0hLFwv/iExCEdAosS8aF5Z6fxRMSz2E+VwIUnfOUIJcU6rtDV4Kz/vGJXxQWDiDwPLC8ZSoDIXAmq2hPerWrEKwVMFIYV3fPt2keyvWYgAMsZ51JC28guxj0AF9ZCs60dRBXCBfHhFYupuIfV60A1396fh4EjjrFGLNS0LrvANImnFVbfY8TObcSKohbnUmEQZgAAEBeIGc3F+/kWaTwmezuFP+BwAkGQQf5FGqZmB4gvLdhC7vE3eDprn7tlwL4bjB2az4JpVrDxuzcLcL1k5oIL6XO2lL+mYy7z3mSfWF3voQcaO0rXWRj3fcIIxnSHIkKGkuyO+vyOz20/cvRXfLoNMMwPyjcEqlZmc6TmPid8RrIThrq2uCUIeNAqOOSFNYPAz5SOzl+PGT0JcN2gF43+qaI/W8G9cpQ95CJxvdgyiGzkccRLBJZldSl15KBHCpeJod2Verp+qYRBknkda7aAVNJEjMYu+ewUaTHTQBUYORpiwlqz/Ve+QH6781xwaNbQdPWInWp7sIFIV2+cZHjv1PT/y+AONNzN6kXBNAweMF2UZI3WstwUxONpLzmzNwOmQh3H3vYagK4Wd1vcW2dPRbg6xJn6wX1DhCd/UHLFk8d/125wj6b44jIVO2cD4aWXqNQLtCN4bTQY5JVpDYj6wLBQTjSqASlXObIomAXPL2QTmEkDhX0dBYyGDBlSGZNrR74TEO1S5PHfE2LUC0GL8cTsmtNuZYCwwJc1NBQfvxghgoMx/TXy/tfGXpwL7pyJu8ad+TCQjvauLMwhy2mjBN6FwLR6wJpMjtzSjWk605Gx+BhFEGIYe7rqnRfmvKmyPw+cY+XKNVk9r0pbs8joF2FrttwIitaRN0iWLo6mNz3FAtHyLxXX4Pak6N8RHKTNDPzP0Qqsb/gbHYSUkzeBO8y+T9lTWhW2amOtVi623gP5tdgbMLRYxZqeGGeLT+nwcabqoli3ejcZfHcBXfjC+iiWmIyzQXZDGrzXaXpkHDwMHPJH1f02aAylOBaQ0Yf9iRsCDkKZvJrwdXKXbLaccD7i06AC
 > Accept-Encoding: gzip, deflate, br
   
 < HTTP/2 204 No Content
-< Soup-Debug-Timestamp: 1715762903
-< Soup-Debug: SoupMessage 63 (0x1e9be00)
+< Soup-Debug-Timestamp: 1726772321
+< Soup-Debug: SoupMessage 63 (0x218f1870)
 < Cache-Control: no-store
-< Date: Wed, 15 May 2024 08:48:23 GMT
+< Date: Thu, 19 Sep 2024 18:58:40 GMT
 < strict-transport-security: max-age=31536000
-< request-id: 3035d1cc-f46c-4934-9c1a-dbc59f4b6b3f
-< client-request-id: 3035d1cc-f46c-4934-9c1a-dbc59f4b6b3f
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF00001145"}}
+< request-id: 50237f6d-7ac3-41d3-876d-b9c65b7756f8
+< client-request-id: 50237f6d-7ac3-41d3-876d-b9c65b7756f8
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"003","RoleInstance":"FR1PEPF0000108C"}}
   
