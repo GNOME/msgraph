@@ -1,3 +1,8 @@
+0.3.0 - Sep 30, 2024
+===========================
+ * Set select scopes during requests
+ * Add support for business "Add to OneDrive" sharepoints
+
 0.2.3 - Jun 18, 2024
 ===========================
  * Fix memory leaks

@@ -1,5 +1,5 @@
 project('msgraph', 'c',
-          version: '0.2.3',
+          version: '0.3.0',
     meson_version: '>= 0.63.0',
   default_options: [ 'warning_level=2',
                      'werror=false',
