@@ -35,6 +35,82 @@ struct _MsgDriveService {
 
 G_DEFINE_TYPE (MsgDriveService, msg_drive_service, MSG_TYPE_SERVICE);
 
+static gboolean
+is_valid_name (const char *name)
+{
+  g_auto (GStrv) split = NULL;
+  const char *invalid_names[] = {
+    ".lock",
+    "CON",
+    "PRN",
+    "AUX",
+    "NUL",
+    "COM0",
+    "COM1",
+    "COM2",
+    "COM3",
+    "COM4",
+    "COM5",
+    "COM6",
+    "COM7",
+    "COM8",
+    "COM9",
+    "LPT0",
+    "LPT1",
+    "LPT2",
+    "LPT3",
+    "LPT4",
+    "LPT5",
+    "LPT6",
+    "LPT7",
+    "LPT8",
+    "LPT9",
+    "_vti_",
+    "desktop.ini",
+    NULL
+  };
+  g_autofree char *lower_name = g_utf8_strdown (name, -1);
+
+  /* Check for invalid names */
+  for (int i = 0; invalid_names[i] != NULL; i++) {
+    g_autofree char *invalid_name = g_utf8_strdown (invalid_names[i], -1);
+
+    if (g_strcmp0 (lower_name, invalid_name) == 0)
+      return FALSE;
+  }
+
+  /* Leading or Trailing whitespaces are invalid */
+  if (g_str_has_prefix (name, " ") || g_str_has_suffix (name, " "))
+    return FALSE;
+
+  /* Must not start with ~$ */
+  if (g_str_has_prefix (name, "~$"))
+    return FALSE;
+
+  /* _vti_ cannot be part of the name */
+  if (strstr (name, "_vti_"))
+    return FALSE;
+
+  /* Not allowed chars: " * : < > ? / \ | */
+  if (strchr (name, '"') ||
+      strchr (name, '*') ||
+      strchr (name, ':') ||
+      strchr (name, '<') ||
+      strchr (name, '>') ||
+      strchr (name, '?') ||
+      strchr (name, '/') ||
+      strchr (name, '\\') ||
+      strchr (name, '|'))
+    return FALSE;
+
+  /* "forms" on root level for a library */
+  split = g_strsplit (name, "/", -1);
+  if (g_strv_length (split) == 2 && g_strcmp0 (split[1], "forms") == 0)
+    return FALSE;
+
+  return TRUE;
+}
+
 static void
 msg_drive_service_init (__attribute__ ((unused)) MsgDriveService *self)
 {
@@ -319,6 +395,14 @@ msg_drive_service_rename (MsgDriveService  *self,
   g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
 
+  if (!is_valid_name (new_name)) {
+    g_set_error (error,
+             msg_error_quark (),
+             MSG_ERROR_FAILED,
+             "Invalid characters in name");
+    return NULL;
+  }
+
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
@@ -402,6 +486,14 @@ msg_drive_service_create_folder (MsgDriveService  *self,
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
+
+  if (!is_valid_name (name)) {
+    g_set_error (error,
+             msg_error_quark (),
+             MSG_ERROR_FAILED,
+             "Invalid characters in name");
+    return NULL;
+  }
 
   url = g_strconcat (MSG_API_ENDPOINT,
                      "/drives/",
@@ -623,6 +715,14 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
   g_autoptr (GBytes) response = NULL;
   g_autoptr (GBytes) body = NULL;
   g_autoptr (JsonParser) parser = NULL;
+
+  if (!is_valid_name (msg_drive_item_get_name (item))) {
+    g_set_error (error,
+             msg_error_quark (),
+             MSG_ERROR_FAILED,
+             "Invalid characters in name");
+    return NULL;
+  }
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return FALSE;
