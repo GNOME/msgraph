@@ -8,7 +8,7 @@ project('msgraph', 'c',
 )
 
 # Versioning
-msgraph_api_version = '0'
+msgraph_api_version = '1'
 
 cc = meson.get_compiler('c')
 
