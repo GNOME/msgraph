@@ -1,8 +1,6 @@
 msgraph_inc_dir = include_directories('.')
 msgraph_built_headers = []
 
-api_version = '0.1'
-
 msgraph_sources = files(
   'contact/msg-contact.c',
   'contact/msg-contact-service.c',
@@ -137,7 +135,7 @@ pkg.generate(
   description: 'A shared library for accessing MS Graph API',
     libraries: msgraph_lib,
          name: 'msgraph',
-     filebase: 'msgraph-' + api_version,
+     filebase: 'msgraph-' + msgraph_api_version,
       version: meson.project_version(),
       subdirs: 'msg',
      requires: msgraph_deps,
