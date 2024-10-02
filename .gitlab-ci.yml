@@ -75,7 +75,7 @@ pages:
   stage: deploy
   needs: ['fedora']
   script:
-    - mv _build/doc/msgraph-0/ public/
+    - mv _build/doc/msgraph-1/ public/
     - mv _build/meson-logs/coveragereport public/
   artifacts:
     paths:
