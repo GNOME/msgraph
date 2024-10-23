@@ -61,6 +61,10 @@ msg_message_service_new (MsgAuthorizer *authorizer)
  */
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
+                                  MsgMailFolder      *folder,
+                                  const char         *delta_link,
+                                  int                 max_page_size,
+                                  char              **out_delta_link,
                                   GCancellable       *cancellable,
                                   GError            **error)
 {
@@ -75,12 +79,21 @@ msg_message_service_get_messages (MsgMessageService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
-  url = g_strconcat (MSG_API_ENDPOINT, "/me/messages", NULL);
+  if (delta_link)
+    url = g_strdup (delta_link);
+  else
+    url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/", msg_mail_folder_get_id (folder), "/messages?$select=from,subject,bodyPreview,receivedDateTime,isRead,id", NULL);
 
   do {
     g_autoptr (SoupMessage) message = NULL;
 
     message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+
+    if (max_page_size > 0) {
+      g_autofree char *prefer_value = g_strdup_printf ("odata.maxpagesize=%u", max_page_size);
+      soup_message_headers_append (soup_message_get_request_headers (message), "Prefer", prefer_value);
+    }
+
     parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
     if (!parser)
       return NULL;
@@ -98,12 +111,18 @@ msg_message_service_get_messages (MsgMessageService  *self,
 
       msg = msg_message_new_from_json (message_object, &local_error);
       if (msg) {
+        /* msg_mess */
         list = g_list_append (list, msg);
       } else {
         g_warning ("Could not parse message object: %s", local_error->message);
         g_clear_error (&local_error);
       }
+      if (g_list_length (list) == 10)
+        break;
     }
+
+      if (g_list_length (list) == 10)
+        break;
 
     g_clear_pointer (&url, g_free);
     url = msg_service_get_next_link (root_object);
@@ -322,3 +341,24 @@ msg_message_service_create_draft (MsgMessageService  *self,
 
   return msg_message_new_from_json (root_object, error);
 }
+
+GBytes *
+msg_message_service_get_mime_message (MsgMessageService  *self,
+                                      MsgMessage         *message,
+                                      GCancellable       *cancellable,
+                                      GError            **error)
+{
+  g_autoptr (SoupMessage) soup_message = NULL;
+  g_autofree char *url = NULL;
+  GBytes *body = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/messages/", msg_message_get_id (message), "/$value", NULL);
+  soup_message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+
+  body = msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, error);
+  return body;
+}
+

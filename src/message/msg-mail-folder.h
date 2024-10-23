@@ -43,7 +43,26 @@ msg_mail_folder_get_display_name (MsgMailFolder *self);
 int
 msg_mail_folder_get_unread_item_count (MsgMailFolder *self);
 
+void
+msg_mail_folder_set_unread_item_count (MsgMailFolder *self,
+                                       guint          count);
+
 int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_total_item_count (MsgMailFolder *self,
+                                      guint          count);
+
+const char *
+msg_mail_folder_get_id (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_id (MsgMailFolder *self,
+                        const char    *id);
+
+void
+msg_mail_folder_set_display_name (MsgMailFolder *self,
+                                  const char    *display_name);
 
 G_END_DECLS

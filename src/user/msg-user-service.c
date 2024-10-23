@@ -23,6 +23,7 @@
 #include "msg-error.h"
 #include "msg-private.h"
 #include "msg-service.h"
+#include "msg-contact-folder.h"
 #include "msg-user.h"
 #include "msg-user-service.h"
 
@@ -85,4 +86,105 @@ msg_user_service_get_user (MsgUserService  *self,
     return NULL;
 
   return msg_user_new_from_json (root_object, error);
+}
+
+GBytes *
+msg_user_service_get_photo (MsgUserService  *self,
+                            char            *mail,
+                            GCancellable    *cancellable,
+                            GError         **error)
+{
+  g_autoptr (SoupMessage) message = NULL;
+  g_autofree char *url = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/users/", mail, "/photo/$value", NULL);
+
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+  return msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, error);
+}
+
+/**
+ * msg_user_service_get_contact_folders
+ * @self: a #MsgUserService
+ * @cancellable: a #GCancellable
+ * @error: a #GError
+ *
+ * Get all folders for given service
+ *
+ * Returns: (element-type MsgContactFolder) (transfer full): all contact folders the user can access
+ */
+GList *
+msg_user_service_get_contact_folders (MsgUserService  *self,
+                                      GCancellable    *cancellable,
+                                      GError         **error)
+{
+  JsonObject *root_object = NULL;
+  g_autofree char *url = NULL;
+  g_autolist (MsgContactFolder) list = NULL;
+  JsonArray *array = NULL;
+  guint array_length = 0, index = 0;
+  g_autoptr (GBytes) response = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/contactFolders", NULL);
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts", NULL);
+
+  do {
+    g_autoptr (SoupMessage) message = NULL;
+
+    message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+    if (!parser)
+      return NULL;
+
+    array = json_object_get_array_member (root_object, "value");
+    g_assert (array != NULL);
+
+    array_length = json_array_get_length (array);
+    for (index = 0; index < array_length; index++) {
+      g_autoptr (GError) local_error = NULL;
+      MsgContactFolder *folder = NULL;
+      JsonObject *object = NULL;
+
+      object = json_array_get_object_element (array, index);
+
+      folder = msg_contact_folder_new_from_json (object, &local_error);
+      if (folder) {
+        list = g_list_append (list, folder);
+      } else {
+        g_warning ("Could not parse contact folder object: %s", local_error->message);
+        g_clear_error (&local_error);
+      }
+    }
+
+    g_clear_pointer (&url, g_free);
+    url = msg_service_get_next_link (root_object);
+  } while (url != NULL);
+
+  return g_steal_pointer (&list);
+}
+
+GList *
+msg_user_service_get_contacts (MsgUserService  *self,
+                               GCancellable    *cancellable,
+                               GError         **error)
+{
+  g_autoptr (SoupMessage) soup_message = NULL;
+  g_autofree char *url = NULL;
+  /* GBytes *body = NULL; */
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts/", NULL);
+  soup_message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+
+  msg_service_send_and_read (MSG_SERVICE (self), soup_message, cancellable, error);
+  return NULL;
 }

@@ -42,6 +42,10 @@ typedef enum {
 
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
+                                  MsgMailFolder      *folder,
+                                  const char         *delta_link,
+                                  int                 max_page_size,
+                                  char              **out_delta_link,
                                   GCancellable       *cancellable,
                                   GError            **error);
 
@@ -68,3 +72,8 @@ msg_message_service_delete (MsgMessageService  *self,
                             GCancellable       *cancellable,
                             GError            **error);
 
+GBytes *
+msg_message_service_get_mime_message (MsgMessageService  *self,
+                                      MsgMessage         *message,
+                                      GCancellable       *cancellable,
+                                      GError            **error);

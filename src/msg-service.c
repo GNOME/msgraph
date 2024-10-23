@@ -438,3 +438,17 @@ msg_service_get_next_link (JsonObject *object)
 {
   return g_strdup (msg_json_object_get_string (object, "@odata.nextLink"));
 }
+
+/**
+ * msg_service_get_delta_link:
+ * @object: a #JsonObject
+ *
+ * Get delta link
+ *
+ * Returns: (transfer full): delta link or %NULL if not available
+ */
+char *
+msg_service_get_delta_link (JsonObject *object)
+{
+  return g_strdup (msg_json_object_get_string (object, "@odata.deltaLink"));
+}

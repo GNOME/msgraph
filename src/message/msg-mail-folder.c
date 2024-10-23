@@ -91,6 +91,7 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
 
   self = msg_mail_folder_new ();
 
+  self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
   self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
 
   self->unread_item_count = json_object_get_int_member (json_object, "unreadItemCount");
@@ -123,6 +124,13 @@ msg_mail_folder_get_unread_item_count (MsgMailFolder *self)
   return self->unread_item_count;
 }
 
+void
+msg_mail_folder_set_unread_item_count (MsgMailFolder *self,
+                                       guint          count)
+{
+  self->unread_item_count = count;
+}
+
 /**
  * msg_mail_folder_get_total_item_count:
  * @self: a mail folder
@@ -133,4 +141,39 @@ int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self)
 {
   return self->total_item_count;
+}
+
+void
+msg_mail_folder_set_total_item_count (MsgMailFolder *self,
+                                      guint          count)
+{
+  self->total_item_count = count;
+}
+
+/**
+ * msg_mail_folder_get_id:
+ * @self: a mail folder
+ *
+ * Returns: id of mail folder
+ */
+const char *
+msg_mail_folder_get_id (MsgMailFolder *self)
+{
+  return self->id;
+}
+
+void
+msg_mail_folder_set_id (MsgMailFolder *self,
+                        const char    *id)
+{
+  g_clear_pointer (&self->id, g_free);
+  self->id = g_strdup (id);
+}
+
+void
+msg_mail_folder_set_display_name (MsgMailFolder *self,
+                                  const char    *display_name)
+{
+  g_clear_pointer (&self->display_name, g_free);
+  self->display_name = g_strdup (display_name);
 }

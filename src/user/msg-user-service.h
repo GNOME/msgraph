@@ -33,3 +33,19 @@ msg_user_service_get_user (MsgUserService  *self,
                            char            *name,
                            GCancellable    *cancellable,
                            GError         **error);
+
+GBytes *
+msg_user_service_get_photo (MsgUserService  *self,
+                            char            *mail,
+                            GCancellable    *cancellable,
+                            GError         **error);
+
+GList *
+msg_user_service_get_contact_folders (MsgUserService  *self,
+                                      GCancellable    *cancellable,
+                                      GError         **error);
+
+GList *
+msg_user_service_get_contacts (MsgUserService  *self,
+                               GCancellable    *cancellable,
+                               GError         **error);
