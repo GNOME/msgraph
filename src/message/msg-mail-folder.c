@@ -34,6 +34,9 @@ struct _MsgMailFolder {
   int unread_item_count;
   int total_item_count;
   gboolean is_hidden;
+
+  /* Stamp Added */
+  MsgMessageMailFolderType type;
 };
 
 G_DEFINE_TYPE (MsgMailFolder, msg_mail_folder, G_TYPE_OBJECT);
@@ -49,8 +52,9 @@ msg_mail_folder_finalize (GObject *object)
 }
 
 static void
-msg_mail_folder_init (__attribute__ ((unused)) MsgMailFolder *self)
+msg_mail_folder_init (MsgMailFolder *self)
 {
+  self->type = MSG_MESSAGE_MAIL_FOLDER_TYPE_OTHER;
 }
 
 static void
@@ -91,6 +95,7 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
 
   self = msg_mail_folder_new ();
 
+  self->type = MSG_MESSAGE_MAIL_FOLDER_TYPE_OTHER;
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
   self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
 
@@ -176,4 +181,17 @@ msg_mail_folder_set_display_name (MsgMailFolder *self,
 {
   g_clear_pointer (&self->display_name, g_free);
   self->display_name = g_strdup (display_name);
+}
+
+MsgMessageMailFolderType
+msg_mail_folder_get_folder_type (MsgMailFolder *self)
+{
+  return self->type;
+}
+
+void
+msg_mail_folder_set_folder_type (MsgMailFolder            *self,
+                                 MsgMessageMailFolderType  type)
+{
+  self->type = type;
 }

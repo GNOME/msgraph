@@ -62,9 +62,11 @@ msg_message_service_new (MsgAuthorizer *authorizer)
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
                                   MsgMailFolder      *folder,
+                                  const char         *next_link,
+                                  char              **out_next_link,
                                   const char         *delta_link,
-                                  int                 max_page_size,
                                   char              **out_delta_link,
+                                  int                 max_page_size,
                                   GCancellable       *cancellable,
                                   GError            **error)
 {
@@ -79,7 +81,9 @@ msg_message_service_get_messages (MsgMessageService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
-  if (delta_link)
+  if (next_link)
+    url = g_strdup (next_link);
+  else if (delta_link)
     url = g_strdup (delta_link);
   else
     url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/", msg_mail_folder_get_id (folder), "/messages?$select=from,subject,bodyPreview,receivedDateTime,isRead,id", NULL);
@@ -117,15 +121,28 @@ msg_message_service_get_messages (MsgMessageService  *self,
         g_warning ("Could not parse message object: %s", local_error->message);
         g_clear_error (&local_error);
       }
-      if (g_list_length (list) == 10)
-        break;
+       g_print ("%s: len %d\n", __FUNCTION__, g_list_length (list));
+      //if (g_list_length (list) == 10)
+        //break;
     }
 
-      if (g_list_length (list) == 10)
-        break;
+     g_print ("%s: final len %d\n", __FUNCTION__, g_list_length (list));
+     // if (g_list_length (list) == 10)
+    //    break;
 
     g_clear_pointer (&url, g_free);
+
+    if (json_object_has_member (root_object, "@odata.deltaLink") && out_delta_link) {
+      *out_delta_link = g_strdup (json_object_get_string_member (root_object, "@odata.deltaLink"));
+    }
+
     url = msg_service_get_next_link (root_object);
+
+    if (out_next_link) {
+      *out_next_link = g_strdup (url);
+      break;
+    }
+
   } while (url != NULL);
 
   return g_steal_pointer (&list);
@@ -143,6 +160,8 @@ msg_message_service_get_messages (MsgMessageService  *self,
  */
 GList *
 msg_message_service_get_mail_folders (MsgMessageService  *self,
+                                      char               *delta_url,
+                                      char              **delta_url_out,
                                       GCancellable       *cancellable,
                                       GError            **error)
 {
@@ -157,7 +176,11 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
 
-  url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders", NULL);
+  if (delta_url) {
+    url = g_strdup (delta_url);
+  } else {
+    url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/delta", NULL);
+  }
 
   do {
     g_autoptr (SoupMessage) message = NULL;
@@ -185,6 +208,10 @@ msg_message_service_get_mail_folders (MsgMessageService  *self,
         g_warning ("Could not parse mail folder object: %s", local_error->message);
         g_clear_error (&local_error);
       }
+    }
+
+    if (json_object_has_member (root_object, "@odata.deltaLink") && delta_url_out) {
+      *delta_url_out = g_strdup (json_object_get_string_member (root_object, "@odata.deltaLink"));
     }
 
     g_clear_pointer (&url, g_free);
@@ -216,6 +243,7 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
   g_autoptr (GBytes) response = NULL;
   JsonObject *root_object = NULL;
   g_autoptr (JsonParser) parser = NULL;
+  MsgMailFolder *folder = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
@@ -242,6 +270,8 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
     case MSG_MESSAGE_MAIL_FOLDER_TYPE_ARCHIVE:
       url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/archive", NULL);
       break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_MAX:
+      return NULL;
   }
 
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
@@ -249,7 +279,12 @@ msg_message_service_get_mail_folder (MsgMessageService         *self,
   if (!parser)
     return NULL;
 
-  return msg_mail_folder_new_from_json (root_object, error);
+  folder = msg_mail_folder_new_from_json (root_object, error);
+  if (folder) {
+    /* msg_mail_folder_set_folder_type (folder, type); */
+  }
+
+  return folder;
 }
 
 /**
@@ -362,3 +397,56 @@ msg_message_service_get_mime_message (MsgMessageService  *self,
   return body;
 }
 
+char *
+msg_message_service_get_folder_id (MsgMessageService         *self,
+                                   MsgMessageMailFolderType   type,
+                                   GCancellable              *cancellable,
+                                   GError                   **error)
+{
+  g_autoptr (SoupMessage) message = NULL;
+  g_autofree char *url = NULL;
+  g_autoptr (GBytes) response = NULL;
+  JsonObject *root_object = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  char *id = NULL;
+
+  if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
+    return NULL;
+
+  switch (type) {
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_INBOX:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/inbox", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_DRAFTS:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/drafts", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_SENT_ITEMS:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/sentitems", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_JUNK_EMAIL:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/junkemail", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_DELETED_ITEMS:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/deleteditems", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_OUTBOX:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/outbox", "?$select=id", NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_ARCHIVE:
+      url = g_strconcat (MSG_API_ENDPOINT, "/me/mailFolders/archive", "?$select=id",NULL);
+      break;
+    case MSG_MESSAGE_MAIL_FOLDER_TYPE_MAX:
+      return NULL;
+  }
+
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
+    return NULL;
+
+  if (json_object_has_member (root_object, "id")) {
+    id = g_strdup (json_object_get_string_member (root_object, "id"));
+  }
+
+  return id;
+}

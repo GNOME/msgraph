@@ -78,7 +78,7 @@ msg_user_service_get_user (MsgUserService  *self,
   if (!name)
     url = g_strconcat (MSG_API_ENDPOINT, "/me", NULL);
   else
-    url = g_strconcat (MSG_API_ENDPOINT, "/me/contacts/users/", name, NULL);
+    url = g_strconcat (MSG_API_ENDPOINT, "/users", "?$filter=mail eq '", name, "'", NULL);
 
   message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);

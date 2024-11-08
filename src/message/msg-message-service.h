@@ -29,28 +29,21 @@ G_DECLARE_FINAL_TYPE (MsgMessageService, msg_message_service, MSG, MESSAGE_SERVI
 
 MsgMessageService *msg_message_service_new (MsgAuthorizer *authorizer);
 
-
-typedef enum {
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_INBOX,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_DRAFTS,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_SENT_ITEMS,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_JUNK_EMAIL,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_DELETED_ITEMS,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_OUTBOX,
-  MSG_MESSAGE_MAIL_FOLDER_TYPE_ARCHIVE,
-} MsgMessageMailFolderType;
-
 GList *
 msg_message_service_get_messages (MsgMessageService  *self,
                                   MsgMailFolder      *folder,
+                                  const char         *next_link,
+                                  char              **out_next_link,
                                   const char         *delta_link,
-                                  int                 max_page_size,
                                   char              **out_delta_link,
+                                  int                 max_page_size,
                                   GCancellable       *cancellable,
                                   GError            **error);
 
 GList *
 msg_message_service_get_mail_folders (MsgMessageService  *self,
+                                      char               *delta_url,
+                                      char              **delta_url_out,
                                       GCancellable       *cancellable,
                                       GError            **error);
 
@@ -77,3 +70,9 @@ msg_message_service_get_mime_message (MsgMessageService  *self,
                                       MsgMessage         *message,
                                       GCancellable       *cancellable,
                                       GError            **error);
+
+char *
+msg_message_service_get_folder_id (MsgMessageService         *self,
+                                   MsgMessageMailFolderType   type,
+                                   GCancellable              *cancellable,
+                                   GError                   **error);

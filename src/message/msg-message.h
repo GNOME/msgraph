@@ -47,6 +47,10 @@ msg_message_set_subject (MsgMessage *self,
 const char *
 msg_message_get_body_preview (MsgMessage *self);
 
+void
+msg_message_set_body_preview (MsgMessage *self,
+                              const char *preview);
+
 gboolean
 msg_message_set_body (MsgMessage *self,
                       const char *body);
@@ -54,14 +58,37 @@ msg_message_set_body (MsgMessage *self,
 const char *
 msg_message_get_id (MsgMessage *self);
 
-gboolean
+void
+msg_message_set_id (MsgMessage *self,
+                    const char *id);
+
+int
 msg_message_get_unread (MsgMessage *self);
+
+void
+msg_message_set_unread (MsgMessage *self,
+                        int         unread);
 
 const char *
 msg_message_get_sender (MsgMessage *self);
 
+const char *
+msg_message_get_sender_mail (MsgMessage *self);
+
+void
+msg_message_set_sender (MsgMessage *self,
+                        const char *sender);
+
+void
+msg_message_set_sender_mail (MsgMessage *self,
+                             const char *sender_mail);
+
 GDateTime *
 msg_message_get_received_date (MsgMessage *self);
+
+void
+msg_message_set_received_date (MsgMessage *self,
+                               gint64      timestamp);
 
 const char *
 msg_message_get_body (MsgMessage *self, gboolean *is_html);

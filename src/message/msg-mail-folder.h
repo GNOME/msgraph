@@ -30,6 +30,19 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (MsgMailFolder, msg_mail_folder, MSG, MAIL_FOLDER, GObject);
 
+typedef enum {
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_0,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_INBOX,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_DRAFTS,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_SENT_ITEMS,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_JUNK_EMAIL,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_DELETED_ITEMS,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_OUTBOX,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_ARCHIVE,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_OTHER,
+  MSG_MESSAGE_MAIL_FOLDER_TYPE_MAX
+} MsgMessageMailFolderType;
+
 MsgMailFolder *
 msg_mail_folder_new (void);
 
@@ -60,6 +73,13 @@ msg_mail_folder_get_id (MsgMailFolder *self);
 void
 msg_mail_folder_set_id (MsgMailFolder *self,
                         const char    *id);
+
+MsgMessageMailFolderType
+msg_mail_folder_get_folder_type (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_folder_type (MsgMailFolder            *self,
+                                 MsgMessageMailFolderType  type);
 
 void
 msg_mail_folder_set_display_name (MsgMailFolder *self,

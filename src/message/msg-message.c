@@ -35,8 +35,9 @@ struct _MsgMessage {
   char *body;
 
   char *sender;
+  char *sender_mail;
 
-  gboolean unread;
+  int unread;
   GDateTime *received_date;
 };
 
@@ -100,9 +101,11 @@ msg_message_new_from_json (JsonObject                       *json_object,
   if (json_object_has_member (json_object, "from")) {
     JsonObject *obj = json_object_get_object_member (json_object, "from");
     JsonObject *email_address = json_object_get_object_member (obj, "emailAddress");
+    const char *address = msg_json_object_get_string (email_address, "address");
     const char *name = msg_json_object_get_string (email_address, "name");
 
     self->sender = g_strdup (name);
+    self->sender_mail = g_strdup (address);
   }
   self->received_date = g_date_time_new_from_iso8601 (msg_json_object_get_string (json_object, "receivedDateTime"), NULL);
 
@@ -114,7 +117,13 @@ msg_message_new_from_json (JsonObject                       *json_object,
     self->body = g_strdup (content);
   }
   self->body_preview = g_strdup (msg_json_object_get_string (json_object, "bodyPreview"));
-  self->unread = msg_json_object_get_boolean (json_object, "isRead");
+
+  if (msg_json_object_get_boolean (json_object, "isRead"))
+    self->unread = 0;
+  else
+    self->unread = 1;
+
+  g_print ("%s: unread %d\n", __FUNCTION__, self->unread);
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
 
   return self;
@@ -144,6 +153,14 @@ msg_message_get_body_preview (MsgMessage *self)
   return self->body_preview;
 }
 
+void
+msg_message_set_body_preview (MsgMessage *self,
+                              const char *preview)
+{
+  g_clear_pointer (&self->body_preview, g_free);
+  self->body_preview = g_strdup (preview);
+}
+
 gboolean
 msg_message_set_body (MsgMessage *self,
                       const char *body)
@@ -168,22 +185,67 @@ msg_message_get_id (MsgMessage *self)
   return self->id;
 }
 
+void
+msg_message_set_id (MsgMessage *self,
+                    const char *id)
+{
+  g_clear_pointer (&self->id, g_free);
+  self->id = g_strdup (id);
+}
+
 const char *
 msg_message_get_sender (MsgMessage *self)
 {
   return self->sender;
 }
 
-gboolean
+const char *
+msg_message_get_sender_mail (MsgMessage *self)
+{
+  return self->sender_mail;
+}
+
+void
+msg_message_set_sender_mail (MsgMessage *self,
+                             const char *sender_mail)
+{
+  g_clear_pointer (&self->sender_mail, g_free);
+  self->sender_mail = g_strdup (sender_mail);
+}
+
+void
+msg_message_set_sender (MsgMessage *self,
+                        const char *sender)
+{
+  g_clear_pointer (&self->sender, g_free);
+  self->sender = g_strdup (sender);
+}
+
+int
 msg_message_get_unread (MsgMessage *self)
 {
   return self->unread;
+}
+
+void
+msg_message_set_unread (MsgMessage *self,
+                        int         unread)
+{
+  self->unread = unread;
 }
 
 GDateTime *
 msg_message_get_received_date (MsgMessage *self)
 {
   return self->received_date;
+}
+
+void
+msg_message_set_received_date (MsgMessage *self,
+                               gint64      timestamp)
+{
+  g_clear_object (&self->received_date);
+  self->received_date = g_date_time_new_from_unix_utc (timestamp);
 }
 
 const char *
