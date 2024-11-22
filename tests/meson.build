@@ -13,7 +13,6 @@ common_deps = [
 # arguments for each test
 tests = {
   'authorization': {},
-  'contact': {},
   'drive': {},
   'message': {},
   'user': {},

@@ -21,6 +21,7 @@
 G_BEGIN_DECLS
 
 #define MSG_API_ENDPOINT "https://graph.microsoft.com/v1.0"
+#define MSG_BETA_API_ENDPOINT "https://graph.microsoft.com/beta"
 
 G_END_DECLS
 

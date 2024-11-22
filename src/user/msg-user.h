@@ -40,4 +40,28 @@ msg_user_new_from_json (JsonObject  *json_object,
 const char *
 msg_user_get_mail (MsgUser *self);
 
+const char *
+msg_user_get_display_name (MsgUser *self);
+
+const char *
+msg_user_get_given_name (MsgUser *self);
+
+const char *
+msg_user_get_mail_name (MsgUser *self);
+
+const char *
+msg_user_get_mobile_phone (MsgUser *self);
+
+const char *
+msg_user_get_office_location (MsgUser *self);
+
+const char *
+msg_user_get_surname (MsgUser *self);
+
+const char *
+msg_user_get_company_name (MsgUser *self);
+
+const char *
+msg_user_get_department (MsgUser *self);
+
 G_END_DECLS

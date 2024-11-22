@@ -1,4 +1,4 @@
-/* Copyright 2022-2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
+/* Copyright 2024 Jan-Michael Brummer <jan-michael.brummer1@volkswagen.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,35 +26,21 @@
 
 G_BEGIN_DECLS
 
-#define MSG_TYPE_CONTACT (msg_contact_get_type ())
+#define MSG_TYPE_USER_CONTACT_FOLDER (msg_user_contact_folder_get_type ())
 
-G_DECLARE_FINAL_TYPE (MsgContact, msg_contact, MSG, CONTACT, GObject);
+G_DECLARE_FINAL_TYPE (MsgUserContactFolder, msg_user_contact_folder, MSG, USER_CONTACT_FOLDER, GObject);
 
-MsgContact *
-msg_contact_new (void);
+MsgUserContactFolder *
+msg_user_contact_folder_new (void);
 
-MsgContact *
-msg_contact_new_from_json (JsonObject  *json_object,
-                         GError     **error);
-
-const char *
-msg_contact_get_name (MsgContact *self);
-
-void
-msg_contact_set_given_name (MsgContact *self,
-                            const char *given_name);
+MsgUserContactFolder *
+msg_user_contact_folder_new_from_json (JsonObject  *json_object,
+                                  GError     **error);
 
 const char *
-msg_contact_get_given_name (MsgContact *self);
-
-void
-msg_contact_set_surname (MsgContact *self,
-                         const char *surname);
+msg_user_contact_folder_get_display_name (MsgUserContactFolder *self);
 
 const char *
-msg_contact_get_surname (MsgContact *self);
-
-const char *
-msg_contact_get_id (MsgContact *self);
+msg_user_contact_folder_get_id (MsgUserContactFolder *self);
 
 G_END_DECLS

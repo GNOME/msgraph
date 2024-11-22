@@ -1,0 +1,21 @@
+> GET /v1.0/me/contactFolders HTTP/2
+> Soup-Debug-Timestamp: 1732306538
+> Soup-Debug: SoupSession 1 (0x66898d0), SoupMessage 7 (0x668bdd0), GSocket 1 (0x74289f0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAbr9ctx9j7DO5NJikAE7mXzJBUHMIy94g7csGnUTseeJDN2NyDBCQ/1vx9bnjsQ1gpHFUSgZNcB3Zijc59Od9oF4AvPGb4oN7s/eqTmgHFG0eO25tbNz/6BeEK3/x6Ju1oPsplijgpNXor/wAUoDCWKgUOZ8bgiZx7zgDTHFdGQZDewQRi1VSUwZWp2cICppcKbAREeZBRYtoEeGZogxAJ/wu0TTWnUn+bs6gUF8R6d6ZWgTEUvwoeZpXk4gXLbZQUVb08DxdmPL2wQMBsDqPeozAf94BdwKqbTV4xvbQhpjwm6bK2DRlpFhD8zB+g8PFp3PGdIqei0Ya+UpWQ29L3wQZgAAEMq5MZDfgnIcDQVNHrqOJJ1gAreCGptay4Fji/GCh5b4wS3HU7h0vPMtFFS527eXreEzU1igwS55/+NHxKumaupHJ9w1l+k4FijNVF+3SVmLTHS95yF8snJG2+44+w8Rp9POOiFaRzIZD6N698ahmqZcBxkqc/k9+4eMapClr0UBB64xxyE2I4rhELqe8jC9X9/rLvYsILCjA6I74U372Vw+B60locGL8ENB2opWTB/B91jPiw7lChe3bTVSaV8dqa3Tgqt2K1IlshSRIf0tbNIkll8x2wWKaOyLFaoJ2QpnmCofeNY2v4YSMC+WxSdCASeh4BiV3JS+4einP36znWzJ4iJaRqaw+ftU33l4pu/DX/uEZ8uU2v2mK/QSHipbU9xwRYsPulY3Oyx2bE2IQ1qwtyD/WuSD4lpW9wCiyoQjRYBlcBF0ViTax3wFKvGbUX9RhXYIBY+AAMssCpblHvhCm0/fQgQNL3YT7bRwUJq6+kI5romX9EYuC79VEbwqtbp1pxI9o43BO9RCGoxMlyqBu8vJKDKXQZzhcTIs4C8KLQtFE/eseGPlN4akufxOF7yPGce5rP8IvYU7GBBS6Ebgpa+qKXV+jypSR/BNCg+lj5VCSlAvfEX0SLmxgYPZWpLwM0wZkrB/1+W6gLdFTNFU4ttNt4LEashTJGKKUIq6QFMWYSGGg9xfqKpVApiXiRoehY+2slsHr7ZB18ves2BYOw/ohxvyFU1org+lO53HA6ewu04Zs3dcRtkRi5gf2HvJqcS9MIJs2btI4f2DU2eU/mLmDI30UamclOLrA8tMMo/lOZu7OoKmlfj/G9X/eCIXoAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732306538
+< Soup-Debug: SoupMessage 7 (0x668bdd0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Fri, 22 Nov 2024 20:15:38 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 40064239-7d12-4046-99c1-01486d097b9e
+< client-request-id: 40064239-7d12-4046-99c1-01486d097b9e
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/contactFolders","value":[]}
+  

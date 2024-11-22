@@ -1,4 +1,5 @@
 #include "src/msg-authorizer.h"
+#include "src/user/msg-user-contact-folder.h"
 #include "src/user/msg-user-service.h"
 #include "src/user/msg-user.h"
 #include "src/msg-service.h"
@@ -10,7 +11,7 @@ static MsgService *service = NULL;
 static UhmServer *mock_server = NULL;
 
 typedef struct {
-    MsgUser *user;
+  MsgUser *user;
 } TempUserData;
 
 static void
@@ -43,23 +44,77 @@ test_get_user (void)
 }
 
 static void
-mock_server_notify_resolver_cb (GObject                             *object,
-                                __attribute__ ((unused)) GParamSpec *pspec,
-                                __attribute__ ((unused)) gpointer    user_data)
+test_get_photo (void)
 {
-  UhmServer *server;
-  UhmResolver *resolver;
+  g_autoptr (MsgUser) user = NULL;
+  g_autoptr (GError) error = NULL;
+  g_autoptr (GBytes) photo = NULL;
 
-  server = UHM_SERVER (object);
+  msg_test_mock_server_start_trace (mock_server, "get-photo");
 
-  resolver = uhm_server_get_resolver (server);
-  if (resolver != NULL) {
-    const char *ip_address = uhm_server_get_address (server);
+  user = msg_user_service_get_user (MSG_USER_SERVICE (service), NULL, NULL, &error);
+  g_assert (!error);
+  g_assert (user);
 
-    g_print ("Add resolver to %s\n", ip_address);
-    uhm_resolver_add_A (resolver, "graph.microsoft.com", ip_address);
-    uhm_resolver_add_A (resolver, "login.microsoftonline.com", ip_address);
-  }
+  g_assert_nonnull (msg_user_get_mail (user));
+
+  photo = msg_user_service_get_photo (MSG_USER_SERVICE (service), msg_user_get_mail (user), NULL, &error);
+  g_assert (!error);
+  g_clear_object (&user);
+  g_assert (photo);
+
+  g_clear_pointer (&photo, g_bytes_unref);
+
+  photo = msg_user_service_get_photo (MSG_USER_SERVICE (service), "unknown", NULL, &error);
+  g_assert (error);
+
+  uhm_server_end_trace (mock_server);
+}
+
+static void
+test_get_contacts (void)
+{
+  g_autolist (MsgUser) contacts = NULL;
+  g_autoptr (GError) error = NULL;
+
+  msg_test_mock_server_start_trace (mock_server, "get-contacts");
+
+  contacts = msg_user_service_get_contacts (MSG_USER_SERVICE (service), NULL, &error);
+  g_assert (!error);
+  g_assert (contacts);
+
+  uhm_server_end_trace (mock_server);
+}
+
+static void
+test_get_contact_folders (void)
+{
+  g_autolist (MsgUserContactFolder) folders = NULL;
+  g_autoptr (GError) error = NULL;
+
+  msg_test_mock_server_start_trace (mock_server, "get-contact-folders");
+
+  folders = msg_user_service_get_contact_folders (MSG_USER_SERVICE (service), NULL, &error);
+  g_assert (!error);
+  g_assert (!folders);
+
+  uhm_server_end_trace (mock_server);
+}
+
+static void
+test_get_find_users (void)
+{
+  g_autolist (MsgUser) users = NULL;
+  g_autoptr (GError) error = NULL;
+
+  msg_test_mock_server_start_trace (mock_server, "find-users");
+
+  /* Expect error as this one is for business accounts only and therefore test account will fail */
+  users = msg_user_service_find_users (MSG_USER_SERVICE (service), "mustermann", NULL, &error);
+  g_assert (error);
+  g_assert (!users);
+
+  uhm_server_end_trace (mock_server);
 }
 
 int
@@ -75,7 +130,6 @@ main (int    argc,
   msg_test_init (argc, argv);
 
   mock_server = msg_test_get_mock_server ();
-  g_signal_connect (G_OBJECT (mock_server), "notify::resolver", (GCallback) mock_server_notify_resolver_cb, NULL);
   path = g_test_build_filename (G_TEST_DIST, "traces/user", NULL);
   trace_directory = g_file_new_for_path (path);
   uhm_server_set_trace_directory (mock_server, trace_directory);
@@ -87,6 +141,10 @@ main (int    argc,
 
   g_test_add_func ("/user/finalize", test_finalize);
   g_test_add_func ("/user/get/user", test_get_user);
+  g_test_add_func ("/user/get/photo", test_get_photo);
+  g_test_add_func ("/user/get/contacts", test_get_contacts);
+  g_test_add_func ("/user/get/contact_folders", test_get_contact_folders);
+  g_test_add_func ("/user/get/find_users", test_get_find_users);
 
   retval = g_test_run ();
 

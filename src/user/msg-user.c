@@ -27,7 +27,17 @@
 struct _MsgUser {
   GObject parent_instance;
 
+  char *id;
+
+  GList *business_phones;
+  char *display_name;
+  char *given_name;
   char *mail;
+  char *mobile_phone;
+  char *office_location;
+  char *surname;
+  char *company_name;
+  char *department;
 };
 
 G_DEFINE_TYPE (MsgUser, msg_user, G_TYPE_OBJECT);
@@ -38,6 +48,14 @@ msg_user_finalize (GObject *object)
   MsgUser *self = MSG_USER (object);
 
   g_clear_pointer (&self->mail, g_free);
+  g_clear_pointer (&self->display_name, g_free);
+  g_clear_pointer (&self->given_name, g_free);
+  g_clear_pointer (&self->mobile_phone, g_free);
+  g_clear_pointer (&self->office_location, g_free);
+  g_clear_pointer (&self->surname, g_free);
+  g_clear_pointer (&self->company_name, g_free);
+  g_clear_pointer (&self->department, g_free);
+  g_clear_list (&self->business_phones, g_free);
 
   G_OBJECT_CLASS (msg_user_parent_class)->finalize (object);
 }
@@ -84,7 +102,21 @@ msg_user_new_from_json (JsonObject                       *json_object,
   MsgUser *self;
 
   self = msg_user_new ();
-  self->mail = g_strdup (msg_json_object_get_string (json_object, "mail"));
+  if (json_object_has_member (json_object, "emailAddresses")) {
+    JsonArray *email_addresses = json_object_get_array_member (json_object, "emailAddresses");
+    JsonObject *email_address = json_array_get_object_element (email_addresses, 0);
+
+    self->mail = g_utf8_strdown (msg_json_object_get_string (email_address, "address"), -1);
+  } else {
+    self->mail = g_strdup (msg_json_object_get_string (json_object, "mail"));
+  }
+  self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
+  self->mobile_phone = g_strdup (msg_json_object_get_string (json_object, "mobilePhone"));
+  self->office_location = g_strdup (msg_json_object_get_string (json_object, "officeLocation"));
+  self->surname = g_strdup (msg_json_object_get_string (json_object, "surname"));
+  self->given_name = g_strdup (msg_json_object_get_string (json_object, "givenName"));
+  self->company_name = g_strdup (msg_json_object_get_string (json_object, "companyName"));
+  self->department = g_strdup (msg_json_object_get_string (json_object, "department"));
 
   return self;
 }
@@ -99,4 +131,88 @@ const char *
 msg_user_get_mail (MsgUser *self)
 {
   return self->mail;
+}
+
+/**
+ * msg_user_get_display_name:
+ * @self: a user
+ *
+ * Returns: (transfer none): display name of user or %NULL if not existing
+ */
+const char *
+msg_user_get_display_name (MsgUser *self)
+{
+  return self->display_name;
+}
+
+/**
+ * msg_user_get_mobile_phone:
+ * @self: a user
+ *
+ * Returns: (transfer none): mobile phone of user or %NULL if not existing
+ */
+const char *
+msg_user_get_mobile_phone (MsgUser *self)
+{
+  return self->mobile_phone;
+}
+
+/**
+ * msg_user_get_office_location:
+ * @self: a user
+ *
+ * Returns: (transfer none): office location of user or %NULL if not existing
+ */
+const char *
+msg_user_get_office_location (MsgUser *self)
+{
+  return self->office_location;
+}
+
+/**
+ * msg_user_get_surname:
+ * @self: a user
+ *
+ * Returns: (transfer none): surname of user or %NULL if not existing
+ */
+const char *
+msg_user_get_surname (MsgUser *self)
+{
+  return self->surname;
+}
+
+/**
+ * msg_user_get_given_name:
+ * @self: a user
+ *
+ * Returns: (transfer none): given name of user or %NULL if not existing
+ */
+const char *
+msg_user_get_given_name (MsgUser *self)
+{
+  return self->given_name;
+}
+
+/**
+ * msg_user_get_company_name:
+ * @self: a user
+ *
+ * Returns: (transfer none): company name of user or %NULL if not existing
+ */
+const char *
+msg_user_get_company_name (MsgUser *self)
+{
+  return self->company_name;
+}
+
+/**
+ * msg_user_get_department:
+ * @self: a user
+ *
+ * Returns: (transfer none): department of user or %NULL if not existing
+ */
+const char *
+msg_user_get_department (MsgUser *self)
+{
+  return self->department;
 }

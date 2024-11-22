@@ -397,9 +397,9 @@ msg_drive_service_rename (MsgDriveService  *self,
 
   if (!is_valid_name (new_name)) {
     g_set_error (error,
-             msg_error_quark (),
-             MSG_ERROR_FAILED,
-             "Invalid characters in name");
+                 msg_error_quark (),
+                 MSG_ERROR_FAILED,
+                 "Invalid characters in name");
     return NULL;
   }
 
@@ -489,9 +489,9 @@ msg_drive_service_create_folder (MsgDriveService  *self,
 
   if (!is_valid_name (name)) {
     g_set_error (error,
-             msg_error_quark (),
-             MSG_ERROR_FAILED,
-             "Invalid characters in name");
+                 msg_error_quark (),
+                 MSG_ERROR_FAILED,
+                 "Invalid characters in name");
     return NULL;
   }
 
@@ -718,9 +718,9 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
 
   if (!is_valid_name (msg_drive_item_get_name (item))) {
     g_set_error (error,
-             msg_error_quark (),
-             MSG_ERROR_FAILED,
-             "Invalid characters in name");
+                 msg_error_quark (),
+                 MSG_ERROR_FAILED,
+                 "Invalid characters in name");
     return NULL;
   }
 

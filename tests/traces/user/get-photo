@@ -1,0 +1,65 @@
+> GET /v1.0/me HTTP/2
+> Soup-Debug-Timestamp: 1732306536
+> Soup-Debug: SoupSession 1 (0x66898d0), SoupMessage 3 (0x74c4e00), GSocket 1 (0x74289f0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAXFZP7im7qBDnqL1y10Yz05KPG+lApDFF/4jAtXy9N01p7l4LTMm6gxILKFmL8HtvIYESimurXVjMdDT4MreC46fLK5KRv3V6uO46HgqWr1dVvGBEwjdj0RSHcQlRX9bfzQf1QUn7bIhJ8iuW2bQgzBY1fVyfPzYkEqVPADJtNLdCWaaNeVTz6R0uy2xG2WvEIPpdG1z4W9rFjdpn1qwj+2Dn3ETPjKZtFe53di8DBK810uTwsuPnE6V7qAym6wOaAiya7riWjLKE3pSjUQrZibnq7164+yJ+UHrRjKawfz/Ie/Svp6GdRHgZOiSLZm6tKluFBukPu3QGpS8IpldmWoQZgAAEMq+9otJhunUGvjSQC/uuoJgAle8FFvzg+y7PXY0wVsgEBf4D4O4BrYjbH4C3hRHnx6wyNMn4CyKsS2P6E4A7wk3ilyX4VBnQet2KaigaijRy0uiYKvb8ZpO3kJluvkMeqBFJexVK832kM157lDuWwpGAq/7GcJBmf5KBFMrP8alVj91E+Q00zFlQOCLjLMGvzwRG1qCDQuKn/n1i9efuUi1cJ3u1E76SEFCSXtVLsVeTAhe51OioGvnEoxOE4ijMbHvrILaP/XH+G+fm5f+/ZuLKMBf3jicvMwGoWahkSsbd/xkttP7ay9MQud1SPVIIcp55YGkRvk9CxkCeY/cAPcZvKkjg6D2oeCT7C+dsaJ+/fiW4H5zL56wC9HFzsH0NnZS4c3BwDGyERrzQpatwbg+jriEMRxgkOPdpecT6OEgfMgT7TwaiD6JCg9XkX5p4qqvRJNYzwW7MiKYTFYWy2yvsZ4nrZYu9GKazz2WU8J8S/pZJsZVNST8xsJyGbSoBoZ5+uRC6Mp2WhwFx89N8R7fZJ7Alcdi/tZ4efbkGBtZRvJJ/RCLUWY5ZxJGmL/A8jZCT8z+I17dmhSUyAk/fUk71rbUu6nUGcxdESLo3ZTZ9mXsnrH2JID/zNpR9DtjyFLGGQ9Ks8qxExHhZwdy1rg/sI/mwYz5Wp29EnqgvH7RA+NUpEk5J4p1pN4+znq+yyBe/eJtm2yp+42NuU/bkg+c8eARMRSVdfRV0llT8ivx7RExUz1il2b8ifABcxMREDCqq/Ur+OyxfSSvn4bWNtrnP4lu3iRVWRZcJULxhS1axYf4UUnrjvY3Jiu3a03mB7qhoAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732306537
+< Soup-Debug: SoupMessage 3 (0x74c4e00)
+< Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+< Content-Encoding: gzip
+< Vary: Accept-Encoding
+< Date: Fri, 22 Nov 2024 20:15:36 GMT
+< strict-transport-security: max-age=31536000
+< request-id: d7e7e7e0-2195-4efb-bdaa-a3558e13a14f
+< client-request-id: d7e7e7e0-2195-4efb-bdaa-a3558e13a14f
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}
+< odata-version: 4.0
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users/$entity","userPrincipalName":"jan.brummer@tabos.org","id":"4f62a7105c03556e","displayName":"Jan Brummer","surname":"Brummer","givenName":"Jan","preferredLanguage":"en-GB","mail":"jan.brummer@tabos.org","mobilePhone":null,"jobTitle":null,"officeLocation":null,"businessPhones":[]}
+  
+> GET /v1.0/users/jan.brummer@tabos.org/photo/$value HTTP/2
+> Soup-Debug-Timestamp: 1732306537
+> Soup-Debug: SoupSession 1 (0x66898d0), SoupMessage 4 (0x73cdbd0), GSocket 1 (0x74289f0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAZT0/JU17a4SmqJYauQHa7HTIpfiGsjTbLNK7LOYfcQkq0ESRXahN+K1PH2skhi9/Zl5WTOM3If/o7GpZoZJ7lH8al90swI+OuKemSeW6PsVPT0OIDKj1SlE9b+p7G4vh30h59XDfsuc3BPL6V1nIazq4zhyoK4ix5ZbpOXCWYhU3lvyqOOzI7HEM9OdJcSIxObPQbcLIas+uPIZYhOJMU9Rrim1W8VDiVR9iM/wM7cbGGnNfj0+bvZhVUHqDUgA+oF2l1tsDhIrhXLC/AGrmq0C0TW3BPc51yHYJVG6U36MivK91pD+Ih5wOiYZsN72TKtQX44x5aup3UdwC8cnaBEQZgAAEGHVjD9qIdTXs3v++DuS1vhgAjHJ5ci0MWBAJq8/G0YF4DxcQZpeYPjUkke9aUaiYFgch9utG4n0ZrNzFdkBFUs6GC7NIE8d9vagsgWw7FS/SdzOjOmTQTSo08E9uKoaV1MKstdvKeowv3BlqOuWniwzlnurz49HJaG9p2qOSMCRfTUw0h+m8JWmV4eIIYY7mAslIYcjv6fUIJcWV4GkGNW+9QA057utBZ340p3LBH3Zz4AocPsqFWPv7qHtkrM+WXtr3Zbc5cDa5gCK9Wdn3L8QWY1Rs70vnyFSM2AweyF37SNiOWzieKUqY1rEP5ozJvZK5OvuVSbBPByrU7yBnRcxkVgjsIZjS9hW8vghW1c3/C4qaVh6Omh5782GY0QeC0wLJMODRe7Q47h8CtcDX7IZdrSzqP9BS6IpBC9NPaKOF2EK9wCK/x1PODl4Bu4tSaBus9L86HdhtEtWF4kJ2rTZ9GQrAp+z8LEOv4c7/CqcVhKz5I6FuH4vwxoZVYu2Ow8fmrLjMVRQvNlpKaO/Cwo0O0eX6VjpiJY8ZCpA4p7hL72z4pVyEWaiBQrN8Cf4p3IlSD9tdr4zvAj08KTmDH0pBcizGF4BfPfc/7V1T9auEzZg07b1BXdaz5/PCeSwddjuhUaRquJKUhdg4k627rEpyFivrz97NL8wRlU/DJkOUSOcgtqg8TviLdw/PA7DX3GwaLj7vrzNa/pfo0l41jGIqN96mWExgio9wn0+FFN+zynqKfLcV1JTWj0C+44XIPFwRT8v8sUwK33WnmNcjgZ/ynUw07svCh9KlKHo6TdUGOB2L9KQuIESDhz/B4M8xtU/oAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732306537
+< Soup-Debug: SoupMessage 4 (0x73cdbd0)
+< Cache-Control: no-cache
+< Content-Type: image/png
+< ETag: W/"22ed62c32b5b944f0426161d65e0dbd565f83e936eca23d8771ca4afb3951b47"
+< Date: Fri, 22 Nov 2024 20:15:36 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 3b156f60-fe3d-45b1-806e-4ba4dc16678e
+< client-request-id: 3b156f60-fe3d-45b1-806e-4ba4dc16678e
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}
+< 
+< ‰PNG
+< 
+  
+> GET /v1.0/users/unknown/photo/$value HTTP/2
+> Soup-Debug-Timestamp: 1732306537
+> Soup-Debug: SoupSession 1 (0x66898d0), SoupMessage 5 (0x74383b0), GSocket 1 (0x74289f0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAR6LlqV5M+maAJu5ukUPKJmgUD698eVq+MxAtu3TruwlYGQvSLTx4iTxFP26A48+sSybqO8uVJnOaAo4sLKeNxKppUj8u7KvIELx2A2LLa83Ps5Df34PmFMWi6GAD3unh4FRZJ5uW7URhP64ffN6sH6UmkZDyrwYsmrbKumUFQ7fKvd0/gVFKXD+Y/F8jmB6l5aSeSPztJRZWRdN+r0x6cpvUxuDaGd0HNvAHfG25Z8aA1gGY+UgTXsbPP8zCfC7uSZpXp7b90YX4cRxDBv8RiSwwvZ/OmRGJXftaNs5kcfgBkWAnEuCuW3YK7nGkDymF68Ja7m5Tkh71HzlWGd6jx0QZgAAEAId71yCxSRc1QRR19uwfvFwAiXXAjEXMZ2mHE63K4kH6ucO2DJ7X99JQEt1AlvrAPHbM9MooKxsuDPTzaQfzuNXgUCEC/spS+SZSo4/XmUH4okahfQhhJIIDgRFBufwOeq/F/JUxpFHrXKdLG6xOKCxSHvI5owMo6OJAlIqMBKPdJ42cdMZ3LaXZUYNQXUTPRogDHmbWzGpjtDKbOFsKlbVJ3c0CQdi3P26n4S9yb0K9zxSVqD9FyF0UokSNcaLrU3ybUwRrMFZJ5uDBZUAq/DTwDpeVt3zAlrn3YlqNBAdAS09LAm4ZTgDCcSlHlhN0IQieGh5sgMDoZwVWsakJ9fZiPpCA6gbLC+Z0J04t4BA6/Zf6Pu4aa4+Y0uNSpzrbLJwonvyUKm7VcvKzthF0R24b8jlfm572HRPCWivFkAsK+ioD9fXM2HRcc+fPn8q9/9e6gna16bj1DAdAa8CEYgtC/nksGX4lXlMYafiiiYcUYZWQP96P2MajGzCnL9cvJccwCz3ab4UFWWDtldSYJnHZovSmZ2moAoU9v5eDbPzv1h5XRIdB+XZEWePIsD8uqNKMvkjVkhDg8DxictF9pxS0hViPwBQZ99Y+cNgB/HCiH0SUA/iRQPq+AnCbO2Sf45Zkyu9x3mIypVJcW1uA+VVQBB5OYv7j5uomO+K+2lgCqHuPVCatc7Lj4TNMwPyzm9WQMLHUygMvv/R5bptcLrrDxSHGDSL5glDj6Ynoi7VAtPr9Km2YsDpmWLqdE5bNkBleYyMk16DIkfcvXtAU4lp2i+X55cEIbW4Cs541jsbdFNfw3+4uCI/j7PId6nkXPzQ7Wf3l0sUYo0YHooTCGkRaKAC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 400 Bad Request
+< Soup-Debug-Timestamp: 1732306537
+< Soup-Debug: SoupMessage 5 (0x74383b0)
+< Content-Type: application/json
+< Content-Encoding: gzip
+< Vary: Accept-Encoding
+< Date: Fri, 22 Nov 2024 20:15:37 GMT
+< strict-transport-security: max-age=31536000
+< request-id: eb34e134-32ad-4952-9865-e663036d3ff1
+< client-request-id: eb34e134-32ad-4952-9865-e663036d3ff1
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}
+< 
+< {"error":{"code":"ErrorBadRequestInvalidTargetIdentity","message":"Exception of type 'Microsoft.Fast.Profile.Core.Exception.ProfileBadRequestException' was thrown.","innerError":{"date":"2024-11-22T20:15:37","request-id":"eb34e134-32ad-4952-9865-e663036d3ff1","client-request-id":"eb34e134-32ad-4952-9865-e663036d3ff1"}}}
+  

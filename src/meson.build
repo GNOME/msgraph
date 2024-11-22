@@ -2,8 +2,6 @@ msgraph_inc_dir = include_directories('.')
 msgraph_built_headers = []
 
 msgraph_sources = files(
-  'contact/msg-contact.c',
-  'contact/msg-contact-service.c',
   'drive/msg-drive.c',
   'drive/msg-drive-item.c',
   'drive/msg-drive-item-file.c',
@@ -13,6 +11,7 @@ msgraph_sources = files(
   'message/msg-message.c',
   'message/msg-message-service.c',
   'user/msg-user.c',
+  'user/msg-user-contact-folder.c',
   'user/msg-user-service.c',
   'msg-authorizer.c',
   'msg-error.c',
@@ -24,8 +23,6 @@ msgraph_sources = files(
 )
 
 msgraph_headers = files(
-  'contact/msg-contact.h',
-  'contact/msg-contact-service.h',
   'drive/msg-drive.h',
   'drive/msg-drive-item.h',
   'drive/msg-drive-item-file.h',
@@ -35,6 +32,7 @@ msgraph_headers = files(
   'message/msg-message.h',
   'message/msg-message-service.h',
   'user/msg-user.h',
+  'user/msg-user-contact-folder.h',
   'user/msg-user-service.h',
   'msg.h',
   'msg-authorizer.h',
