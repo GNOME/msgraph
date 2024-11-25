@@ -1,0 +1,147 @@
+> GET /v1.0/me/mailFolders/inbox HTTP/2
+> Soup-Debug-Timestamp: 1732547058
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 2 (0x11e3fab0), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAVcEULSKhmm6N9G+hnlIkMc5BZ8gF/C50jdL6gR0RIBn0VdguGtvNO+g+OmVt6Sp1DKLunxKYovhHWLGJW7gPeE/pqFmL37KiU8OsF5gfT7Bo1/vfpaNyzCmjr3LSIpLixs0CVBAV8YJ/P9w9+0HHWS1jow5Op5nxG+i7WzYWtwsuhT/ERKxmW0Hp2yEvZE79FrBo4xz1tk5hJplFWdmSISS83YxRpqauj1JM6+SPeuDdOlYE8imAv/Y8+hS5WLmGqtJ+stM1mmX1FTwwfY8PeYqbXLxYMLZYPDjMcV1ApralvrEcVWLXD8zrfzjmd18h9f5tWc1QowffWrY008nnEcQZgAAEIM++OeR45K0yHD9aMz+27VwAhV1EnaZE1rhx4uMK/5qA8ER88zx9GFy4g+CsRwbxnokBEJnbHmyDf9lJMWZ3eNqkMJL7+4cgZncLBFc7DtRWqG2Dc6E1ubhkjA2T9mQ0AdOewrC61U/HY82Di7A9lHXmYqn/B6gMN2Hjn12avAYMQJ8q6FImHfR9oos6OQkpnt1p2K+kxeoyX4bEVWKY6UwdgCwCCXzmGRsuBxvcT8um4AmIpWnJeHzAtyZJ+GbJrlEkzzz78FO9WIBOGCTGIt9c1x0PptUGGD7jN8Et4wihcBv0yQp2faQ3KWmL/6lDe191oDBxVrSoUlDRUQe0SOFnvn/je+9eoylsV8jOGDPabI+3CP43nUnUhXBErz9VPqyg+Ler7d+Wv3hVJo/a6Nvml3dZOkkN809pC+vJ+FTyMzcz0UHpv4bsYZ73xYcZsQ+VclbEpexzs6+W3igK2Nx7jmfYDAklV/d6j9xqzuljlnKekMmNgh0StQYW/ON42FpSlynt4RNT5LHtBsjT7sAjgdSDxubE3uIqi7ItET5eu2VKPDztYnBx7xAEpdNRvE6loPE1eQsmjGu0kMHdzRkIfos1t4eFfHot2ndOAtIF3bwkWfDYEHQGz/QAltBR4745lpzx9h7QhI1hwZkvir9UYcOTj4LJZCXoxcTBGa4ghgxyyYec3t51t87uTznAPjnZ/dIc84+SZ/3rEFwbO3YtyTRaCGDpeYJ9+X7rQScqPlJc3g8e9SaPHPWPbY8nWlvZEbI+T6DPNnSjtHDh9TIGfEh4QL0zCunnLR75MtEVxHBHNOWDtICU+Hb1cVLNjyKxvqdp0+mxST9/FLtrCCGCKAC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547058
+< Soup-Debug: SoupMessage 2 (0x11e3fab0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:18 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 3b831731-b2ef-4172-82d7-9ae93ca0335b
+< client-request-id: 3b831731-b2ef-4172-82d7-9ae93ca0335b
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQwAAAA=","displayName":"Posteingang","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":203997,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/drafts HTTP/2
+> Soup-Debug-Timestamp: 1732547059
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 3 (0x11e3fab0), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAadir9cSffC3nvlRF1Yaopno12svJOH19MhCydtlC1vF0upA0nxyfkEvuLJY6p321/kOfBO44bI1k/36UCBShDg/tbT3Pfrsuer6ZU3b1k5LlBrelxrGmqUQUyiXp8uXWoVfVpQxZ1+HFv+PpkzNADCVn3G0ubR/lpbeKjdt68bV+Y/q7G0NVF6bE+GT+QLZT6leAkljd+XeAZMc+Sb59gE36iFjf/d/Is4PCIftxhT+L6XJio0Ht5wdet8naG7SEY1pMVEP/6ByFdDHQn7xC5niIM9TTQ1+RNajmlQqV0EYe5QoByH6RIaRsD8sihonzdE653kCde6Z0vicAtlIlCwQZgAAEH1x8pp6YQooDovvXnnjP4JgAi4ONoz6IF8FDdis2k3gwvs33GlyU0wg0JGaBbCiC/YDo22fPd63IksqH3aJozEFThRUspEoeivyIBXgucaMYaXJZ82SEcERuHegsabp3m2QCtLdU9XeOa1ZeHYHCXZaB1RRHTrWyGrHTvJEgm8wUjJxn2+vIdyuEiZW8ZR+LAiBnF8jsgsG3kkcttUGFFTP/HPZHmioZ90ye3+eaZvr8Dsc7v7EpZ8+lhBMBw07MPjTtrULqKchNytU+uRRd4cKUjzuS9OQ0IhexifYlRRe2J3d2+geo4tpnlFzGuoYTX1FRG82InpROSykIUN92hkZ7rz/zf7w/Natf+HmAiymcxv2jHvZOfrQFS/uZlpvCfZC/K6xUEDTSfqG4b2NvWMHKcaScD2f+BwRwxamT6kliU7B4zR4NLDYOl8KUcallcoI0lL0bgdpfnqJVgdxLlTdO1X3e46IgIXUN/w03x1e4D+DM/4jTh4Yt1EEqY2cch3oWf63PggAtBRixw5RfTOS9hwCy4NY/CVWkaMf0skXCZYENboe3uaXHGWsb+3PqQgeXT0uy3i1K9zrLU5WIy59P2wUhwpB2Uu4IcibX/xTWO75evuAPQGmneEbOZkZHCpmGs77n+0MqsrI/X9mo1IUCFY7k5y/M1VPvtBC3PFiTiTCgoOOW2fbsInU9H0D9KKxeKzA7XVFmMcC6VZn6/qhCOK7owoXmi17id4sYagHOudSE+iYk4G0gJEcIoF2OTuJ2EToytGV0UZm6tK1kiOMTuhp2gXG4HTrzSeHxVHy8zs4iTziwIKQwzMVnZLJMPfJoAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547059
+< Soup-Debug: SoupMessage 3 (0x11e3fab0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:18 GMT
+< strict-transport-security: max-age=31536000
+< request-id: cdff4dc5-bdac-49f0-bbf5-85586fbdfdda
+< client-request-id: cdff4dc5-bdac-49f0-bbf5-85586fbdfdda
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAA=","displayName":"Entw\u00fcrfe","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/sentitems HTTP/2
+> Soup-Debug-Timestamp: 1732547059
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 4 (0x11ecbb00), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAbTZ+ogVH8gqolrlqmtMH/ATRRsQj2lgTFie8wiPLNR4TxkjD0+19yoeK4gxzpyD7OOttARh/Envlt8dyTRTyugdVxKXNsqODxd6Vgn/WTF3RfF1AQdB6PIDTtBNy/jYp5tV8jQgvv1qH2ueiOfDEPR7GPrNXCbSTbbFb+9b59G7GRlUIbHtZqCpKEd3e/wiGxs30S8Ya90n96l5gwazObifRrKZvF4g7TjCPDCocI7iOvmi3TcGL/IkMq3E48taO9VOZSlHNlbPUj4RCxICj009Nwr1KE060b2a2JrIB1bLWNO+0Haj8Nw5lpeRPA/u1hS63dRgWVQEGcjyTu14gnUQZgAAEEZolTgYcxbTtSzBpPFKO1BwAvlcPFgEjBT6JB5/pJnUVTNKkpIDaHuzAWFxjw5P+IL4tsRML6tKUrd+77Ybm2BzSULJDDc0TLLiqM7r/DczgvLrspQKB3ZzFa7p88pqeMBo4CAN3ln1fnq1goFoJAofqSBDkg3TdxT++7Dhe/vhlUOlz9K7PXh100lIPxbPQUZdV0cmX+ss+Zv+CNpSoDTMuadWRtveIoX4cV3+F0XqUVqXECXQ1XKQtld6Huz5M+VkPD0WP9xYIfvaYGMo8NrCMD95Qkw/JML1qOfXC61qdpT0+nioDRCsMvARwpnU4KqPQLkRCBHRv2Yd9Ii9i7ArXxvE10nPRFv32eQuPxNEg+MJJTbpudfpXi0At6/J/ArvyXo98pUHNTVRKwrVYooY7oQI87jqIF5noip7PWEcGX3+E4AUFCtvalhUTth4NloLI+SD8d1fwh9UzAxl0YKyVbSBCq2u1IdmX8zdMfYJ7igibzWhKOuSZuZqrJRF49HxwTF8kZ3VOeQf4kYJ03W/ih7qcCgjOzJNpW+p8e5wWIwWs1LOJpd3CSDQf3zTWoKGjpQ3F4WAzqP9/8qlS8NKLkTuapde5ZExhLf1L5QTfUpowtOreEM+d4WmJ5QfS1/Mac3TDz8DeYmOrjNyJpoAl02OMabfFaKWkc6unIda79faMxWrHT3lyaF9AiWdtWfZ4Yv5zqubx2TXAAK+eg7ZrOB45HFvqPCuOKkw/bDMccMAMa9atG8hthn295CsNK6EiADjgF60tsin2HCXaUVmzGIndisWqEVTQMh2grKZrfmlMifF02aaUYJJ98NNmbQRVxZrNAMfA1wJ3JCsz9BVr6AC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547059
+< Soup-Debug: SoupMessage 4 (0x11ecbb00)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:19 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 48e774e0-51a9-4ceb-a3f5-498300cc0931
+< client-request-id: 48e774e0-51a9-4ceb-a3f5-498300cc0931
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQkAAAA=","displayName":"Gesendete Elemente","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/junkemail HTTP/2
+> Soup-Debug-Timestamp: 1732547060
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 5 (0x11e3fab0), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAbIRgDmEGGyarVU+2ARlLbzclH8a22bw/B1y/j+5f1vFXRzUBOeTX/ksUJ+swQVpACEEimUXZg//ZyH4ZWjA5DoxBAegACdf6EQzwkKSGVptO2fmxXTWqafJ24FWhnfC26hV3YodCfMWF1d2esLer2CY5wQ/i4L6pMx9HhzYuemjNmClpM8FcnrbI8NxCRTDzNTUL0nO53yAYDsgzxW4OiyBYFbF9ll4781U+edO7O5iBQ5J799CfUNEJXUMSm1dHhfnCqmH4J4eCA2AtFRcLijTk09HacYz5A8VGRMvvAM/mQBpf1Nn+9CqlID7ZdEKgqNostxPrNdLU1Smv/Jee3cQZgAAEOipVvmfKNWJ91SpULa+qLBwAn0DQMVO0Qc7aDOzJef+7WTtViMow1cGWDLeojXdhY4RfEoSBzoDCCwOMh5cUgmCnAMIATcd0RdfCHO7eJMYsiCz6E+BFJF5dVKC1e9cHSlad/e7HU/InbhdfWmQyf0BNswJYslBNC3RvMvP76MRu9kDATOQCBhHZU5NtALkr7C20RdcO/bQncQ7QG40+f6MaK4i49L80SzGlS662EtVIEx8a76VMwdTyecz/lc16PPf4MwWCG27XYLtfAudNO3NrsPY0HHDKPAv5KXSfMz67iQLpfnU4ww3YKbhHnERfCHLNh5M3zzRWeHk3seTjbJTbCNx5nnOD03HZszFQaAb2CA/47Gvr5v/idlxeKYqNO0nBv5OBPafhnWvwT3j/vm7PY9xiEBZGpTMZ7c5Rwv0servcBTaHLgeDF+Jiw/N4pc5ghuvz/KslvkirMRoVZitCboKeoWH08C2MAzRpvDgakqMZ+r4XtBHqBDtcb5Bo3SZR7d4/b5mw24rBqGXVjwNld3Kryj4lzrZw7gYhGZLRMTzjMhNSnRMB8cby5l7rj+R2+syTihfqzhdu6FgqDSirUwd+DHnh/RbhywAZkgRxqsapeDqOfXkGhaCsox4VjHiDlaa6wJR3Wu6p5NOAykkxDZvclpUTU4mTUVk9efEiQWdTsd4T25WMyjDiqUyc5mggJBmcFtOuzOgGIlBBHc9hOnyc8G/awP+/PwGTJL68G0IEh7Kn1mQ/G3WmKwgsnwzSSlnui3VLRmbmUb0OKAxBydtn97P4jHfPR2bTUk8b1mSw8wAmRuj+/D8lnVUMs7wI39ji7V2TbLRJHSS/S6lF6AC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547060
+< Soup-Debug: SoupMessage 5 (0x11e3fab0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:19 GMT
+< strict-transport-security: max-age=31536000
+< request-id: bffbe2cd-ab30-4735-b779-090678161ae8
+< client-request-id: bffbe2cd-ab30-4735-b779-090678161ae8
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACARYAAAA=","displayName":"Junk-E-Mail","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/deleteditems HTTP/2
+> Soup-Debug-Timestamp: 1732547060
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 6 (0x11f50740), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAadir9cSffC3nvlRF1Yaopno12svJOH19MhCydtlC1vF0upA0nxyfkEvuLJY6p321/kOfBO44bI1k/36UCBShDg/tbT3Pfrsuer6ZU3b1k5LlBrelxrGmqUQUyiXp8uXWoVfVpQxZ1+HFv+PpkzNADCVn3G0ubR/lpbeKjdt68bV+Y/q7G0NVF6bE+GT+QLZT6leAkljd+XeAZMc+Sb59gE36iFjf/d/Is4PCIftxhT+L6XJio0Ht5wdet8naG7SEY1pMVEP/6ByFdDHQn7xC5niIM9TTQ1+RNajmlQqV0EYe5QoByH6RIaRsD8sihonzdE653kCde6Z0vicAtlIlCwQZgAAEPlbRVDYPZxCdiTO6PUoqGpgArs0uqADcq7IvC03H4vqusHSCELW7kPGqu967f6xD7XUJbpv/yQt9JhIXJv/GcI0gyHuWmRqcLKJahIpWxuHA2xKykyrePn7nKmbzaFWxF0tirdgZ42vBhVHXGJKSxMPMvcHkcS3TquTL+0Wb2UfN9kLn1pLY0TC6tyWYLq3jcKUC3YXkX3jc58alJ4/TviYs8mOvpPLWx7lvrL5GbiZKSW5mdDtlID5V2BKSYGZdJG8uGN9N1AzfosKGZVVCc+UzyAD3mncxT/ipnHxK9CCG9ZODl1nj+nZjL6CfVNsRkg906fCH74DZ+81qLnWZ6IE8DkASRhRMJIT7lEUPDbXYrv7b4astGRvzEXfLfTCX2l678tekPhMxYznksJ/zru1wglzneGXM5cAgxlzB08y5ANUnhduGQ0n8zICnLI7O2dlzek27jUf8qAvx3me50APdRvHtOILeqpKv68PjN2X3DIkURlydKcvZz0Zku6RCxv6A3WpqW6BYta08WJ0Ux7g3WECzNmEPniCAL55C2Ss5eO8hsQiT4OL1Ku2Az/mnBoue5eGqu2UitJ5yOBmtrzIRasIxc1cG/MYYpgMfeXTdK58mDwmNPVJfgVMAFt+NwLHH26WDZnW3oPj7v7NUQml05erXIM0YRPXtUaIj1YyEGpCmb5ZfDpZh0nr7mnxnwGNDSit6RFkq70NdwKO7imYyNXPepXFByVcXbE2F0GDQPwtgHKIl0SaHQYgnnpHXvGgiaQ2Pa8oYNMQcHGrPTJ68BWJP0FG4qd/GXmTIC1rkpsANnMGiteqTI/rhMUp3+6WoAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547060
+< Soup-Debug: SoupMessage 6 (0x11f50740)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:20 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 767b0211-07d2-413f-b74c-278d6482ea26
+< client-request-id: 767b0211-07d2-413f-b74c-278d6482ea26
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQoAAAA=","displayName":"Gel\u00f6schte Elemente","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/outbox HTTP/2
+> Soup-Debug-Timestamp: 1732547061
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 7 (0x110a2550), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAX12xYo/IxS/qbhnjJO6cOTYBzCIgEQiiGpSZ1kBk1Tecz588DA+SNb68j1/i3DGuf7LOn2BulxuiSvI9nBtP2fnY0En2VmBUkRfVFBpZCsR+gCk1HtDLvWLJoX2iYwnYF2pFuxY+qWvEfkug6+1N0QwAzUfPG+WNUqG6d2taQscTzA9ku5M+M1uqQid1gkCLfvxO47tfdcgpwu9HVkeZqdEENCzU2802wLG+wl6t0pa+5JDb92QED0QLXgRjWQP/ue12KA0dn0f6tNOeprkgU3xVVbick7Qj2zSL8mwuhX/J80EilrXg9Axj/IepjUBKI7fo4VXcqMJ9WllGXwt0IcQZgAAEK0TwMd0472e0NM6jQgbX/hgAsw7FHu9gTmFwbGMNqbHz+PQExKhoX897S04a6tj/E9zi3ANmpDg9WZYPCe+YnGPROzN/1y9mOvHxcl7U8MLdylcPm6lyW2F+TWSGXpsND6a7mamRg2xrriwEV7NxrMeMQymx7Wfg2hJbDyjSmYoWZPMUCrb/A2R6PzH/dj4l2M27IrLpRTVKWC2ylkoGYLr7YSn/MWE2m8nGM4sg/ueNxEDCgea/k4b2jc/wr/c2AfMtshJgofP5XOzm6KvnzA72W4kt+SLGd1ELyZIxocYPRG6FL38pFNldfDvP29Im/QtG9Onac54gId7jfOInM9bGNXVS0X/VmPS7d068wyw8vaJnHcL6mSWUOcceghxf208U1eomjeNnyw4e1VNZqRisDV5ynrs/3O2MGTJCsmS59A8yogoB0KECXDBnkphg+LJzJrkkNp1a0yEv7V1ynX3oYjzw8se31/0wwj5+u/nkvk7D/NPwIBnLK3TBPVW8/JZc0FDBb3DuWg1LVJ1mEb2+pfPucOyfuD664SThk5w5qse13tEM4OUmtVaPEkdk6woo2g2sHhBsaXeU48IXYPqn7d/Spf6p52H2QPAEKvGqt6mTuSD9NibabsdHdv6PF2DIjaxqDmcHkE0BqHtzDj5RWAxpH9ucq/CDReNMtvXbpT6By1H1Q8HpNSMUwE5NxPmO/R4y7HU49dFAkEn7JvDM0Y27Lm6nz8ItK0ox3Jap7Jpx5XxM4POTh0foiz1y91Mi6QNMPLmCAyvaWNYOT+O2Uji3LqCFsLpmAPMZ0Vq2quVMv57rsOD1awaqefBYoR2oAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547061
+< Soup-Debug: SoupMessage 7 (0x110a2550)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:20 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 37996470-97a6-45e5-bc5a-6ef8dc7608f2
+< client-request-id: 37996470-97a6-45e5-bc5a-6ef8dc7608f2
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQsAAAA=","displayName":"Postausgang","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  
+> GET /v1.0/me/mailFolders/archive HTTP/2
+> Soup-Debug-Timestamp: 1732547061
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 8 (0x11e8fbd0), GSocket 1 (0x11e9dda0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AASrsW8fkXeQsEsz82hZjx2862Q2a/2oJzSEbPqnGJhxjEpt5Bdz6R0VJH3I16RHwNa6UaHmZj1ZodoMoslkb+gEHEaCcJd9pwVVIp91wbo4PCw4r/9os/4UTIqozUIVyyyKbi6Gpfjsat4lA+KzrSgMtU2//KGV0eXOmTDXPeAbxxsXyxjBJUepHGVhLNxou/yU85s7sceRhAV3qq/JTei6jheaDroKDbTBtbAiasmCA6Kx1h4VzaPC91/dmBtVtctDyp0eQxruu0b94N39g5J5R1ITXlJfgziCLN9wFACGRCJlbjZsgjtj8FNIMPVWJekbDFkTHlOJk2W6TLe42PQ4QZgAAEJI8i0Cn1yke0JnEo+DxR/dgAtM29aSo773aRotKle3yU33H/4zD4xaSqWJ0Xcb+rPq8Ym1Z+c1+/an0mmNrHWhhYW/f7c70juCPKlXpjmRDCDulxa9hFjf27JkQPnlocyuWY1iXGpeB0iWXrpgqdHj0nLdQX6CsypGzdpTDYQBfski+mq6O+lwaKYEzaxO8SjQaPVAiDz6EuLlWwlZ9xbPOZKZ/zNdtHKzWvGBozEAy3jVir2pXlzOQi00cFx+ne3Qv+5QQQFTNukUa45TVwIqR7Rne+CvH9aRB9ika2CcyMa4rT8ACLqy03O0eSdMzqAzJprViBettU0eWg1+E96EzgT7WRxMMUQg0DFNFc5t3EzqJWJDo7t1ZItFJvRSDJyYXsSncrNnn+OY/ZnKaOdocAOrEsjczFir/YW4amWvLusadVVbogMA9j8CVm0qndcYsKFUPrnss5YdVMYEGR1FQKJP29Jtly8zGOP1q+6rT6cpoGuJ3ShnVQb1gcMTLVaA0iQes6Wh/bmpJxbSLNjlYkagKWgC7eFSJZ5/OUrCYEvPLDOoLRTqLUAuGkWhyqy0l5BBfe5WW+5EDVCRBLxJVk++b/NozBIxXgOcCb4VIV3E7/hRleTGu19Cc2e22NEtfOoBm3rHUyD40MLHmzZGv+r0wRRViY5HO8qOMHw2DgvvljIAqGMBuEm+NReXT/Qv/PA4hYe0QhxgJk5xN0sWO5L3vTJ0BhL7GtdtfOoA6FmIBotlLKlibBF9vlT/iDoCsysKHiJyj8GFh4RmlcuNakwvRILXLrF//0UcRIfSwUy8zJy57E9v3z9VhVXVdXs2OoAI=
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547061
+< Soup-Debug: SoupMessage 8 (0x11e8fbd0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:20 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 82ad5b50-aed0-4e9a-97ff-974d199ff937
+< client-request-id: 82ad5b50-aed0-4e9a-97ff-974d199ff937
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000003F0"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users('outlook_4F62A7105C03556E%40outlook.com')/mailFolders/$entity","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAVcAAAA=","displayName":"Archiv","parentFolderId":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQgAAAA=","childFolderCount":0,"unreadItemCount":0,"totalItemCount":0,"sizeInBytes":0,"isHidden":false}
+  

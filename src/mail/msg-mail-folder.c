@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "message/msg-mail-folder.h"
+#include "mail/msg-mail-folder.h"
 #include "msg-error.h"
 #include "msg-json-utils.h"
 
@@ -34,23 +34,30 @@ struct _MsgMailFolder {
   int unread_item_count;
   int total_item_count;
   gboolean is_hidden;
+
+  MsgMailFolderType type;
+  char *delta_link;
 };
 
 G_DEFINE_TYPE (MsgMailFolder, msg_mail_folder, G_TYPE_OBJECT);
 
 static void
-msg_mail_folder_finalize (GObject *object)
+msg_mail_folder_dispose (GObject *object)
 {
   MsgMailFolder *self = MSG_MAIL_FOLDER (object);
 
+  g_clear_pointer (&self->id, g_free);
+  g_clear_pointer (&self->parent_folder_id, g_free);
   g_clear_pointer (&self->display_name, g_free);
+  g_clear_pointer (&self->delta_link, g_free);
 
-  G_OBJECT_CLASS (msg_mail_folder_parent_class)->finalize (object);
+  G_OBJECT_CLASS (msg_mail_folder_parent_class)->dispose (object);
 }
 
 static void
-msg_mail_folder_init (__attribute__ ((unused)) MsgMailFolder *self)
+msg_mail_folder_init (MsgMailFolder *self)
 {
+  self->type = MSG_MAIL_FOLDER_TYPE_OTHER;
 }
 
 static void
@@ -58,7 +65,7 @@ msg_mail_folder_class_init (MsgMailFolderClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->finalize = msg_mail_folder_finalize;
+  object_class->dispose = msg_mail_folder_dispose;
 }
 
 /**
@@ -91,6 +98,8 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
 
   self = msg_mail_folder_new ();
 
+  self->type = MSG_MAIL_FOLDER_TYPE_OTHER;
+  self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
   self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
 
   self->unread_item_count = json_object_get_int_member (json_object, "unreadItemCount");
@@ -123,6 +132,13 @@ msg_mail_folder_get_unread_item_count (MsgMailFolder *self)
   return self->unread_item_count;
 }
 
+void
+msg_mail_folder_set_unread_item_count (MsgMailFolder *self,
+                                       guint          count)
+{
+  self->unread_item_count = count;
+}
+
 /**
  * msg_mail_folder_get_total_item_count:
  * @self: a mail folder
@@ -133,4 +149,66 @@ int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self)
 {
   return self->total_item_count;
+}
+
+void
+msg_mail_folder_set_total_item_count (MsgMailFolder *self,
+                                      guint          count)
+{
+  self->total_item_count = count;
+}
+
+/**
+ * msg_mail_folder_get_id:
+ * @self: a mail folder
+ *
+ * Returns: id of mail folder
+ */
+const char *
+msg_mail_folder_get_id (MsgMailFolder *self)
+{
+  return self->id;
+}
+
+void
+msg_mail_folder_set_id (MsgMailFolder *self,
+                        const char    *id)
+{
+  g_clear_pointer (&self->id, g_free);
+  self->id = g_strdup (id);
+}
+
+void
+msg_mail_folder_set_display_name (MsgMailFolder *self,
+                                  const char    *display_name)
+{
+  g_clear_pointer (&self->display_name, g_free);
+  self->display_name = g_strdup (display_name);
+}
+
+MsgMailFolderType
+msg_mail_folder_get_folder_type (MsgMailFolder *self)
+{
+  return self->type;
+}
+
+void
+msg_mail_folder_set_folder_type (MsgMailFolder     *self,
+                                 MsgMailFolderType  type)
+{
+  self->type = type;
+}
+
+void
+msg_mail_folder_set_delta_link (MsgMailFolder *self,
+                                const char    *delta_link)
+{
+  g_clear_pointer (&self->delta_link, g_free);
+  self->delta_link = g_strdup (delta_link);
+}
+
+const char *
+msg_mail_folder_get_delta_link (MsgMailFolder *self)
+{
+  return self->delta_link;
 }

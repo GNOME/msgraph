@@ -14,7 +14,7 @@ common_deps = [
 tests = {
   'authorization': {},
   'drive': {},
-  'message': {},
+  'mail': {},
   'user': {},
   'service': {},
 }

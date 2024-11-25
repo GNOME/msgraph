@@ -30,6 +30,19 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (MsgMailFolder, msg_mail_folder, MSG, MAIL_FOLDER, GObject);
 
+typedef enum {
+  MSG_MAIL_FOLDER_TYPE_0,
+  MSG_MAIL_FOLDER_TYPE_INBOX,
+  MSG_MAIL_FOLDER_TYPE_DRAFTS,
+  MSG_MAIL_FOLDER_TYPE_SENT_ITEMS,
+  MSG_MAIL_FOLDER_TYPE_JUNK_EMAIL,
+  MSG_MAIL_FOLDER_TYPE_DELETED_ITEMS,
+  MSG_MAIL_FOLDER_TYPE_OUTBOX,
+  MSG_MAIL_FOLDER_TYPE_ARCHIVE,
+  MSG_MAIL_FOLDER_TYPE_OTHER,
+  MSG_MAIL_FOLDER_TYPE_MAX
+} MsgMailFolderType;
+
 MsgMailFolder *
 msg_mail_folder_new (void);
 
@@ -43,7 +56,40 @@ msg_mail_folder_get_display_name (MsgMailFolder *self);
 int
 msg_mail_folder_get_unread_item_count (MsgMailFolder *self);
 
+void
+msg_mail_folder_set_unread_item_count (MsgMailFolder *self,
+                                       guint          count);
+
 int
 msg_mail_folder_get_total_item_count (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_total_item_count (MsgMailFolder *self,
+                                      guint          count);
+
+const char *
+msg_mail_folder_get_id (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_id (MsgMailFolder *self,
+                        const char    *id);
+
+MsgMailFolderType
+msg_mail_folder_get_folder_type (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_folder_type (MsgMailFolder            *self,
+                                 MsgMailFolderType  type);
+
+void
+msg_mail_folder_set_display_name (MsgMailFolder *self,
+                                  const char    *display_name);
+
+void
+msg_mail_folder_set_delta_link (MsgMailFolder *self,
+                                const char    *delta_link);
+
+const char *
+msg_mail_folder_get_delta_link (MsgMailFolder *self);
 
 G_END_DECLS

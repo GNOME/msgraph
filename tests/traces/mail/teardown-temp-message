@@ -1,0 +1,17 @@
+> DELETE /v1.0/me/messages/AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAEYAAANnhd4vdkgwRadPV5394J1tBwAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAAYxFclBTecRrvZNgqTlHEmAANW5sxKAAAA HTTP/2
+> Soup-Debug-Timestamp: 1732547066
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 17 (0x11ed4070), GSocket 3 (0x11e4c0d0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAUDMe2DfNaWtAqDXsmHdfJQ2RuwVQ5X3nTwu0qSrsGMjuvRL77nszsZF2WBaBQWf2XjrmczX6aWXOXYrqiiphqvXM8Im5Zwkl2p+X2NG4EYCXH96+2SjkmTIIueEq3tUgjX6d9hMexriaflPCualuA5jP9xgBozgMiO4lVwK7ZhKTPb/S6IdiYtbaKFbtC6RfapbvG7QjY1g/4v+ZvO4HC0vWvHrLtVd+nOSmyP9MCUPtbeCqp+Irw/v5SSlgNLIl6N+gwYiXIv+dmrQni4mi5/LzqPLXk79ePoV476NKKcjQU/v8kdbVb1hNUymEaF4udu73XlnHkQo7Ikqz2KHujcQZgAAEIo8Bat8YTKWa9KrMygSHnFwAhadnNPAVXVRU/lErq3xhBPEebVeIxe2b9YQCtQGVuiZsiiwFp5w30XTOHx6DxWexy1TjK+Li66epI3mMHi01hFqNzFGDfjF5SEDRLuFScvovpU0+FD4IAhpnwBqyPnAl4y73ZRhSI+pSCgB9XxXQf+sKrofXB96r9s7RNh/rPHyR5sDI5dRUQRTb6kZleg7/JZKYhR10mZ4V7yIc5bAwz5o0GwSP9H+X1D51skf0ihGYp+HD9gW7eDgrMzzZIlejHxe/ezSMf5PFKcIO5si2VccRWt3CFu2XQfVwcGrKRS/bVo1/SzpD/CyFFE5AbRj790EX1CVvVOM/wTCQKVdqClnbdoZM2wxDmXu365WSETi+Xh2e/QHXkv4dMpOTY9SRaQhUDNw8Era2w6In8OlauGgaMBCbd+ifICFKqt2AjmOlXtba62+QYmwwyoXbXcKIei99WwVtL/VxqH5ypPkgAO9rNl5CN0ud7ycH9pz68bZVmUbAAh/pFs0yqEDQiMHionZY1cqcnRN1FGaZIWYShGDJxuONQZmrrJZjbF6mZbyNuYlPkUdwrG8zsoCSu+GmKzJprDDx5PdKrJjvW9obpfmaGZazxUZSpW0ww64SJyXLNZYyC7OqYdpBWlqMdpdBlfllyyBQayP7M6ANFXlTP2WlM910Kw7wt4TsKqROdq34yi4FoWhEL5Hl5WteOR4rk5m5uVwy8vygCY29b5mrA2ffDyBylHxuncmN7bh6mm6+aLrWFTvjMnlKs6X5vUhNCjor3ra22cHhbB5x4PG2aOdGyO1/Ie/qcmME4Q3YITscPZ4tnYV37qBMVIULR8KWqAC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 204 No Content
+< Soup-Debug-Timestamp: 1732547066
+< Soup-Debug: SoupMessage 17 (0x11ed4070)
+< Cache-Control: private
+< Date: Mon, 25 Nov 2024 15:04:26 GMT
+< strict-transport-security: max-age=31536000
+< request-id: 834f2ef1-377a-455a-bd8a-dd18d3cfddd4
+< client-request-id: 834f2ef1-377a-455a-bd8a-dd18d3cfddd4
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000008D2"}}
+  

@@ -1,0 +1,21 @@
+> GET /v1.0/me/mailFolders//AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAA=/messages/delta?$select=from,subject,toRecipients,ccRecipients,hasAttachments,bodyPreview,receivedDateTime,isRead,id HTTP/2
+> Soup-Debug-Timestamp: 1732547065
+> Soup-Debug: SoupSession 1 (0x11177f70), SoupMessage 16 (0x11069ab0), GSocket 3 (0x11e4c0d0)
+> Soup-Host: graph.microsoft.com
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAXFZP7im7qBDnqL1y10Yz05KPG+lApDFF/4jAtXy9N01p7l4LTMm6gxILKFmL8HtvIYESimurXVjMdDT4MreC46fLK5KRv3V6uO46HgqWr1dVvGBEwjdj0RSHcQlRX9bfzQf1QUn7bIhJ8iuW2bQgzBY1fVyfPzYkEqVPADJtNLdCWaaNeVTz6R0uy2xG2WvEIPpdG1z4W9rFjdpn1qwj+2Dn3ETPjKZtFe53di8DBK810uTwsuPnE6V7qAym6wOaAiya7riWjLKE3pSjUQrZibnq7164+yJ+UHrRjKawfz/Ie/Svp6GdRHgZOiSLZm6tKluFBukPu3QGpS8IpldmWoQZgAAENVlcZieq6b4mvgnPDcTsMFwApLH3eLLgykXBPuKGwSVWX5mZweKPWtrjQO1cG5FXAy/nefh9qqx427SznhKnUnX7Axad6VjfFRB1T2s80SNi8ee00pIFNxs56WC5UDgcRtI0Utbjt2ZEONWr0YNRGRGRD/zNkGWjxp3xVJbRpF6WDU9HT9x1dcb/SN/ZCImgzIVYC1+3AGUvM08FHt8Tcuy+rWOVeYG+G8fDdiUVB9yhYIILf3dZQrphTGxNE5SYD7w1Vn9V8uQb4QrzYIUdgXiCAWcnm3S/7P4g+cjciXGYUWEwgoT+01e33FGTjT+WMNAwJ+Y349hGAriZTBFVFztkhfrXSE2QdU0EMlFY38TJO1EIm1g9WiAROj1fKj89RPFN42l7GdMZD9ROXlO4qA4KxL7C3TAp9esprq9RwiwV8B1lRR7xF7YdAZ30taY9Zx82F8XKsfD1GLlXAy1AgGB+pFps73Mz1KHZoLhBMro8WeJ3Y90WmTVVkUCNqesTTLeerIuQldCpm2e4H705GhVLoqsAjBO/8wsrsppqA3rowEP9WAE6/3pjDqMo3phBR6GaUc4b8ucfvmY+RI0zlsHj0OBXEUam/1uzC0xN7FXR6J+Kfc50oNd4kS2Uv4xi/vdG9nF5MmGhrZl5CgtiyzH87Pk50sm4yumUDfdOOVDKTQrRah0tVSx0tVnjWy/tGLnzPCWVldcIfRGL15tnTq/hRI1/rP1+g+zP6csc84Bk/mllR1ajbZCGaWvExE6Hg6+gFhTyrKOhkCJqg7eB7RmSFnrxX7+5zrjouYCh84z1tf+7BypxtZGWpYwE+L+umeoPM4uu5GjQiaPQdg8voQxsaAC
+> Accept-Encoding: gzip, deflate, br
+  
+< HTTP/2 200 OK
+< Soup-Debug-Timestamp: 1732547065
+< Soup-Debug: SoupMessage 16 (0x11069ab0)
+< Cache-Control: private
+< Content-Type: application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8
+< Content-Encoding: gzip
+< Date: Mon, 25 Nov 2024 15:04:25 GMT
+< strict-transport-security: max-age=31536000
+< request-id: eb2e9e2d-9eac-4d4b-babc-dc27788c73df
+< client-request-id: eb2e9e2d-9eac-4d4b-babc-dc27788c73df
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF000008D2"}}
+< 
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(message)","value":[{"@odata.type":"#microsoft.graph.message","@odata.etag":"W/\"CQAAABYAAAAYxFclBTecRrvZNgqTlHEmAANW75L+\"","id":"AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAEYAAANnhd4vdkgwRadPV5394J1tBwAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAAYxFclBTecRrvZNgqTlHEmAANW5sxKAAAA","receivedDateTime":"2024-11-25T15:04:25Z","hasAttachments":false,"subject":"Hello World","bodyPreview":"","isRead":true,"toRecipients":[{"emailAddress":{"name":"max@mustermann.de","address":"max@mustermann.de"}}],"ccRecipients":[]}],"@odata.deltaLink":"https://graph.microsoft.com/v1.0/me/mailFolders('AQMkADAwATMwMAItMzQ0ADEtOTM5Yy0wMAItMDAKAC4AAANnhd4vdkgwRadPV5394J1tAQAYxFclBTecRrvZNgqTlHEmAAACAQ8AAAA=')/messages/delta?$deltatoken=UliB_aJzkAw2xuXEocPWx_pcbgH01TbmE4JRodG4qliXUTAkjrrmYp_WNo4aiHQWbayuCEH0awaNv_-M8NkQK-Z4GjTXZGCDC9ZTg0wKuiM4hjfXJ3mTmGxyxRnK90EEoT54tvZjWNkiQL5O8M3W-4Zwe2feRulHAC5d9SKp8R6t68-9BeKoheaLurFj3jQwYPP0xuniOr3DQZNhDe6Dmt9qSqgNvYzmNUeqAqNOPUER4Wd1h2VJCgnmHGlrEFug.SzgjwnJtzx5YsRLWXHN5ANT7fu6P88zzgcbL0SWwKG4"}
+  
