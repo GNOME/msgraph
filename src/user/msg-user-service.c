@@ -318,7 +318,6 @@ msg_user_service_find_users (MsgUserService  *self,
 
     g_clear_pointer (&url, g_free);
     url = msg_service_get_next_link (root_object);
-    break;
   } while (url != NULL);
 
   return g_steal_pointer (&list);
