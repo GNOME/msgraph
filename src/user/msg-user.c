@@ -43,7 +43,7 @@ struct _MsgUser {
 G_DEFINE_TYPE (MsgUser, msg_user, G_TYPE_OBJECT);
 
 static void
-msg_user_finalize (GObject *object)
+msg_user_dispose (GObject *object)
 {
   MsgUser *self = MSG_USER (object);
 
@@ -57,7 +57,7 @@ msg_user_finalize (GObject *object)
   g_clear_pointer (&self->department, g_free);
   g_clear_list (&self->business_phones, g_free);
 
-  G_OBJECT_CLASS (msg_user_parent_class)->finalize (object);
+  G_OBJECT_CLASS (msg_user_parent_class)->dispose (object);
 }
 
 static void
@@ -70,7 +70,7 @@ msg_user_class_init (MsgUserClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->finalize = msg_user_finalize;
+  object_class->dispose = msg_user_dispose;
 }
 
 /**

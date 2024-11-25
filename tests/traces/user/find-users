@@ -1,23 +1,23 @@
 > GET /v1.0/users?$search="displayName:mustermann" HTTP/2
-> Soup-Debug-Timestamp: 1732306539
-> Soup-Debug: SoupSession 1 (0x66898d0), SoupMessage 8 (0x74383b0), GSocket 1 (0x74289f0)
+> Soup-Debug-Timestamp: 1732561494
+> Soup-Debug: SoupSession 1 (0xf21c200), SoupMessage 8 (0xf1ce910), GSocket 1 (0xf0cf9d0)
 > Soup-Host: graph.microsoft.com
-> Authorization: Bearer EwCYA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAZT0/JU17a4SmqJYauQHa7HTIpfiGsjTbLNK7LOYfcQkq0ESRXahN+K1PH2skhi9/Zl5WTOM3If/o7GpZoZJ7lH8al90swI+OuKemSeW6PsVPT0OIDKj1SlE9b+p7G4vh30h59XDfsuc3BPL6V1nIazq4zhyoK4ix5ZbpOXCWYhU3lvyqOOzI7HEM9OdJcSIxObPQbcLIas+uPIZYhOJMU9Rrim1W8VDiVR9iM/wM7cbGGnNfj0+bvZhVUHqDUgA+oF2l1tsDhIrhXLC/AGrmq0C0TW3BPc51yHYJVG6U36MivK91pD+Ih5wOiYZsN72TKtQX44x5aup3UdwC8cnaBEQZgAAEPr1+eVVc+6S7pfqZLlBnzJgAvevXjN5GqUmCsua/TQ8wmi25OCfm48DwHxluyYW7JOpFzQruYJJ70YHFbu1blQE9aG5yJNpghax6RINdOIf++GqzRGApbyDAX04/Yw1NbSAuX6wJrIYgdhn4xjdYVKNIMvwKuwatqITG5qyvRBv5FbhnLNYxLk/flW50HVcocWk/INSk4AzR82dyzf9jps14CCw5WLqYCAilWUSc6rBYvnquHjlLcHvRcqIXNq/CCreeD5AaJRrJAV42yr1cwJBmnxLpxKpmPpGX/busoxOTZphTEWMYx2fn5mtqhQr6rGB5pwrlcZMvx4Bx4RoZwB7AgDe6FgExxn8dofbIQ7sTBZDPMoZ5akDnWEJAbi+UMOa3NrdpJZ5TuHw/V4onfnypbIUTrbOH20nolixM8rPkHcG1XO+yhAjbBMRkKhuKJ+/tablsOY5XxSp0QkAlxEZfSpqKek6dxedfZbfNmCslD+RUpkIhKjK1FQUsruZUw0r+FjB+qfKLldatMZz76TjEkIjsMIWbX/JTIwjtikKTDhWq74lMg+Z1xMmJlOBpj4Jd2RL9b34BlEG3Tu9E2/7bB+q+Zy1QKh25qq6CjRWQWKwL3HEg+SclYR0ZsNjXaZVFV2Kn5I5IBS8FsLT/K+hn6052NNLn0Y87gwDMelcMiDwh+niddqjD9gV9eqJAOfQwURxsmdn3t0qfL0AKFuEqmnSm8dkdMSixAOqhNMi6fEVbIRGwjw9zKzP4nembO98HrhSyAqflyw4dv/jPtxaqPjlJdDXwwL9bEPPszX34kOu1FlKcTsa5CZgsRElHXAvoAI=
+> Authorization: Bearer EwCoA8l6BAAUbDba3x2OMJElkF7gJ4z/VbCPEz0AAffxktrLCNX3Y3PhKM6tGQxfXvSb+TA+DIpyOloOcV6dJRUWRy2dAsVMDLVB+Mu/RmxIX1s7P5s/HQRecOg+PvuWAV1+cUZWkoMDZ+w3V1O1XQvd8b30IQoKcWJA1Z0qEIuwt9n6LJNYyseiS6nXQjub4FHhnnWFxfGILhoIrWLDLVR1ykQqlhzyBAfEFvJ9i4nLtnof8iFed1KITRD6u0uABG0FIivzbp2uiZ10HVrZlSuDPum4vTaaNZQ1krX8q42TB/jnsjrE1ODSzosp88ipzexfjjNMB/7LjOJ4/nA+R83mi82CxXqVJTJhUjDg9rf1q7CsQqQlVkO47V2oAXgQZgAAEOfCdRPp+iY3eCKD2oa9uMtwAsGdwBuq4t0Oa4weQYtfw01PEBKXMFLW3dbsIMCF6Q+lb8AWcttqB+h9NSYexJB1KTX5kxKVydW9wbNInLtf+bAHbjftAE/iOHTCvj7XNg8v8F/1RTxy3UcImbUB8XtsCk0vDKhZZbHG5Hgyj1MnO6/+C2DPImVxXIKdpbO+gwYL2YV/xapXbdTunz5BWctVJkaeZD1OBikuQJwkqGt2VK1susO9REDm4krCHmYTx2AByjb8gdBGxvy1eOKMh9wwjptEe6iJWxq6aukrQLTSrLDj3dH6pOfabflTf8/mxpjHB/8DF9Wrn9N1wA5r5FLS2RgCJclVv/zx8BiHzr/AxFQRilz+i62CWIIhSkaFADsN0m7ttUSsPUM3amd7/Fx1zqrtRt7SlyH6tfpO6xgPJcXgGtXZRAPpo2rl7CFhSf0sUezYqcOaf8+w+OC+FBkqqFKIMRqtxGJ3tdRjk6e2nxq1QjKoij6WkUvebRQIqjN9AffkyNLeLUP1QHTMO97sej4MUsiB9/cA2fQa4DUiQRBhGPpPPLCCtC8UNZYD6VxxTZni4mkpozyUiXq9cIp7oKyXy1/iZjqbJTvAvWhcS6zW2AZd+X1CWI+TtiTfLHJewV1QnuAtZX0u8K3I8OfoQnPlVv1hdvfhb6aLvHzgX+XsmBqBRyuS/oNPkwZKrJeZFvMngkZTkij0KdNwUK7JZZucjseOLzmWHkQ59aDAAakf7VuPTF1CDzejOsLRbecRGm7l1auAAfcp9nUMtHELvB4z9BoUrgIS3URwoeiYPFr1AJOkRlgrtKd4ccZqvCsw7S3K6BIpL0NuFF4S3F8V5KAC
 > Accept-Encoding: gzip, deflate, br
 > ConsistencyLevel: eventual
   
 < HTTP/2 200 OK
-< Soup-Debug-Timestamp: 1732306539
-< Soup-Debug: SoupMessage 8 (0x74383b0)
+< Soup-Debug-Timestamp: 1732561494
+< Soup-Debug: SoupMessage 8 (0xf1ce910)
 < Content-Type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
 < Content-Encoding: gzip
 < Vary: Accept-Encoding
-< Date: Fri, 22 Nov 2024 20:15:38 GMT
+< Date: Mon, 25 Nov 2024 19:04:53 GMT
 < strict-transport-security: max-age=31536000
-< request-id: e479a298-35d7-4113-b3be-a213d931d437
-< client-request-id: e479a298-35d7-4113-b3be-a213d931d437
-< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}
+< request-id: bdac1ec1-eb1e-4ffb-8baa-f26a40a051c2
+< client-request-id: bdac1ec1-eb1e-4ffb-8baa-f26a40a051c2
+< x-ms-ags-diagnostic: {"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF00000393"}}
 < odata-version: 4.0
 < 
-< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users","value":[{"error":{"code":"InternalServerError","message":"Invalid response. Expected list response must have value property.","innerError":{"date":"2024-11-22T20:15:39","request-id":"e479a298-35d7-4113-b3be-a213d931d437","client-request-id":"e479a298-35d7-4113-b3be-a213d931d437"}}}
+< {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users","value":[{"error":{"code":"InternalServerError","message":"Invalid response. Expected list response must have value property.","innerError":{"date":"2024-11-25T19:04:54","request-id":"bdac1ec1-eb1e-4ffb-8baa-f26a40a051c2","client-request-id":"bdac1ec1-eb1e-4ffb-8baa-f26a40a051c2"}}}
   

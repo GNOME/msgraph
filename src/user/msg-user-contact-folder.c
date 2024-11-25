@@ -34,14 +34,14 @@ struct _MsgUserContactFolder {
 G_DEFINE_TYPE (MsgUserContactFolder, msg_user_contact_folder, G_TYPE_OBJECT);
 
 static void
-msg_user_contact_folder_finalize (GObject *object)
+msg_user_contact_folder_dispose (GObject *object)
 {
   MsgUserContactFolder *self = MSG_USER_CONTACT_FOLDER (object);
 
   g_clear_pointer (&self->id, g_free);
   g_clear_pointer (&self->display_name, g_free);
 
-  G_OBJECT_CLASS (msg_user_contact_folder_parent_class)->finalize (object);
+  G_OBJECT_CLASS (msg_user_contact_folder_parent_class)->dispose (object);
 }
 
 static void
@@ -54,7 +54,7 @@ msg_user_contact_folder_class_init (MsgUserContactFolderClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->finalize = msg_user_contact_folder_finalize;
+  object_class->dispose = msg_user_contact_folder_dispose;
 }
 
 /**

@@ -15,12 +15,30 @@ typedef struct {
 } TempUserData;
 
 static void
-test_finalize (void)
+test_attributes (void)
 {
   g_autoptr (MsgUser) user = NULL;
 
   user = msg_user_new ();
-  g_clear_object (&user);
+
+  g_assert_cmpstr (msg_user_get_display_name (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_mobile_phone (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_office_location (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_surname (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_given_name (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_company_name (user), ==, NULL);
+  g_assert_cmpstr (msg_user_get_department (user), ==, NULL);
+}
+
+static void
+test_contact_attributes (void)
+{
+  g_autoptr (MsgUserContactFolder) folder = NULL;
+
+  folder = msg_user_contact_folder_new ();
+
+  g_assert_cmpstr (msg_user_contact_folder_get_display_name (folder), ==, NULL);
+  g_assert_cmpstr (msg_user_contact_folder_get_id (folder), ==, NULL);
 }
 
 static void
@@ -139,7 +157,8 @@ main (int    argc,
   if (!uhm_server_get_enable_online (mock_server))
     soup_session_set_proxy_resolver (msg_service_get_session (service), G_PROXY_RESOLVER (uhm_server_get_resolver (mock_server)));
 
-  g_test_add_func ("/user/finalize", test_finalize);
+  g_test_add_func ("/user/attributes", test_attributes);
+  g_test_add_func ("/user/contact_attributes", test_contact_attributes);
   g_test_add_func ("/user/get/user", test_get_user);
   g_test_add_func ("/user/get/photo", test_get_photo);
   g_test_add_func ("/user/get/contacts", test_get_contacts);
