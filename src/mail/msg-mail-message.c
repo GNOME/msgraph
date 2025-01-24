@@ -170,7 +170,6 @@ msg_mail_message_new_from_json (JsonObject                       *json_object,
 
         self->cc = g_strdup_printf ("%s%s<%s>", name ? name : "", name ? " " : "", address);
       }
-      break;
     }
   }
 
