@@ -101,7 +101,9 @@ msg_mail_folder_new_from_json (JsonObject                       *json_object,
   self->type = MSG_MAIL_FOLDER_TYPE_OTHER;
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
   self->display_name = g_strdup (msg_json_object_get_string (json_object, "displayName"));
+  self->parent_folder_id = g_strdup (msg_json_object_get_string (json_object, "parentFolderId"));
 
+  self->child_folder_count = json_object_get_int_member (json_object, "childFolderCount");
   self->unread_item_count = json_object_get_int_member (json_object, "unreadItemCount");
   self->total_item_count = json_object_get_int_member (json_object, "totalItemCount");
 
@@ -212,3 +214,31 @@ msg_mail_folder_get_delta_link (MsgMailFolder *self)
 {
   return self->delta_link;
 }
+
+const char *
+msg_mail_folder_get_parent_id (MsgMailFolder *self)
+{
+  return self->parent_folder_id;
+}
+
+void
+msg_mail_folder_set_parent_id (MsgMailFolder *self,
+                               const char    *id)
+{
+  g_clear_pointer (&self->parent_folder_id, g_free);
+  self->parent_folder_id = g_strdup (id);
+}
+
+int
+msg_mail_folder_get_child_folder_count (MsgMailFolder *self)
+{
+  return self->child_folder_count;
+}
+
+void
+msg_mail_folder_set_child_folder_count (MsgMailFolder *self,
+                                      guint          count)
+{
+  self->child_folder_count = count;
+}
+

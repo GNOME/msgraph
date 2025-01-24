@@ -92,4 +92,18 @@ msg_mail_folder_set_delta_link (MsgMailFolder *self,
 const char *
 msg_mail_folder_get_delta_link (MsgMailFolder *self);
 
+const char *
+msg_mail_folder_get_parent_id (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_parent_id (MsgMailFolder *self,
+                               const char    *id);
+
+int
+msg_mail_folder_get_child_folder_count (MsgMailFolder *self);
+
+void
+msg_mail_folder_set_child_folder_count (MsgMailFolder *self,
+                                        guint          count);
+
 G_END_DECLS
