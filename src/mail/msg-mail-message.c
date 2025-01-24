@@ -123,10 +123,11 @@ msg_mail_message_new_from_json (JsonObject                       *json_object,
 
   self->body_preview = g_strdup (msg_json_object_get_string (json_object, "bodyPreview"));
 
-  if (msg_json_object_get_boolean (json_object, "isRead"))
+  if (json_object_has_member (json_object, "isRead")) {
+    self->unread = json_object_get_boolean_member (json_object, "isRead") != TRUE;
+  } else {
     self->unread = 0;
-  else
-    self->unread = 1;
+  }
 
   self->id = g_strdup (msg_json_object_get_string (json_object, "id"));
 
