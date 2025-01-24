@@ -217,7 +217,11 @@ msg_input_stream_read_fn (GInputStream  *stream,
 
   if (!priv->stream) {
     msg_input_stream_ensure_msg (stream);
+
+retry:
     priv->stream = soup_session_send (msg_service_get_session (priv->service), priv->msg, cancellable, error);
+    if (msg_service_handle_rate_limiting (priv->msg))
+      goto retry;
   }
 
   return g_input_stream_read (priv->stream, buffer, count, cancellable, error);

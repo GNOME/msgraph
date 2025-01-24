@@ -162,10 +162,16 @@ msg_service_send (MsgService    *self,
                   GError       **error)
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
+  GInputStream *stream;
 
   msg_authorizer_process_request (priv->authorizer, message);
 
-  return soup_session_send (priv->session, message, cancellable, error);
+retry:
+  stream = soup_session_send (priv->session, message, cancellable, error);
+  if (msg_service_handle_rate_limiting (message))
+    goto retry;
+
+  return stream;
 }
 
 /**
@@ -186,10 +192,16 @@ msg_service_send_and_read (MsgService    *self,
                            GError       **error)
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
+  GBytes *bytes;
 
   msg_authorizer_process_request (priv->authorizer, message);
 
-  return soup_session_send_and_read (priv->session, message, cancellable, error);
+retry:
+  bytes = soup_session_send_and_read (priv->session, message, cancellable, error);
+  if (msg_service_handle_rate_limiting (message))
+    goto retry;
+
+  return bytes;
 }
 
 /**
@@ -213,9 +225,13 @@ msg_service_send_and_parse_response (MsgService    *self,
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
   g_autoptr (GBytes) response = NULL;
 
+retry:
   msg_authorizer_process_request (priv->authorizer, message);
 
   response = soup_session_send_and_read (priv->session, message, cancellable, error);
+  if (msg_service_handle_rate_limiting (message))
+    goto retry;
+
   if (!response)
     return NULL;
 
@@ -304,7 +320,6 @@ msg_service_init (MsgService *self)
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
 
-  /* priv->session = soup_session_new_with_options ("timeout", 0, NULL); */
   priv->session = soup_session_new ();
 
   /* Iff MSG_LAX_SSL_CERTIFICATES=1, relax SSL certificate validation to allow using invalid/unsigned certificates for testing. */
@@ -437,4 +452,20 @@ char *
 msg_service_get_next_link (JsonObject *object)
 {
   return g_strdup (msg_json_object_get_string (object, "@odata.nextLink"));
+}
+
+gboolean
+msg_service_handle_rate_limiting (SoupMessage *msg)
+{
+  if (soup_message_get_status (msg) == 429) {
+    const char *retry_after = soup_message_headers_get_one (soup_message_get_response_headers (msg), "retry-after");
+
+    if (retry_after) {
+      int seconds = atoi (retry_after);
+      g_usleep (seconds * G_USEC_PER_SEC);
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
