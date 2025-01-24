@@ -86,4 +86,7 @@ msg_service_send_and_parse_response (MsgService    *self,
 char *
 msg_service_get_next_link (JsonObject *object);
 
+gboolean
+msg_service_handle_rate_limiting (SoupMessage *msg);
+
 G_END_DECLS
