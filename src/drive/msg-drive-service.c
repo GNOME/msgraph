@@ -657,7 +657,7 @@ msg_drive_service_update_finish (MsgDriveService  *self,
                                  GCancellable     *cancellable,
                                  GError          **error)
 {
-  g_autoptr (GBytes) bytes;
+  g_autoptr (GBytes) bytes = NULL;
   g_autofree char *url = NULL;
   g_autoptr (SoupMessage) message = NULL;
   JsonObject *root_object = NULL;
