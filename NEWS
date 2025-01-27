@@ -1,9 +1,17 @@
+0.3.2 - Jan 27, 2025
+===========================
+- Extended user service (photo, contacts, folders, find)
+- Improved mail service
+- Add rate limiting support
+
 0.3.1 - Oct 02, 2024
 ===========================
  * Fix pkgconfig file using wrong api version
 
 0.3.0 - Sep 30, 2024
 ===========================
+NOTE: This needs a recent version of gvfs
+
  * Set select scopes during requests
  * Add support for business "Add to OneDrive" sharepoints
 
