@@ -1,3 +1,9 @@
+include:
+  - component: gitlab.gnome.org/GNOME/citemplates/release-service@master
+    inputs:
+      dist-job-name: "fedora"
+      tarball-artifact-path: "${TARBALL_ARTIFACT_PATH}"
+
 stages:
  - build
  - analysis
@@ -8,6 +14,8 @@ variables:
   COVERITY_IMAGE: "registry.gitlab.gnome.org/gnome/msgraph/coverity:v2"
   MESON_TEST_TIMEOUT_MULTIPLIER: 4
   G_MESSAGES_DEBUG: all
+  # expected naming scheme for the release-service job
+  TARBALL_ARTIFACT_PATH: "_build/meson-dist/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
 
 .only-schedules:
   only:
@@ -24,6 +32,7 @@ fedora:
     - ninja -C _build test
     - ninja coverage-xml -C _build
     - ninja coverage-html -C _build
+    - meson dist -C _build
   coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
     name: "msgraph-${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
