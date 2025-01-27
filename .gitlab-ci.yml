@@ -46,6 +46,7 @@ fedora:
       - "_build/meson-logs"
       - "_build/doc"
       - "_build/meson-logs/coveragereport"
+      - "${TARBALL_ARTIFACT_PATH}"
 
 scan-build:
   image: $FEDORA_IMAGE
