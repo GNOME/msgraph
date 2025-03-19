@@ -45,7 +45,7 @@ docs_url = "https://gnome.pages.gitlab.gnome.org/json-glib/"
 [dependencies."Soup-3.0"]
 name = "Soup"
 description = "HTTP client/server library for GNOME"
-docs_url = "https://libsoup.org/libsoup-3.0/index.html"
+docs_url = "https://libsoup.gnome.org/libsoup-3.0/index.html"
 
 [theme]
 name = "basic"
