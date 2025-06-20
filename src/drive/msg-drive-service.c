@@ -135,6 +135,24 @@ msg_drive_service_new (MsgAuthorizer *authorizer)
   return g_object_new (MSG_TYPE_DRIVE_SERVICE, "authorizer", authorizer, NULL);
 }
 
+static gboolean
+drive_already_added (GList    *list,
+                     MsgDrive *drive)
+{
+  const char *drive_id = msg_drive_get_id (drive);
+  const char *drive_name = msg_drive_get_name (drive);
+  gboolean drive_is_bundle = drive_name && g_str_has_prefix (drive_name, "Bundles_");
+
+  for (GList *iter = list; iter && iter->data; iter = iter->next) {
+    MsgDrive *list_drive = MSG_DRIVE (iter->data);
+
+    if (g_strcmp0 (msg_drive_get_id (list_drive), drive_id) == 0 && drive_is_bundle)
+      return TRUE;
+  }
+
+  return FALSE;
+}
+
 /**
  * msg_drive_service_get_drives:
  * @self: a #MsgDriveService
@@ -183,8 +201,11 @@ msg_drive_service_get_drives (MsgDriveService  *self,
       drive_object = json_array_get_object_element (array, index);
       drive = msg_drive_new_from_json (drive_object, &local_error);
       if (drive) {
-        self->type = msg_drive_get_drive_type (drive);
-        list = g_list_append (list, drive);
+
+        if (!drive_already_added (list, drive)) {
+          self->type = msg_drive_get_drive_type (drive);
+          list = g_list_append (list, drive);
+        }
       } else {
         g_warning ("Could not parse drive object: %s", local_error->message);
       }
