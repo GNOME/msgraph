@@ -14,8 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-
 #include <string.h>
 
 #include <glib.h>
@@ -26,6 +24,7 @@
 
 #include "msg-input-stream.h"
 #include "msg-service.h"
+#include "msg-private.h"
 
 static void msg_input_stream_seekable_iface_init (GSeekableIface *seekable_iface);
 
@@ -251,7 +250,10 @@ msg_input_stream_read_async (GInputStream        *stream,
     g_task_set_task_data (task, rasd, g_free);
 
     msg_input_stream_ensure_msg (stream);
-    soup_session_send_async (msg_service_get_session (priv->service), priv->msg, G_PRIORITY_DEFAULT,
+    soup_session_send_async (msg_service_get_session (priv->service), priv->msg,
+#ifndef USE_LIBSOUP2
+                             G_PRIORITY_DEFAULT,
+#endif
                              cancellable, read_send_callback, task);
     return;
   }

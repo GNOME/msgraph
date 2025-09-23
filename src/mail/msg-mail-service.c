@@ -344,7 +344,7 @@ msg_mail_service_create_draft_message (MsgMailService  *self,
   g_autoptr (JsonBuilder) builder = NULL;
   g_autoptr (JsonNode) node = NULL;
   g_autofree char *json = NULL;
-  GBytes *body = NULL;
+  g_autoptr (GBytes) body = NULL;
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
@@ -380,8 +380,12 @@ msg_mail_service_create_draft_message (MsgMailService  *self,
   node = json_builder_get_root (builder);
   json = json_to_string (node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (soup_message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (soup_message, "application/json", body);
+#endif
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), soup_message, &root_object, cancellable, error);
   if (!parser)

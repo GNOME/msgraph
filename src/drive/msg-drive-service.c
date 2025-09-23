@@ -423,8 +423,12 @@ msg_drive_service_rename (MsgDriveService  *self,
   rename_node = json_builder_get_root (builder);
   json = json_to_string (rename_node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
+#endif
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -518,8 +522,12 @@ msg_drive_service_create_folder (MsgDriveService  *self,
   create_node = json_builder_get_root (builder);
   json = json_to_string (create_node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
+#endif
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -614,8 +622,12 @@ msg_drive_service_update (MsgDriveService  *self,
   create_node = json_builder_get_root (builder);
   json = json_to_string (create_node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
+#endif
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -663,6 +675,10 @@ msg_drive_service_update_finish (MsgDriveService  *self,
   JsonObject *root_object = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (JsonParser) parser = NULL;
+#ifdef USE_LIBSOUP2
+  const char *data;
+  gsize length;
+#endif
 
   if (!msg_service_refresh_authorization (MSG_SERVICE (self), cancellable, error))
     return NULL;
@@ -679,7 +695,13 @@ msg_drive_service_update_finish (MsgDriveService  *self,
   bytes = g_memory_output_stream_steal_as_bytes (G_MEMORY_OUTPUT_STREAM (stream));
 
   message = msg_service_build_message (MSG_SERVICE (self), "PUT", url, NULL, FALSE);
+
+#ifdef USE_LIBSOUP2
+  data = g_bytes_get_data (bytes, &length);
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, data, length);
+#else
   soup_message_set_request_body_from_bytes (message, "application/octet-stream", bytes);
+#endif
   g_clear_object (&stream);
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
@@ -739,8 +761,13 @@ msg_drive_service_add_item_to_folder (MsgDriveService  *self,
                      NULL);
 
   message = msg_service_build_message (MSG_SERVICE (self), "PUT", url, NULL, FALSE);
+
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "text/plain", SOUP_MEMORY_COPY, "", 0);
+#else
   body = g_bytes_new ("", 0);
   soup_message_set_request_body_from_bytes (message, "text/plain", body);
+#endif
 
   parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
   if (!parser)
@@ -872,8 +899,12 @@ msg_drive_service_copy_file (MsgDriveService  *self,
   create_node = json_builder_get_root (builder);
   json = json_to_string (create_node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
+#endif
 
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {
@@ -942,8 +973,12 @@ msg_drive_service_move_file (MsgDriveService  *self,
   create_node = json_builder_get_root (builder);
   json = json_to_string (create_node, TRUE);
 
+#ifdef USE_LIBSOUP2
+  soup_message_set_request (message, "application/json", SOUP_MEMORY_COPY, json, strlen (json));
+#else
   body = g_bytes_new (json, strlen (json));
   soup_message_set_request_body_from_bytes (message, "application/json", body);
+#endif
 
   response = msg_service_send_and_read (MSG_SERVICE (self), message, cancellable, &local_error);
   if (local_error) {

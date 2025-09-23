@@ -15,4 +15,3 @@
 #include <msg-authorizer.h>
 #include <msg-error.h>
 #include <msg-goa-authorizer.h>
-#include <msg-private.h>

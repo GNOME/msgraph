@@ -87,7 +87,11 @@ msg_service_accept_certificate_cb (__attribute__ ((unused)) SoupMessage         
 SoupMessage *
 msg_service_new_message_from_uri (MsgService *self,
                                   const char *method,
+#ifdef USE_LIBSOUP2
+                                  SoupURI    *uri)
+#else
                                   GUri       *uri)
+#endif
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
   SoupMessage *ret;
@@ -119,6 +123,15 @@ msg_service_build_message (MsgService *self,
                            gboolean    etag_if_match)
 {
   SoupMessage *message;
+#ifdef USE_LIBSOUP2
+  g_autoptr (SoupURI) _uri = NULL;
+
+  _uri = soup_uri_new (uri);
+  soup_uri_set_port (_uri, msg_service_get_https_port ());
+
+  if (g_strcmp0 (soup_uri_get_scheme (_uri), "https") != 0)
+    return NULL;
+#else
   g_autoptr (GUri) _uri = NULL;
   g_autoptr (GUri) _uri_parsed = NULL;
 
@@ -136,6 +149,7 @@ msg_service_build_message (MsgService *self,
 
   if (g_strcmp0 (g_uri_get_scheme (_uri), "https") != 0)
     return NULL;
+#endif
 
   message = msg_service_new_message_from_uri (self, method, _uri);
   if (etag)
@@ -192,12 +206,24 @@ msg_service_send_and_read (MsgService    *self,
                            GError       **error)
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
+#ifdef USE_LIBSOUP2
+  int status;
+#endif
   GBytes *bytes;
 
   msg_authorizer_process_request (priv->authorizer, message);
 
 retry:
+#ifdef USE_LIBSOUP2
+  status = soup_session_send_message (priv->session, message);
+  if (status == SOUP_STATUS_OK) {
+    bytes = g_bytes_new (message->response_body->data, message->response_body->length);
+  } else {
+    return FALSE;
+  }
+#else
   bytes = soup_session_send_and_read (priv->session, message, cancellable, error);
+#endif
   if (msg_service_handle_rate_limiting (message))
     goto retry;
 
@@ -224,11 +250,23 @@ msg_service_send_and_parse_response (MsgService    *self,
 {
   MsgServicePrivate *priv = MSG_SERVICE_GET_PRIVATE (self);
   g_autoptr (GBytes) response = NULL;
+#ifdef USE_LIBSOUP2
+  int status;
+#endif
 
 retry:
   msg_authorizer_process_request (priv->authorizer, message);
 
+#ifdef USE_LIBSOUP2
+  status = soup_session_send_message (priv->session, message);
+  if (status == SOUP_STATUS_OK) {
+    response = g_bytes_new (message->response_body->data, message->response_body->length);
+  } else {
+    return FALSE;
+  }
+#else
   response = soup_session_send_and_read (priv->session, message, cancellable, error);
+#endif
   if (msg_service_handle_rate_limiting (message))
     goto retry;
 
@@ -330,7 +368,11 @@ msg_service_init (MsgService *self)
   if (msg_service_get_log_level () > SOUP_LOGGER_LOG_NONE) {
     g_autoptr (SoupLogger) logger = NULL;
 
+#ifdef USE_LIBSOUP2
+    logger = soup_logger_new (msg_service_get_log_level (), -1);
+#else
     logger = soup_logger_new (msg_service_get_log_level ());
+#endif
     soup_logger_set_printer (logger, (SoupLoggerPrinter)soup_log_printer, NULL, NULL);
     soup_session_add_feature (priv->session, SOUP_SESSION_FEATURE (logger));
   }

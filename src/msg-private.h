@@ -18,10 +18,19 @@
 
 #include <glib-object.h>
 
+#include <config.h>
+
 G_BEGIN_DECLS
 
 #define MSG_API_ENDPOINT "https://graph.microsoft.com/v1.0"
 #define MSG_BETA_API_ENDPOINT "https://graph.microsoft.com/beta"
+
+#ifdef USE_LIBSOUP2
+#define soup_message_get_request_headers(x) x->request_headers
+#define soup_message_get_response_headers(x) x->response_headers
+#define soup_message_get_status(x) x->status_code
+#define soup_message_get_reason_phrase(x) x->reason_phrase
+#endif
 
 G_END_DECLS
 

@@ -15,3 +15,9 @@ option('tests',
   value: true,
   description: 'Build with tests enabled',
 )
+
+option('libsoup2',
+  type: 'boolean',
+  value: false,
+  description: 'Build with libsoup2 instead of libsoup3',
+)

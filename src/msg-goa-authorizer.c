@@ -21,6 +21,7 @@
 
 #include "msg-authorizer.h"
 #include "msg-goa-authorizer.h"
+#include "msg-private.h"
 
 /**
  * SECTION:msg-goa-authorizer

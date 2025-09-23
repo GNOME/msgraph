@@ -2,14 +2,11 @@
 
 #include <glib.h>
 
-#define GETTEXT_PACKAGE "MOEP"
-
-#include <glib/gi18n-lib.h>
-
 #include "msg-authorizer.h"
 #include "msg-oauth2-authorizer.h"
 #include "msg-error.h"
 #include "msg-service.h"
+#include "msg-private.h"
 
 static void authorizer_init (MsgAuthorizerInterface *iface);
 
@@ -194,7 +191,11 @@ sign_message_locked (MsgOAuth2Authorizer *self,
                      SoupMessage         *message,
                      const char          *access_token)
 {
+#ifdef USE_LIBSOUP2
+  SoupURI *message_uri;
+#else
   GUri *message_uri;
+#endif
   g_autofree char *auth_header = NULL;
 
   g_return_if_fail (MSG_IS_OAUTH2_AUTHORIZER (self));
@@ -203,7 +204,11 @@ sign_message_locked (MsgOAuth2Authorizer *self,
 
   message_uri = soup_message_get_uri (message);
 
+#ifdef USE_LIBSOUP2
+  if (strcmp (message_uri->scheme, "https")) {
+#else
   if (strcmp (g_uri_get_scheme (message_uri), "https")) {
+#endif
     g_warning ("Not authorizing a non-HTTPS message with the user’s OAuth 2.0 access token as the connection isn’t secure.");
     return;
   }
@@ -255,7 +260,7 @@ parse_grant_response (MsgOAuth2Authorizer  *self,
     g_clear_error (&child_error);
     g_set_error_literal (&child_error, MSG_ERROR,
                          MSG_ERROR_PROTOCOL_ERROR,
-                         _("The server returned a malformed response."));
+                         "The server returned a malformed response.");
 
     goto done;
   }
@@ -266,7 +271,7 @@ parse_grant_response (MsgOAuth2Authorizer  *self,
   if (JSON_NODE_HOLDS_OBJECT (root_node) == FALSE) {
     g_set_error_literal (&child_error, MSG_ERROR,
                          MSG_ERROR_PROTOCOL_ERROR,
-                         _("The server returned a malformed response."));
+                         "The server returned a malformed response.");
     goto done;
   }
 
@@ -285,7 +290,7 @@ parse_grant_response (MsgOAuth2Authorizer  *self,
   if (access_token == NULL || *access_token == '\0') {
     g_set_error_literal (&child_error, MSG_ERROR,
                          MSG_ERROR_PROTOCOL_ERROR,
-                         _("The server returned a malformed response."));
+                         "The server returned a malformed response.");
 
     access_token = NULL;
     refresh_token = NULL;
@@ -299,7 +304,7 @@ parse_grant_response (MsgOAuth2Authorizer  *self,
       priv->refresh_token == NULL) {
     g_set_error_literal (&child_error, MSG_ERROR,
                          MSG_ERROR_PROTOCOL_ERROR,
-                         _("The server returned a malformed response."));
+                         "The server returned a malformed response.");
 
     access_token = NULL;
     refresh_token = NULL;
@@ -352,7 +357,7 @@ parse_grant_error (GBytes  *bytes,
 
   if (content == NULL) {
     g_clear_error (&child_error);
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("The server returned a malformed response."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "The server returned a malformed response.");
 
     goto done;
   }
@@ -361,7 +366,7 @@ parse_grant_error (GBytes  *bytes,
 
   if (child_error != NULL) {
     g_clear_error (&child_error);
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("The server returned a malformed response."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "The server returned a malformed response.");
 
     goto done;
   }
@@ -370,7 +375,7 @@ parse_grant_error (GBytes  *bytes,
   root_node = json_parser_get_root (parser);
 
   if (JSON_NODE_HOLDS_OBJECT (root_node) == FALSE) {
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("The server returned a malformed response."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "The server returned a malformed response.");
     goto done;
   }
 
@@ -383,7 +388,7 @@ parse_grant_error (GBytes  *bytes,
 
   /* Always require an error_code. */
   if (error_code == NULL || *error_code == '\0') {
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("The server returned a malformed response."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "The server returned a malformed response.");
 
     error_code = NULL;
 
@@ -392,10 +397,10 @@ parse_grant_error (GBytes  *bytes,
 
   /* Parse the error code. */
   if (strcmp (error_code, "invalid_grant") == 0) {
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("Access was denied by the user or server."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "Access was denied by the user or server.");
   } else {
     /* Unknown error code. */
-    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, _("The server returned a malformed response."));
+    g_set_error_literal (&child_error, MSG_ERROR, MSG_ERROR_PROTOCOL_ERROR, "The server returned a malformed response.");
   }
 
 done:
@@ -414,7 +419,15 @@ static void
 authorizer_message_starting (SoupMessage *msg,
                              gpointer     body)
 {
+#ifdef USE_LIBSOUP2
+  const char *data;
+  gsize len;
+
+  data = g_bytes_get_data (body, &len);
+  soup_message_set_request (msg, "application/x-www-form-urlencoded", SOUP_MEMORY_COPY, data, len);
+#else
   soup_message_set_request_body_from_bytes (msg, "application/x-www-form-urlencoded", body);
+#endif
 }
 
 static void
@@ -429,7 +442,11 @@ build_authorization_message (MsgAuthorizer *self)
 {
   MsgOAuth2AuthorizerPrivate *priv;
   SoupMessage *message = NULL;
-  GUri *_uri = NULL;
+#ifdef USE_LIBSOUP2
+  g_autoptr (SoupURI) _uri = NULL;
+#else
+  g_autoptr (GUri) _uri = NULL;
+#endif
   gchar *request_body;
   GBytes *body;
 
@@ -442,12 +459,19 @@ build_authorization_message (MsgAuthorizer *self)
                                    NULL);
 
   /* Build the message */
+#ifdef USE_LIBSOUP2
+  _uri = soup_uri_new (NULL);
+  soup_uri_set_scheme (_uri, "https");
+  soup_uri_set_host (_uri, "login.microsoftonline.com");
+  soup_uri_set_port (_uri, msg_service_get_https_port ());
+  soup_uri_set_path (_uri, "/common/oauth2/v2.0/token");
+#else
   _uri = g_uri_build (SOUP_HTTP_URI_FLAGS,
                       "https", NULL, "login.microsoftonline.com",
                       msg_service_get_https_port (),
                       "/common/oauth2/v2.0/token", NULL, NULL);
+#endif
   message = soup_message_new_from_uri (SOUP_METHOD_POST, _uri);
-  g_uri_unref (_uri);
 
   g_signal_connect (message, "accept-certificate",
                     G_CALLBACK (msg_service_accept_certificate_cb),
@@ -471,6 +495,9 @@ refresh_authorization (MsgAuthorizer  *self,
   GError *local_error = NULL;
   g_autoptr (GBytes) response = NULL;
   g_autoptr (GBytes) body = NULL;
+#ifdef USE_LIBSOUP2
+  int status;
+#endif
 
   g_return_val_if_fail (MSG_IS_OAUTH2_AUTHORIZER (self), FALSE);
 
@@ -479,11 +506,20 @@ refresh_authorization (MsgAuthorizer  *self,
   }
 
   message = build_authorization_message (self);
+#ifdef USE_LIBSOUP2
+  status = soup_session_send_message (priv->session, message);
+  if (status == SOUP_STATUS_OK) {
+    response = g_bytes_new (message->response_body->data, message->response_body->length);
+  } else {
+    return FALSE;
+  }
+#else
   response = soup_session_send_and_read (priv->session, message, cancellable, &local_error);
   if (local_error) {
     parse_grant_error (response, &local_error);
     return FALSE;
   }
+#endif
 
   /* Parse and handle the response */
   parse_grant_response (MSG_OAUTH2_AUTHORIZER (self), response, &local_error);
@@ -555,7 +591,12 @@ msg_oauth2_authorizer_request_authorization (MsgOAuth2Authorizer  *self,
 {
   MsgOAuth2AuthorizerPrivate *priv = msg_oauth2_authorizer_get_instance_private (self);
   g_autoptr (SoupMessage) message = NULL;
-  GUri *_uri = NULL;
+#ifdef USE_LIBSOUP2
+  g_autoptr (SoupURI) _uri = NULL;
+  int status;
+#else
+  g_autoptr (GUri) _uri = NULL;
+#endif
   char *request_body = NULL;
   GError *child_error = NULL;
   g_autoptr (GBytes) response = NULL;
@@ -578,9 +619,16 @@ msg_oauth2_authorizer_request_authorization (MsgOAuth2Authorizer  *self,
                                    NULL);
 
   /* Build the message */
+#ifdef USE_LIBSOUP2
+  _uri = soup_uri_new (NULL);
+  soup_uri_set_scheme (_uri, "https");
+  soup_uri_set_host (_uri, "login.microsoftonline.com");
+  soup_uri_set_port (_uri, msg_service_get_https_port ());
+  soup_uri_set_path (_uri, "/common/oauth2/v2.0/token");
+#else
   _uri = g_uri_build (SOUP_HTTP_URI_FLAGS, "https", NULL, "login.microsoftonline.com", msg_service_get_https_port (), "/common/oauth2/v2.0/token", NULL, NULL);
+#endif
   message = soup_message_new_from_uri (SOUP_METHOD_POST, _uri);
-  g_uri_unref (_uri);
 
   g_signal_connect (message, "accept-certificate",
                     G_CALLBACK (msg_service_accept_certificate_cb),
@@ -593,11 +641,20 @@ msg_oauth2_authorizer_request_authorization (MsgOAuth2Authorizer  *self,
 
   request_body = NULL;
 
+#ifdef USE_LIBSOUP2
+  status = soup_session_send_message (priv->session, message);
+  if (status == SOUP_STATUS_OK) {
+    response = g_bytes_new (message->response_body->data, message->response_body->length);
+  } else {
+    return FALSE;
+  }
+#else
   response = soup_session_send_and_read (priv->session, message, cancellable, &child_error);
   if (child_error) {
     parse_grant_error (response, error);
     return FALSE;
   }
+#endif
 
   /* Parse and handle the response */
   parse_grant_response (self, response, &child_error);

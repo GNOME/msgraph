@@ -27,10 +27,18 @@ src_inc = include_directories('src')
 glib_dep = dependency('glib-2.0', version: '>= 2.28')
 gio_dep = dependency('gio-2.0')
 json_dep = dependency('json-glib-1.0')
-libsoup_dep = dependency('libsoup-3.0')
+
+if get_option('libsoup2')
+  libsoup_dep = dependency('libsoup-2.4')
+else
+ libsoup_dep = dependency('libsoup-3.0')
+
+  # Tests rely on libsoup3
+  libuhttpmock_dep = dependency('libuhttpmock-1.0', version: '>= 0.11.0', required: get_option('tests'))
+endif
+
 goa_dep = dependency('goa-1.0')
 
-libuhttpmock_dep = dependency('libuhttpmock-1.0', version: '>= 0.11.0', required: get_option('tests'))
 libxml_dep = dependency('libxml-2.0', required: get_option('tests'))
 
 gnome = import('gnome')
@@ -39,8 +47,9 @@ enable_gir = get_option('introspection')
 
 config_h = configuration_data()
 config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
-config_h.set_quoted('G_LOG_DOMAIN', meson.project_name())
+# config_h.set_quoted('G_LOG_DOMAIN', meson.project_name())
 config_h.set('GOA_API_IS_SUBJECT_TO_CHANGE', true)
+config_h.set('USE_LIBSOUP2', get_option('libsoup2'))
 configure_file(
   output: 'config.h',
   configuration: config_h
@@ -54,7 +63,7 @@ add_project_arguments([
 
 subdir('src')
 
-if get_option('tests')
+if get_option('tests') and not get_option('libsoup2')
   subdir('tests')
 endif
 
