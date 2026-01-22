@@ -3,9 +3,9 @@ version = "@VERSION@"
 description = "Library to access MS Graph API for Office 365."
 authors = "Jan-Michael Brummer"
 license = "LGPL-3.0-or-later"
-browse_url = "https://gitlab.gnome.org/jbrummer/msgraph/"
-repository_url = "https://gitlab.gnome.org/jbrummer/msgraph/"
-website_url = "https://jbrummer.pages.gitlab.gnome.org/msgraph/"
+browse_url = "https://gitlab.gnome.org/GNOME/msgraph"
+repository_url = "https://gitlab.gnome.org/GNOME/msgraph.git"
+website_url = "https://gnome.pages.gitlab.gnome.org/msgraph/"
 dependencies = [
   "GObject-2.0",
   "Gio-2.0",
