@@ -153,6 +153,40 @@ drive_already_added (GList    *list,
   return FALSE;
 }
 
+/*
+ * Some consumer (personal) accounts are refused access to the drive
+ * enumeration endpoint (GET /me/drives answers 403 accessDenied) while the
+ * user's default drive is still fully accessible through GET /me/drive.
+ * Fetch the default drive directly and return it as a one-element list.
+ *
+ * Note that /me/drive returns a bare drive object, not a "value" array.
+ */
+static GList *
+get_default_drive (MsgDriveService  *self,
+                   GCancellable     *cancellable,
+                   GError          **error)
+{
+  g_autofree char *url = NULL;
+  g_autoptr (SoupMessage) message = NULL;
+  g_autoptr (JsonParser) parser = NULL;
+  JsonObject *root_object = NULL;
+  MsgDrive *drive = NULL;
+
+  url = g_strconcat (MSG_API_ENDPOINT, "/me/drive", NULL);
+  message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
+  parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
+  if (!parser)
+    return NULL;
+
+  drive = msg_drive_new_from_json (root_object, error);
+  if (!drive)
+    return NULL;
+
+  self->type = msg_drive_get_drive_type (drive);
+
+  return g_list_append (NULL, drive);
+}
+
 /**
  * msg_drive_service_get_drives:
  * @self: a #MsgDriveService
@@ -183,11 +217,21 @@ msg_drive_service_get_drives (MsgDriveService  *self,
 
   do {
     g_autoptr (SoupMessage) message = NULL;
+    g_autoptr (GError) request_error = NULL;
 
     message = msg_service_build_message (MSG_SERVICE (self), "GET", url, NULL, FALSE);
-    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, error);
-    if (!parser)
+    parser = msg_service_send_and_parse_response (MSG_SERVICE (self), message, &root_object, cancellable, &request_error);
+    if (!parser) {
+      /* Only fall back while nothing has been enumerated yet, i.e. when the
+       * initial request itself was refused by Graph (an MSG_ERROR means the
+       * server answered with an error object, as opposed to a transport
+       * failure). Errors during pagination propagate unchanged. */
+      if (list == NULL && g_error_matches (request_error, MSG_ERROR, MSG_ERROR_FAILED))
+        return get_default_drive (self, cancellable, error);
+
+      g_propagate_error (error, g_steal_pointer (&request_error));
       return NULL;
+    }
 
     array = json_object_get_array_member (root_object, "value");
     g_assert (array != NULL);
